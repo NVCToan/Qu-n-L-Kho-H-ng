@@ -1,15 +1,17 @@
 package model;
 
+import javax.swing.JDialog;
+
 public class SanPham {
-	
+
 	public static int stt = 0;
-	public static int id = 100000 ;
+	public static int id = 100000;
 	String tenSp;
-	//loại hàng
+	// loại hàng
 	int soLuong;
 	Date ngayNhap;
-	
-	public SanPham(int id,String tenSp, int soLuong, Date ngayNhap) {
+
+	public SanPham(int id, String tenSp, int soLuong, Date ngayNhap) {
 		super();
 		this.id = id;
 		this.tenSp = tenSp;
@@ -44,7 +46,6 @@ public class SanPham {
 		this.tenSp = tenSp;
 	}
 
-
 	public int getSoLuong() {
 		return soLuong;
 	}
@@ -60,7 +61,5 @@ public class SanPham {
 	public void setNgayNhap(Date ngayNhap) {
 		this.ngayNhap = ngayNhap;
 	}
-	
-	
-	
+
 }

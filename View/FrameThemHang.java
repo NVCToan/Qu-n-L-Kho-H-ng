@@ -25,22 +25,24 @@ import javax.swing.JTextField;
 import model.Date;
 import model.SanPham;
 
-public class FrameThemHang extends JFrame{
+public class FrameThemHang extends JDialog {
 	JLabel lbStt, lbMaHang, lbTen, lbLoaiHang, lbHang4, lbNgay, lbThang, lbNam, lbTieuDe;
 	JTextField txtStt, txtMaHang, txtTen, txtSoLuong, txtNgay, txtThang, txtNam;
 	JPanel hang1, hang1_1, hang2, hang3, hang4, hang5, hang6;
 	JRadioButton rdMacDinh, rdEdit;
 	JButton btnThem, btnlamMoi;
 	JComboBox<String> jcbPhanLoai = new JComboBox<String>();
-	
+
 	public FrameThemHang() {
-		super("Thêm hàng vào kho");
+//		super("Thêm hàng vào kho");
+//		FrameQuanLyBanHang.btnThemHang.setEnabled(false);
 		giaoDien();
 		xuLiSuKien();
 		hienThi();
 	}
 
 	private void giaoDien() {
+
 		setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 		lbTieuDe = new JLabel("THÊM HÀNG");
 		lbTieuDe.setAlignmentX(CENTER_ALIGNMENT);
@@ -50,7 +52,7 @@ public class FrameThemHang extends JFrame{
 		Dimension dimtxt1 = new Dimension(80, 30);
 		hang1 = new JPanel(new FlowLayout());
 		lbMaHang = new JLabel("Mã sản phẩm");
-		lbMaHang.setPreferredSize(dimLb1);
+//		lbMaHang.setPreferredSize(dimLb1); Dòng này thêm vào làm cho bị mất chữ
 		txtMaHang = new JTextField(10);
 		txtMaHang.setEditable(false);// mã sản phẩm không thể thay đổi
 		lbStt = new JLabel("Số thứ tự");
@@ -133,33 +135,31 @@ public class FrameThemHang extends JFrame{
 		add(hang6);
 	}
 
-	
-	
 	private void xuLiSuKien() {
-		//bắt sự kiện nút close
-		this.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosed(WindowEvent e) {
-				SanPham.id++;
-			}
-		});
-		
+		// bắt sự kiện nút close
+//		this.addWindowListener(new WindowAdapter() {
+//			@Override
+//			public void windowClosed(WindowEvent e) {
+//				SanPham.id++;
+//			}
+//		});
+
 		// xử lí radio Edit và Default
 		rdEdit.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				txtStt.setEditable(true);
 			}
 		});
 		rdMacDinh.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				txtStt.setEditable(false);
 			}
 		});
-		
+
 		// chức năng làm mới
 		btnlamMoi.addActionListener(new ActionListener() {
 			@Override
@@ -171,14 +171,14 @@ public class FrameThemHang extends JFrame{
 				txtNam.setText("");
 			}
 		});
-		
-		//chức năng Thêm
+
+		// chức năng Thêm
 		btnThem.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					 
+
 					int stt = Integer.parseInt(txtStt.getText());
 					int id = Integer.parseInt(txtMaHang.getText());
 					String tenSp = txtTen.getText();
@@ -186,24 +186,28 @@ public class FrameThemHang extends JFrame{
 					int ngay = Integer.parseInt(txtNgay.getText());
 					int thang = Integer.parseInt(txtThang.getText());
 					int nam = Integer.parseInt(txtNam.getText());
-					
+
 					SanPham sp = new SanPham(id, tenSp, soLuong, new Date(ngay, thang, nam));
 					JOptionPane.showMessageDialog(null, "Thêm thành công !!!");
 					dispose();
-					
+
 				} catch (Exception e2) {
 					SanPham.id--;
 					System.out.println(SanPham.id);
+					txtTen.setRequestFocusEnabled(true);
 					JOptionPane.showMessageDialog(null, "vui lòng nhập lại");
+
 				}
 			}
 		});
-		
+
 	}
 
 	private void hienThi() {
+		setTitle("Thêm hàng vào kho");
 		pack();
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//		setAlwaysOnTop(true);
 	}
 }
