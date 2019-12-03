@@ -125,6 +125,7 @@ public class FrameCongCu extends JDialog {
 	private void hienThi() {
 		setTitle("Công cụ");
 		pack();
+		setAlwaysOnTop(true);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}

@@ -42,6 +42,14 @@ public class ArrayListSP<E> {
 		Add(size, e);
 	}
 	
-	// chưa có hàm Remove
+	public E Remove(int i) throws IndexOutOfBoundsException {
+		checkIndex(i, size);
+		E temp = data[i];
+		for (int k=i; k < size-1; k++) //dời các phần tử sang trái
+		data[k] = data[k+1];
+		data[size-1] = null; // gán phần tử cuối danh sách bằng null, phòng trường hợp truy xuất lỗi
+		size--;
+		return temp;
+		}
 
 }

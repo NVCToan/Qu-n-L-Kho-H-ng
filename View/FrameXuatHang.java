@@ -38,6 +38,7 @@ public class FrameXuatHang extends JDialog {
 		txtTimKiem = new JTextField();
 		txtTimKiem.setPreferredSize(dimTxt);
 		btnTimKiem = new JButton("Tìm kiếm");
+		hang1.add(new JLabel("Nhập mã hàng"));
 		hang1.add(txtTimKiem);
 		hang1.add(btnTimKiem);
 

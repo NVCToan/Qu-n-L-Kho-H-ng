@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
+import java.util.Date;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -18,16 +19,24 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
+import controller.ArrayListSP;
+import model.NhomSanPham;
 import model.SanPham;
 
 public class FrameQuanLyBanHang extends JFrame {
-	public static JButton btnThemHang, btnTimKiem, btnCongCu, btnXuatHang;
+	public  JButton btnThemHang, btnXoa, btnTimKiem, btnCongCu, btnXuatHang;
 	JLabel lbTieuDe, lbLoaiHang, lbversion;
 	JPanel hang1, hang1_1, hang1_2, hang2, hang3;
 	JTextField txtTimKiem;
+	DefaultTableModel dTM ;
+	JTable table;
+	ArrayListSP<NhomSanPham> dsNhom;
+	ArrayListSP<SanPham>dsSanPham;
+	
 	String[] tenCot = { "Số thứ tự", "Mã Hàng", "Tên Hàng", "Loại Hàng", "Số Lượng", "Ngày Nhập" };
-	Object[][] Data = { { 0, 1, 2, 3, 4, 5 }, { 1, 6, 7, 8, 9, 10 } };
+	Object[] daTa = { "0", "ABC", "Chuột không dây", "Điện tử", "20" , new Date(2019, 12, 3)};
 	JComboBox<String> jcbLoaiHang = new JComboBox<String>(); // Sửa lại kiểu dữ liệu
 	FrameThemHang themHangUI = new FrameThemHang();
 	FrameXuatHang xuatHangUI = new FrameXuatHang();
@@ -38,6 +47,13 @@ public class FrameQuanLyBanHang extends JFrame {
 		giaoDien();
 		xuLiSuKien();
 		hienThi();
+		duLieu();
+	}
+
+	private void duLieu() {
+		// TODO Auto-generated method stub
+		dsNhom = new ArrayListSP<NhomSanPham>();
+		
 	}
 
 	private void giaoDien() {
@@ -52,7 +68,9 @@ public class FrameQuanLyBanHang extends JFrame {
 		Dimension dimButton = new Dimension(30, 25);
 		hang1 = new JPanel(new FlowLayout());
 		btnThemHang = new JButton("Thêm hàng");
+		btnXoa = new JButton("Xoá");
 		hang1.add(btnThemHang);
+		hang1.add(btnXoa);
 		hang1_1 = new JPanel();
 		txtTimKiem = new JTextField();
 		txtTimKiem.setPreferredSize(dimTxT);
@@ -69,8 +87,13 @@ public class FrameQuanLyBanHang extends JFrame {
 
 		// hang2
 		hang2 = new JPanel();
-		JTable table = new JTable(Data, tenCot);
-		JScrollPane hehe = new JScrollPane(table);
+		dTM = new DefaultTableModel();
+		for(int i =0;i<tenCot.length;i++) {
+			dTM.addColumn(tenCot[i]);
+		}
+			dTM.addRow(daTa);
+		 table = new JTable(dTM);
+		JScrollPane hehe = new JScrollPane(table,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		hang2.add(hehe);
 
 		// hang 3
@@ -98,7 +121,7 @@ public class FrameQuanLyBanHang extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				themHangUI.txtMaHang.setText("" + SanPham.id++);// tự động tăng id
+//				themHangUI.txtMaHang.setText("" + SanPham.id++);// tự động tăng id
 				themHangUI.setModal(true); // chức năng để frame có thể ở lớp trên mặt (dùng được khi đã extends
 											// JDialog)
 				themHangUI.setVisible(true);
@@ -121,8 +144,19 @@ public class FrameQuanLyBanHang extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				congCu.setModal(true); // chức năng để frame có thể ở lớp trên mặt (dùng được khi đã extends JDialog)
+//				congCu.setModal(true); // chức năng để frame có thể ở lớp trên mặt (dùng được khi đã extends JDialog)
 				congCu.setVisible(true);
+			}
+		});
+		btnXoa.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				int row = table.getSelectedRow();
+				if(row ==-1) return ;
+				dTM.removeRow(row); // Xoá dòng đang chọn
+				
 			}
 		});
 

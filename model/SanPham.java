@@ -4,12 +4,12 @@ import javax.swing.JDialog;
 
 public class SanPham {
 
-	public static int stt = 0;
+	public static int stt = 0; 
 	public static int id = 100000;
 	String tenSp;
-	// loại hàng
 	int soLuong;
 	Date ngayNhap;
+	
 
 	public SanPham(int id, String tenSp, int soLuong, Date ngayNhap) {
 		super();
