@@ -4,7 +4,7 @@ import javax.swing.JDialog;
 
 public class SanPham {
 
-	public static int stt = 0; 
+	public static int stt = 1; 
 	public static int id = 100000;
 	String tenSp;
 	int soLuong;

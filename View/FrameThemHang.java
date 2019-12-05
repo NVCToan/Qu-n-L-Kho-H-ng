@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.security.acl.Group;
+import java.util.Iterator;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -22,7 +23,10 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import View.FrameQuanLyBanHang.duLieu;
+import controller.ArrayListSP;
 import model.Date;
+import model.NhomSanPham;
 import model.SanPham;
 
 public class FrameThemHang extends JDialog {
@@ -31,11 +35,11 @@ public class FrameThemHang extends JDialog {
 	JPanel hang1, hang1_1, hang2, hang3, hang4, hang5, hang6;
 	JRadioButton rdMacDinh, rdEdit;
 	JButton btnThem, btnlamMoi;
-	JComboBox<String> jcbPhanLoai = new JComboBox<String>();
+	JComboBox<NhomSanPham> jcbPhanLoai;
+	ArrayListSP<NhomSanPham> dsNhom;
 
 	public FrameThemHang() {
-//		super("Thêm hàng vào kho");
-//		FrameQuanLyBanHang.btnThemHang.setEnabled(false);
+//		duLieu();
 		giaoDien();
 		xuLiSuKien();
 		hienThi();
@@ -61,7 +65,7 @@ public class FrameThemHang extends JDialog {
 		txtStt.setEditable(false); // không cho nhập stt khi chọn thêm mặc định
 		hang1_1 = new JPanel(new GridLayout(0, 1));// thêm 2 jradioBtn vào 1 panel để hiển thị d�?c
 		rdMacDinh = new JRadioButton("Mặc định");
-		rdEdit = new JRadioButton("Nhập vị trí");
+		rdEdit = new JRadioButton("Nhập vị trí" );
 		ButtonGroup G = new ButtonGroup();
 		G.add(rdMacDinh);
 		G.add(rdEdit);
@@ -89,7 +93,15 @@ public class FrameThemHang extends JDialog {
 		hang3 = new JPanel();
 		lbLoaiHang = new JLabel("Loại hàng");
 		lbLoaiHang.setPreferredSize(dimLb2);
+		jcbPhanLoai = new JComboBox<NhomSanPham>();
 		jcbPhanLoai.setPreferredSize(dimtxt2);
+		dsNhom = new ArrayListSP<NhomSanPham>();
+		dsNhom = duLieu.duLieuDSNhom();
+		Iterator<NhomSanPham> iter = dsNhom.iterator();
+		while (iter.hasNext()) {
+			NhomSanPham value = iter.next();
+			jcbPhanLoai.addItem(value);
+		}
 		hang3.add(lbLoaiHang);
 		hang3.add(jcbPhanLoai);
 
@@ -164,11 +176,11 @@ public class FrameThemHang extends JDialog {
 		btnlamMoi.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				txtTen.setText("");
-				txtSoLuong.setText("");
-				txtNgay.setText("");
-				txtThang.setText("");
-				txtNam.setText("");
+				txtTen.setText(null);
+				txtSoLuong.setText(null);
+				txtNgay.setText(null);
+				txtThang.setText(null);
+				txtNam.setText(null);
 			}
 		});
 
@@ -189,11 +201,12 @@ public class FrameThemHang extends JDialog {
 
 					SanPham sp = new SanPham(id, tenSp, soLuong, new Date(ngay, thang, nam));
 					JOptionPane.showMessageDialog(null, "Thêm thành công !!!");
+					SanPham.id++;
+					SanPham.stt++;
+					
 					dispose();
 
 				} catch (Exception e2) {
-					SanPham.id--;
-					System.out.println(SanPham.id);
 					txtTen.setRequestFocusEnabled(true);
 					JOptionPane.showMessageDialog(null, "vui lòng nhập lại");
 

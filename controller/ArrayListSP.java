@@ -1,9 +1,31 @@
 package controller;
 
+import java.util.Iterator;
+
 public class ArrayListSP<E> {
 	public static final int CAPACITY = 20;
 	private E[] data;
 	private int size = 0;
+
+	public E[] getData() {
+		return data;
+	}
+
+	public void setData(E[] data) {
+		this.data = data;
+	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public void setSize(int size) {
+		this.size = size;
+	}
+
+	public static int getCapacity() {
+		return CAPACITY;
+	}
 
 	public ArrayListSP(int capacity) {
 		data = (E[]) new Object[capacity];
@@ -23,18 +45,16 @@ public class ArrayListSP<E> {
 		}
 	}
 
-	public void Add(int i, E e) throws IndexOutOfBoundsException, IllegalStateException {
-		checkIndex(i, size + 1); // set nhập chỉ số index bắt đầu từ 1
-		if (size == data.length) {
-			throw new IllegalStateException("Mang Da Full");
+	public void Add(int i, E e) throws IndexOutOfBoundsException,IllegalStateException {
+		checkIndex(i, size + 1);//kiểm tra index hợp lệ 
+		if (size == data.length) // danh sách đã đầy
+		throw new IllegalStateException("Array is full");
+		for (int k=size-1; k >= i; k--) //dời các phần tử sang phải
+		data[k+1] = data[k];
+		data[i] = e; //đặt phần tử mới vào danh sách 
+		size++;
 		}
-		for (int k = size - 1; k >= i; k--) {
-			data[k + 1] = data[k];
-		}
-		
-		data[i] = e;
-		size ++;
-	}
+
 	
 	public void Add(E e) 
 	throws IndexOutOfBoundsException, IllegalStateException 
@@ -51,5 +71,11 @@ public class ArrayListSP<E> {
 		size--;
 		return temp;
 		}
+	
+
+	public Iterator<E> iterator() {
+		return new MyArrayIterator<E>(data,size);
+		}
+	
 
 }
