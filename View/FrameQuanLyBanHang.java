@@ -115,7 +115,7 @@ public class FrameQuanLyBanHang extends JFrame{
 		
 		//công cụ
 		btnCongCu.addActionListener(new ActionListener() {
-			
+		
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				congCu.setVisible(true);
