@@ -19,5 +19,5 @@ public class MyArrayIterator<E> implements Iterator<E> {
 		if (!hasNext()) throw new NoSuchElementException();
 		current++;
 		return items[current -1]; }
-
+// thu commit
 }
