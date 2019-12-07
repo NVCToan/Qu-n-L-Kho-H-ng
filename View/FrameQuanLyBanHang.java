@@ -58,16 +58,16 @@ public class FrameQuanLyBanHang extends JFrame {
 	}
 
 	private void taoDoiTuong() {// dung trong function giaoDien
-		SanPham sp1 = new SanPham(++SanPham.count,"#"+SanPham.count_Id++ ,"San Pham 1", "Loai 1", 20, new model.Date(1, 1, 2000));
-		SanPham sp2 = new SanPham(++SanPham.count,"#"+SanPham.count_Id++ ,"San Pham 2", "Loai 2", 21, new model.Date(17, 12, 2000));
-		SanPham sp3 = new SanPham(++SanPham.count,"#"+SanPham.count_Id++ ,"San Pham 3", "Loai 2", 15, new model.Date(6, 10, 2000));
-		SanPham sp4 = new SanPham(++SanPham.count,"#"+SanPham.count_Id++ ,"San Pham 4", "Loai 3", 10, new model.Date(9, 8, 2000));
-		SanPham sp5 = new SanPham(++SanPham.count,"#"+SanPham.count_Id++ ,"San Pham 5", "Loai 1", 76, new model.Date(1, 5, 2000));
+		SanPham sp1 = new SanPham(1,10000 ,"San Pham 1", "Loai 1", 20, new model.Date(1, 1, 2000));
+//		SanPham sp2 = new SanPham(++SanPham.count,"#"+SanPham.count_Id++ ,"San Pham 2", "Loai 2", 21, new model.Date(17, 12, 2000));
+//		SanPham sp3 = new SanPham(++SanPham.count,"#"+SanPham.count_Id++ ,"San Pham 3", "Loai 2", 15, new model.Date(6, 10, 2000));
+//		SanPham sp4 = new SanPham(++SanPham.count,"#"+SanPham.count_Id++ ,"San Pham 4", "Loai 3", 10, new model.Date(9, 8, 2000));
+//		SanPham sp5 = new SanPham(++SanPham.count,"#"+SanPham.count_Id++ ,"San Pham 5", "Loai 1", 76, new model.Date(1, 5, 2000));
 		list.add(sp1);
-		list.add(sp2);
-		list.add(sp3);
-		list.add(sp4);
-		list.add(sp5);
+//		list.add(sp2);
+//		list.add(sp3);
+//		list.add(sp4);
+//		list.add(sp5);
 	}
 	
 	private void giaoDien() {
@@ -134,6 +134,8 @@ public class FrameQuanLyBanHang extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 	}
+	
+
 
 	private void xuLiSuKien() {
 		// ThÃªm hÃ ng
@@ -141,9 +143,8 @@ public class FrameQuanLyBanHang extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				themHangUI.txtMaHang.setText("#" + SanPham.count_Id++);
-				int newCount = ++SanPham.count;
-				themHangUI.txtStt.setText(""+newCount);
+				themHangUI.txtMaHang.setText(""+SanPham.count_id);
+				themHangUI.txtStt.setText(""+SanPham.count_stt);
 				themHangUI.setModal(true); // chá»©c nÄƒng Ä‘á»ƒ frame cÃ³ thá»ƒ á»Ÿ lá»›p trÃªn máº·t (dÃ¹ng Ä‘Æ°á»£c khi Ä‘Ã£ extends
 											// JDialog)
 				themHangUI.setVisible(true);

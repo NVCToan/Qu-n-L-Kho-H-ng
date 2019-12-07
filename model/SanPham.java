@@ -5,16 +5,15 @@ import javax.swing.JDialog;
 public class SanPham {
 
 	int stt;
-	String id;
+	int id;
+	public static int count_stt = 2;
+	public static int count_id = 100001;
 	String tenSp;
 	String phanLoai;
 	int soLuong;
 	Date ngayNhap;
-	public static int count = 0;
-	public static int count_Id = 100000;
-	
-	
-	public SanPham(int stt, String id, String tenSp, String phanLoai, int soLuong, Date ngayNhap) {
+
+	public SanPham(int stt, int id, String tenSp, String phanLoai, int soLuong, Date ngayNhap) {
 		super();
 		this.stt = stt;
 		this.id = id;
@@ -32,10 +31,10 @@ public class SanPham {
 	public void setStt(int stt) {
 		this.stt = stt;
 	}
-	public String getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getTenSp() {

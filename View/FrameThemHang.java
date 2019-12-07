@@ -39,9 +39,9 @@ public class FrameThemHang extends JDialog {
 	JButton btnThem, btnlamMoi;
 	String[] listPhanLoai = { "Loai 1", "Loai 2", "Loai 3" };
 	JComboBox<String> jcbPhanLoai;
-
+	
+//	int sttSoSanh = Integer.parseInt(txtStt.getText());
 	public FrameThemHang() {
-//		duLieu();
 		giaoDien();
 		xuLiSuKien();
 		hienThi();
@@ -79,7 +79,7 @@ public class FrameThemHang extends JDialog {
 		hang1.add(lbStt);
 		hang1.add(txtStt);
 		hang1.add(hang1_1);
-
+		
 		// hÃ ng 2
 		Dimension dimLb2 = new Dimension(120, 20);
 		Dimension dimtxt2 = new Dimension(300, 20);
@@ -148,16 +148,8 @@ public class FrameThemHang extends JDialog {
 		add(hang5);
 		add(hang6);
 	}
-
+	
 	private void xuLiSuKien() {
-		// báº¯t sá»± kiá»‡n nÃºt close
-//		this.addWindowListener(new WindowAdapter() {
-//			@Override
-//			public void windowClosed(WindowEvent e) {
-//				SanPham.id++;
-//			}
-//		});
-
 		// xá»­ lÃ­ radio Edit vÃ  Default
 		rdEdit.addActionListener(new ActionListener() {
 			@Override
@@ -192,15 +184,15 @@ public class FrameThemHang extends JDialog {
 				try {
 
 					int stt = Integer.parseInt(txtStt.getText());
-					String id = txtMaHang.getText();
+					int id = Integer.parseInt(txtMaHang.getText());
 					String tenSp = txtTen.getText();
 					int soLuong = Integer.parseInt(txtSoLuong.getText());
 					int ngay = Integer.parseInt(txtNgay.getText());
 					int thang = Integer.parseInt(txtThang.getText());
-					int nam = Integer.parseInt(txtNam.getText());
-					JOptionPane.showMessageDialog(null, "ThÃªm thÃ nh cÃ´ng !!!");
+					int nam = Integer.parseInt(txtNam.getText());;
 					FrameQuanLyBanHang.dTM.setRowCount(0);// reset all hang table
-					FrameQuanLyBanHang.list.add(new SanPham(stt, id, tenSp, "Loai 1", soLuong, new Date(6, 12, 2001)));
+					FrameQuanLyBanHang.list.add(new SanPham(stt, id, tenSp, jcbPhanLoai.getSelectedItem().toString(), soLuong, new Date(ngay, thang, nam)));
+					//					FrameQuanLyBanHang.list.add(new SanPham(stt, id, tenSp,jcbPhanLoai.getSelectedItem().toString(), soLuong, new Date(6, 12, 2001)));
 					for (int i = 0; i < FrameQuanLyBanHang.list.size(); i++) {
 						Object[] obj = { FrameQuanLyBanHang.list.get(i).getStt(),
 								FrameQuanLyBanHang.list.get(i).getId(), FrameQuanLyBanHang.list.get(i).getTenSp(),
@@ -208,9 +200,11 @@ public class FrameThemHang extends JDialog {
 								FrameQuanLyBanHang.list.get(i).getSoLuong(),
 								FrameQuanLyBanHang.list.get(i).getNgayNhap() };
 						FrameQuanLyBanHang.dTM.addRow(obj);
-						dispose();
-
 					}
+					JOptionPane.showMessageDialog(null, "ThÃªm thÃ nh cÃ´ng !!!");
+					SanPham.count_id++;
+					SanPham.count_stt++;
+					dispose();
 				}
 				catch (Exception e2) {
 					txtTen.setRequestFocusEnabled(true);
