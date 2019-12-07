@@ -41,7 +41,7 @@ public class FrameQuanLyBanHang extends JFrame {
 	JTextField txtTimKiem;
 	static DefaultTableModel dTM = new DefaultTableModel();
 	static JTable table;
-	String[] tenCot = { "Sá»‘ thá»© tá»±", "MÃ£ HÃ ng", "TÃªn HÃ ng", "Loáº¡i HÃ ng", "Sá»‘ LÆ°á»£ng", "NgÃ y Nháº­p" };
+	String[] tenCot = { "STT", "Ma hang", "Ten hang", "Loai hang", "So luong", "Ngay nhap" };
 	String[] listPhanLoai = {"Loai 1", "Loai 2", "Loai 3"};
 	JComboBox<String> jcbLoaiHang = new JComboBox<String>(listPhanLoai); // Sá»­a láº¡i kiá»ƒu dá»¯ liá»‡u
 	FrameThemHang themHangUI = new FrameThemHang();
@@ -51,7 +51,7 @@ public class FrameQuanLyBanHang extends JFrame {
 	public static ArrayList<SanPham> list = new ArrayList<SanPham>();
 	
 	public FrameQuanLyBanHang() {
-		super("Quáº£n lÃ½ kho hÃ ng");
+		super("Quan ly kho hang");
 		giaoDien();
 		xuLiSuKien();
 		hienThi();
@@ -75,30 +75,30 @@ public class FrameQuanLyBanHang extends JFrame {
 		
 		setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 		// tieu de
-		lbTieuDe = new JLabel("QUáº¢N LÃ½ KHO HÃ€NG");
+		lbTieuDe = new JLabel("QUAN LY KHO HANG");
 		lbTieuDe.setAlignmentX(CENTER_ALIGNMENT);
 
 		// hang 1
 		Dimension dimTxT = new Dimension(130, 25);
 		Dimension dimButton = new Dimension(30, 25);
 		hang1 = new JPanel(new FlowLayout());
-		btnThemHang = new JButton("ThÃªm hÃ ng");
-		btnXoa = new JButton("XoÃ¡");
+		btnThemHang = new JButton("Them hang");
+		btnXoa = new JButton("Xoa");
 		hang1.add(btnThemHang);
 		hang1.add(btnXoa);
 		hang1_1 = new JPanel();
 		txtTimKiem = new JTextField();
 		txtTimKiem.setPreferredSize(dimTxT);
 		hang1_1.add(txtTimKiem);
-		hang1_1.add(btnTimKiem = new JButton("TÃ¬m kiáº¿m"));
+		hang1_1.add(btnTimKiem = new JButton("Tim kiem"));
 		hang1.add(hang1_1);
 		hang1_2 = new JPanel();
-		hang1_2.add(lbLoaiHang = new JLabel("Loáº¡i hÃ ng"));
+		hang1_2.add(lbLoaiHang = new JLabel("Loai hang"));
 		jcbLoaiHang.setPreferredSize(dimTxT);
 		hang1_2.add(jcbLoaiHang);
 		hang1.add(hang1_2);
-		hang1.add(btnCongCu = new JButton("CÃ´ng cá»¥"));
-		hang1.add(btnXuatHang = new JButton("Xuáº¥t hÃ ng"));
+		hang1.add(btnCongCu = new JButton("Cong cu"));
+		hang1.add(btnXuatHang = new JButton("Xuat hang"));
 		
 		// hang2
 		hang2 = new JPanel();

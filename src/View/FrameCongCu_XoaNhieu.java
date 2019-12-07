@@ -21,14 +21,14 @@ public class FrameCongCu_XoaNhieu extends JFrame{
 	JScrollPane jscHang2, jscHang3;
 	
 	public FrameCongCu_XoaNhieu() {
-		super("Xóa nhi�?u sản phẩm");
+		super("Xoa nhieu san pham");
 		giaoDien();
 		hienThi();
 	}
 	
 	private void giaoDien() {
 		setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
-		JLabel lbTieuDe = new JLabel("XÓA");
+		JLabel lbTieuDe = new JLabel("XOA");
 		lbTieuDe.setAlignmentX(CENTER_ALIGNMENT);
 		
 		//hàng 1
@@ -36,14 +36,14 @@ public class FrameCongCu_XoaNhieu extends JFrame{
 		Dimension dimTimKiem = new Dimension(220, 27);
 		hang1.add(txtTimKiem = new JTextField());
 		txtTimKiem.setPreferredSize(dimTimKiem);
-		hang1.add(btnTimKiem = new JButton("Tìm Kiếm"));
+		hang1.add(btnTimKiem = new JButton("Tim kiem"));
 		
 		//hàng 2
 		hang2 = new JPanel();
 		JPanel hang2_1 = new JPanel(); // chuyển dấu cộng qua cuối bên phải
 		hang2_1.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		hang2.setLayout(new BoxLayout(hang2, BoxLayout.Y_AXIS));;
-		hang2.setBorder(new TitledBorder("Kết Quả"));
+		hang2.setBorder(new TitledBorder("Ket qua"));
 		areaKQ = new JTextArea(10,50);
 		jscHang2 = new JScrollPane(areaKQ);
 		hang2.add(jscHang2);
@@ -52,14 +52,14 @@ public class FrameCongCu_XoaNhieu extends JFrame{
 		
 		//hàng 3
 		hang3 = new JPanel();
-		hang3.setBorder(new TitledBorder("Sản phẩm đã ch�?n"));
+		hang3.setBorder(new TitledBorder("San pham da chon"));
 		areaXoa = new JTextArea(10,50);
 		jscHang3 = new JScrollPane(areaXoa);
 		hang3.add(jscHang3);
 		
 		//hàng 4
 		hang4 = new JPanel();
-		hang4.add(btnXoa = new JButton("XÓA TẤT CẢ"));
+		hang4.add(btnXoa = new JButton("XOA TAT CA"));
 		//hàng 5
 		hang5 = new JPanel();
 		JLabel lbVer = new JLabel("<html><i>Version 1.0</i></html>");

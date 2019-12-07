@@ -50,24 +50,24 @@ public class FrameThemHang extends JDialog {
 	private void giaoDien() {
 
 		setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
-		lbTieuDe = new JLabel("THÃŠM HÃ€NG");
+		lbTieuDe = new JLabel("Them hang");
 		lbTieuDe.setAlignmentX(CENTER_ALIGNMENT);
 
 		// hang 1
 		Dimension dimLb1 = new Dimension(80, 20);
 		Dimension dimtxt1 = new Dimension(80, 30);
 		hang1 = new JPanel(new FlowLayout());
-		lbMaHang = new JLabel("MÃ£ sáº£n pháº©m");
+		lbMaHang = new JLabel("Ma san pham");
 //		lbMaHang.setPreferredSize(dimLb1); DÃ²ng nÃ y thÃªm vÃ o lÃ m cho bá»‹ máº¥t chá»¯
 		txtMaHang = new JTextField(10);
 		txtMaHang.setEditable(false);// mÃ£ sáº£n pháº©m khÃ´ng thá»ƒ thay Ä‘á»•i
-		lbStt = new JLabel("Sá»‘ thá»© tá»±");
+		lbStt = new JLabel("STT");
 		lbStt.setPreferredSize(dimLb1);
 		txtStt = new JTextField(3);
 		txtStt.setEditable(false); // khÃ´ng cho nháº­p stt khi chá»�n thÃªm máº·c Ä‘á»‹nh
 		hang1_1 = new JPanel(new GridLayout(0, 1));// thÃªm 2 jradioBtn vÃ o 1 panel Ä‘á»ƒ hiá»ƒn thá»‹ dï¿½?c
-		rdMacDinh = new JRadioButton("Máº·c Ä‘á»‹nh");
-		rdEdit = new JRadioButton("Nháº­p vá»‹ trÃ­");
+		rdMacDinh = new JRadioButton("Mac dinh");
+		rdEdit = new JRadioButton("Nhap stt­");
 		ButtonGroup G = new ButtonGroup();
 		G.add(rdMacDinh);
 		G.add(rdEdit);
@@ -84,7 +84,7 @@ public class FrameThemHang extends JDialog {
 		Dimension dimLb2 = new Dimension(120, 20);
 		Dimension dimtxt2 = new Dimension(300, 20);
 		hang2 = new JPanel();
-		lbTen = new JLabel("TÃªn sáº£n pháº©m");
+		lbTen = new JLabel("Ten san pham");
 		lbTen.setPreferredSize(dimLb2);
 		txtTen = new JTextField();
 		txtTen.setPreferredSize(dimtxt2);
@@ -93,7 +93,7 @@ public class FrameThemHang extends JDialog {
 
 		// hÃ ng 3
 		hang3 = new JPanel();
-		lbLoaiHang = new JLabel("Loáº¡i hÃ ng");
+		lbLoaiHang = new JLabel("Loai hang");
 		lbLoaiHang.setPreferredSize(dimLb2);
 		jcbPhanLoai = new JComboBox<String>(listPhanLoai);
 		jcbPhanLoai.setPreferredSize(dimtxt2);
@@ -118,21 +118,21 @@ public class FrameThemHang extends JDialog {
 		txtThang.setPreferredSize(dimtxt4);
 		txtNam = new JTextField();
 		txtNam.setPreferredSize(dimtxt4);
-		hang4.add(lbHang4 = new JLabel("Sá»‘ lÆ°á»£ng"));
+		hang4.add(lbHang4 = new JLabel("So luong"));
 		hang4.add(txtSoLuong);
-		hang4.add(lbHang4 = new JLabel("Nháº­p vÃ o ngÃ y"));
+		hang4.add(lbHang4 = new JLabel("Nhap vao Ngay"));
 		hang4.add(txtNgay);
-		hang4.add(lbHang4 = new JLabel("ThÃ¡ng"));
+		hang4.add(lbHang4 = new JLabel("Thang"));
 		hang4.add(txtThang);
-		hang4.add(lbHang4 = new JLabel("NÄƒm"));
+		hang4.add(lbHang4 = new JLabel("Nam"));
 		hang4.add(txtNam);
 		lbHang4.setPreferredSize(dimLb4);
 		txtSoLuong.setPreferredSize(dimtxt4);
 
 		// hÃ ng 5
 		hang5 = new JPanel();
-		hang5.add(btnThem = new JButton("THÃŠM"));
-		hang5.add(btnlamMoi = new JButton("LÃ€M Má»šI"));
+		hang5.add(btnThem = new JButton("THEM"));
+		hang5.add(btnlamMoi = new JButton("LAM MOI"));
 
 		// hÃ ng 6
 		hang6 = new JPanel();
@@ -201,14 +201,14 @@ public class FrameThemHang extends JDialog {
 								FrameQuanLyBanHang.list.get(i).getNgayNhap() };
 						FrameQuanLyBanHang.dTM.addRow(obj);
 					}
-					JOptionPane.showMessageDialog(null, "ThÃªm thÃ nh cÃ´ng !!!");
+					JOptionPane.showMessageDialog(null, "Them thanh cong!!!");
 					SanPham.count_id++;
 					SanPham.count_stt++;
 					dispose();
 				}
 				catch (Exception e2) {
 					txtTen.setRequestFocusEnabled(true);
-					JOptionPane.showMessageDialog(null, "vui lÃ²ng nháº­p láº¡i");
+					JOptionPane.showMessageDialog(null, "Vui long nhap lai");
 
 				}
 			}
@@ -217,7 +217,7 @@ public class FrameThemHang extends JDialog {
 	}
 
 	private void hienThi() {
-		setTitle("ThÃªm hÃ ng vÃ o kho");
+		setTitle("Them hang vao kho");
 		pack();
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
