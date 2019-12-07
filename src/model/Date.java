@@ -10,6 +10,10 @@ public class Date {
 		this.thang = thang;
 		this.nam = nam;
 	}
-	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return ngay+ "/" + thang +"/" + nam;
+	}
 	
 }

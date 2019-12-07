@@ -58,7 +58,7 @@ public class FrameQuanLyBanHang extends JFrame {
 	}
 
 	private void taoDoiTuong() {// dung trong function giaoDien
-		SanPham sp1 = new SanPham(1,10000 ,"San Pham 1", "Loai 1", 20, new model.Date(1, 1, 2000));
+		SanPham sp1 = new SanPham(1,10000 ,"Day la san pham loai 1", "Loai 1", 20, new model.Date(1, 1, 2000));
 //		SanPham sp2 = new SanPham(++SanPham.count,"#"+SanPham.count_Id++ ,"San Pham 2", "Loai 2", 21, new model.Date(17, 12, 2000));
 //		SanPham sp3 = new SanPham(++SanPham.count,"#"+SanPham.count_Id++ ,"San Pham 3", "Loai 2", 15, new model.Date(6, 10, 2000));
 //		SanPham sp4 = new SanPham(++SanPham.count,"#"+SanPham.count_Id++ ,"San Pham 4", "Loai 3", 10, new model.Date(9, 8, 2000));
@@ -72,8 +72,9 @@ public class FrameQuanLyBanHang extends JFrame {
 	
 	private void giaoDien() {
 
-		
-		setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
+		JPanel pnMain = new JPanel();
+		pnMain.setLayout(new BorderLayout());
+		add(pnMain);
 		// tieu de
 		lbTieuDe = new JLabel("QUAN LY KHO HANG");
 		lbTieuDe.setAlignmentX(CENTER_ALIGNMENT);
@@ -102,19 +103,31 @@ public class FrameQuanLyBanHang extends JFrame {
 		
 		// hang2
 		hang2 = new JPanel();
+		hang2.setLayout(new BorderLayout());
 		for (int i = 0; i < tenCot.length; i++) {
 			dTM.addColumn(tenCot[i]);
+			
 		}
 		//them sp
 		taoDoiTuong();
 		for (int i = 0; i < list.size(); i++) {
 			Object[] obj = {list.get(i).getStt(),list.get(i).getId(),list.get(i).getTenSp(),list.get(i).getPhanLoai(),list.get(i).getSoLuong(),list.get(i).getNgayNhap()};
 			dTM.addRow(obj);
+			
 		}
 		table = new JTable(dTM);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS); 
+		table.getColumnModel().getColumn(0).setPreferredWidth(50); 
+		table.getColumnModel().getColumn(1).setPreferredWidth(90); 
+		table.getColumnModel().getColumn(2).setPreferredWidth(350); 
+		table.getColumnModel().getColumn(3).setPreferredWidth(90); 
+		table.getColumnModel().getColumn(4).setPreferredWidth(90); 
+		table.getColumnModel().getColumn(5).setPreferredWidth(130); 
+		table.disable();
+		
 		JScrollPane hehe = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		hang2.add(hehe);
+		hang2.add(hehe,BorderLayout.CENTER);
 
 		// hang 3
 		hang3 = new JPanel();
@@ -122,10 +135,19 @@ public class FrameQuanLyBanHang extends JFrame {
 		lbversion.setAlignmentX(CENTER_ALIGNMENT);
 		hang3.add(lbversion);
 
-		add(lbTieuDe);
-		add(hang1);
-		add(hang2);
-		add(hang3);
+		
+		JPanel pnEast = new JPanel();
+		pnEast.setPreferredSize(new Dimension(31,0));
+		JPanel pnWest = new JPanel();
+		pnWest.setPreferredSize(new Dimension(31,0));
+//		pnMain.add(lbTieuDe);
+		pnMain.add(hang1,BorderLayout.NORTH);
+		pnMain.add(hang2,BorderLayout.CENTER);
+		pnMain.add(hang3,BorderLayout.SOUTH);
+		pnMain.add(pnEast,BorderLayout.EAST);
+		pnMain.add(pnWest,BorderLayout.WEST);
+		
+		
 	}
 
 	private void hienThi() {
@@ -184,6 +206,7 @@ public class FrameQuanLyBanHang extends JFrame {
 			}
 		});
 	}
+	
 }
 //		jcbLoaiHang.addMouseListener(new MouseListener() {
 //			
