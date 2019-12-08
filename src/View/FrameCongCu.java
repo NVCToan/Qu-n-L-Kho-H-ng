@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 
 import View.FrameQuanLyBanHang.duLieu;
 import controller.ArrayListSP;
+import model.Date;
 import model.NhomSanPham;
 import model.SanPham;
 
@@ -27,8 +28,8 @@ public class FrameCongCu extends JDialog {
 	JTextField txtTimKiem, txtMaHang, txtTen, txtSoLuong, txtNgay, txtThang, txtNam;
 	JPanel hang1, hang2, hang3, hang4, hang5, hang6, hang7;
 	JRadioButton rdMacDinh, rdEdit;
-	JButton btnThem, btnTimKiem, btnXoa, btnXoaNhieu, btnChinhSua;
-	JComboBox<NhomSanPham> jcbPhanLoai;
+	JButton btnThem, btnTimKiem, btnXoa, btnXoaNhieu, btnChinhSua, btnLuu;
+	 JComboBox<NhomSanPham> jcbPhanLoai;
 	ArrayListSP<NhomSanPham> dsNhom;
 	static int rowSelected;
 	FrameCongCu_XoaNhieu xoaNhieuUI = new FrameCongCu_XoaNhieu();
@@ -37,6 +38,28 @@ public class FrameCongCu extends JDialog {
 		giaoDien();
 		xuLiSuKien();
 		hienThi();
+	}
+
+	private void setEdit() {
+		// TODO Auto-generated method stub
+		txtMaHang.setEditable(true);
+		txtTen.setEditable(true);
+		txtSoLuong.setEditable(true);
+		txtNgay.setEditable(true);
+		txtThang.setEditable(true);
+		txtNam.setEditable(true);
+		jcbPhanLoai.setEditable(true);
+	}
+
+	private void setNotEdit() {
+		// TODO Auto-generated method stub
+		txtMaHang.setEditable(false);
+		txtTen.setEditable(false);
+		txtSoLuong.setEditable(false);
+		txtNgay.setEditable(false);
+		txtThang.setEditable(false);
+		txtNam.setEditable(false);
+		jcbPhanLoai.setEditable(false);
 	}
 
 	private void giaoDien() {
@@ -59,12 +82,14 @@ public class FrameCongCu extends JDialog {
 		hang2.add(txtMaHang = new JTextField());
 		lbLoaiHang.setPreferredSize(dimlb3);
 		txtMaHang.setPreferredSize(dimtxt3);
+		txtMaHang.setEditable(false);
 
 		// hàng 3
 		hang3 = new JPanel();
 		lbTen = new JLabel("Tên sản phẩm");
 		lbTen.setPreferredSize(dimlb3);
 		txtTen = new JTextField();
+		txtTen.setEditable(false);
 		txtTen.setPreferredSize(dimtxt3);
 		hang3.add(lbTen);
 		hang3.add(txtTen);
@@ -76,13 +101,7 @@ public class FrameCongCu extends JDialog {
 		hang4.add(lbLoaiHang);
 		jcbPhanLoai = new JComboBox<NhomSanPham>();
 		jcbPhanLoai.setPreferredSize(dimtxt3);
-//		dsNhom = new ArrayListSP<NhomSanPham>();
-//		dsNhom = duLieu.duLieuDSNhom();
-//		Iterator<NhomSanPham> iter = dsNhom.iterator();
-//		while (iter.hasNext()) {
-//			NhomSanPham value = iter.next();
-//			jcbPhanLoai.addItem(value);
-//		}
+//		
 		hang4.add(jcbPhanLoai);
 
 		// hàng 5
@@ -96,6 +115,7 @@ public class FrameCongCu extends JDialog {
 		txtThang.setPreferredSize(dimtxt5);
 		txtNam = new JTextField();
 		txtNam.setPreferredSize(dimtxt5);
+		setNotEdit();
 		hang5.add(lbhang5 = new JLabel("Số lượng"));
 		hang5.add(txtSoLuong);
 		hang5.add(lbhang5 = new JLabel("Nhập vào ngày"));
@@ -111,6 +131,7 @@ public class FrameCongCu extends JDialog {
 		hang6 = new JPanel();
 		hang6.add(btnXoa = new JButton("XÓA NHANH"));
 		hang6.add(btnChinhSua = new JButton("CHỈNH SỬA"));
+		hang6.add(btnLuu = new JButton("LƯU"));
 		hang6.add(btnXoaNhieu = new JButton("XÓA NHIỀU"));
 
 		// hàng 7
@@ -144,12 +165,13 @@ public class FrameCongCu extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				duLieu.taoDoiTuong();
-				int ID = Integer.parseInt(txtTimKiem.getText());
-				Iterator<SanPham> iter = FrameQuanLyBanHang.listSP.iterator();
-				while (iter.hasNext()) {
-					SanPham value = iter.next();
-					try {
+				try {
+					duLieu.taoDoiTuong();
+					Iterator<SanPham> iter = FrameQuanLyBanHang.listSP.iterator();
+					while (iter.hasNext()) {
+						SanPham value = iter.next();
+
+						int ID = Integer.parseInt(txtTimKiem.getText());
 						if (value.getId() == ID) {
 							rowSelected = value.getStt() - 1;
 							txtMaHang.setText("" + ID);
@@ -159,12 +181,12 @@ public class FrameCongCu extends JDialog {
 							txtNgay.setText("" + value.getNgayNhap().getNgay());
 							txtThang.setText("" + value.getNgayNhap().getThang());
 							txtNam.setText("" + value.getNgayNhap().getNam());
-							break;
 						}
-					} catch (Exception e2) {
-						// TODO: handle exception
-						JOptionPane.showMessageDialog(null, "ID khong ton tai");
+
 					}
+				} catch (Exception e2) {
+					txtTimKiem.setRequestFocusEnabled(true);
+					JOptionPane.showMessageDialog(null, "ID khong ton tai");
 				}
 
 			}
@@ -179,13 +201,50 @@ public class FrameCongCu extends JDialog {
 				rowSelected = -1;
 			}
 		});
+		btnChinhSua.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setEdit();
+				dsNhom = new ArrayListSP<NhomSanPham>();
+				dsNhom = FrameQuanLyBanHang.dsNhom;
+				jcbPhanLoai.removeAllItems();
+				Iterator<NhomSanPham> iter = dsNhom.iterator();
+				while (iter.hasNext()) {
+					NhomSanPham value = iter.next();
+					jcbPhanLoai.addItem(value);
+				}
+
+			}
+
+		});
+		btnLuu.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SanPham sp = FrameQuanLyBanHang.listSP.get(rowSelected);
+				sp.setId(Integer.parseInt(txtMaHang.getText()));
+				sp.setTenSp(txtTen.getText());
+				sp.setSoLuong(Integer.parseInt(txtSoLuong.getText()));
+				sp.setPhanLoai(new NhomSanPham("" + jcbPhanLoai.getSelectedItem()));
+				sp.setNgayNhap(new Date(Integer.parseInt(txtNgay.getText()), Integer.parseInt(txtThang.getText()),
+						Integer.parseInt(txtNam.getText())));
+				// Xoa dong chinh sua
+				FrameQuanLyBanHang.dTM.removeRow(rowSelected);
+				// Tao va chen lai dong
+				Object[] obj = { sp.getStt(), sp.getId(), sp.getTenSp(), sp.getPhanLoai(), sp.getSoLuong(),
+						sp.getNgayNhap() };
+				FrameQuanLyBanHang.dTM.insertRow(rowSelected, obj);
+				setNotEdit();
+			}
+		});
 
 	}
 
 	private void hienThi() {
 		setTitle("Công cụ");
 		pack();
-		setAlwaysOnTop(true);
+//		setAlwaysOnTop(true);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}

@@ -41,7 +41,7 @@ public class FrameQuanLyBanHang extends JFrame {
 	static DefaultTableModel dTM = new DefaultTableModel();
 	static JTable table;
 	String[] tenCot = { "STT", "Ma hang", "Ten hang", "Loai hang", "So luong", "Ngay nhap" };
-	static String[] listPhanLoai = {"Loai 1", "Loai 2", "Loai 3"};
+//	static String[] listPhanLoai = {"Loai 1", "Loai 2", "Loai 3"};
 //	JComboBox<String> jcbLoaiHang = new JComboBox<String>(listPhanLoai); // Sá»­a láº¡i kiá»ƒu dá»¯ liá»‡u
 	static JComboBox<NhomSanPham> jcbLoaiHang = new JComboBox<NhomSanPham>(); 
 	FrameThemHang themHangUI = new FrameThemHang();
@@ -196,7 +196,7 @@ public class FrameQuanLyBanHang extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				congCu.setModal(true); // chá»©c nÄƒng Ä‘á»ƒ frame cÃ³ thá»ƒ á»Ÿ lá»›p trÃªn máº·t (dÃ¹ng Ä‘Æ°á»£c khi Ä‘Ã£ extends JDialog)
+				congCu.setModal(true); // chá»©c nÄƒng Ä‘á»ƒ frame cÃ³ thá»ƒ á»Ÿ lá»›p trÃªn máº·t (dÃ¹ng Ä‘Æ°á»£c khi Ä‘Ã£ extends JDialog)
 				congCu.setVisible(true);
 			}
 		});

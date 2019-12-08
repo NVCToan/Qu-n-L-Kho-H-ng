@@ -102,7 +102,7 @@ public class FrameThemHang extends JDialog {
 		lbLoaiHang = new JLabel("Loai hang");
 		lbLoaiHang.setPreferredSize(dimLb2);
 //		jcbPhanLoai = new JComboBox<String>(listPhanLoai);
-		jcbPhanLoai = new JComboBox<NhomSanPham>();
+		jcbPhanLoai = new JComboBox<NhomSanPham>(); jcbPhanLoai.setEditable(true);
 		jcbPhanLoai.setPreferredSize(dimtxt2);
 		dsNhom = new ArrayListSP<NhomSanPham>();
 		dsNhom = duLieu.duLieuDSNhom();

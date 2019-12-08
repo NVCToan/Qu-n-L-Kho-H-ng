@@ -62,7 +62,11 @@ public class SanPham {
 		this.ngayNhap = ngayNhap;
 	}
 
-	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return tenSp;
+	}
 	
 }
 	
