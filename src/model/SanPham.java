@@ -6,8 +6,8 @@ public class SanPham {
 
 	int stt;
 	int id;
-	public static int count_stt = 2;
-	public static int count_id = 10001;
+	public static int count_stt ;
+	public static int count_id ;
 	String tenSp;
 	NhomSanPham phanLoai;
 	int soLuong;

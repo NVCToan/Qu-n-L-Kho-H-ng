@@ -44,8 +44,10 @@ public class FrameThemHang extends JDialog {
 	JComboBox<NhomSanPham> 	jcbPhanLoai ;
 	NhomSanPham nhomSelected;
 	
+	
 //	int sttSoSanh = Integer.parseInt(txtStt.getText());
 	public FrameThemHang() {
+		
 		giaoDien();
 		xuLiSuKien();
 		hienThi();
@@ -155,6 +157,7 @@ public class FrameThemHang extends JDialog {
 	}
 	
 	private void xuLiSuKien() {
+		
 		// xá»­ lÃ­ radio Edit vÃ  Default
 		rdEdit.addActionListener(new ActionListener() {
 			@Override
@@ -187,7 +190,7 @@ public class FrameThemHang extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-
+					
 					int stt = Integer.parseInt(txtStt.getText());
 					int id = Integer.parseInt(txtMaHang.getText());
 					String tenSp = txtTen.getText();

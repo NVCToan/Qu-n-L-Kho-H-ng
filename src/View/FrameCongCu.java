@@ -30,7 +30,7 @@ public class FrameCongCu extends JDialog {
 	JButton btnThem, btnTimKiem, btnXoa, btnXoaNhieu, btnChinhSua;
 	JComboBox<NhomSanPham> jcbPhanLoai;
 	ArrayListSP<NhomSanPham> dsNhom;
-
+	static int rowSelected;
 	FrameCongCu_XoaNhieu xoaNhieuUI = new FrameCongCu_XoaNhieu();
 
 	public FrameCongCu() {
@@ -139,36 +139,47 @@ public class FrameCongCu extends JDialog {
 			}
 		});
 //	 Tim kiem
+
 		btnTimKiem.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				duLieu.taoDoiTuong();
-				int ID= Integer.parseInt(txtTimKiem.getText());
+				int ID = Integer.parseInt(txtTimKiem.getText());
 				Iterator<SanPham> iter = FrameQuanLyBanHang.listSP.iterator();
 				while (iter.hasNext()) {
 					SanPham value = iter.next();
-					if (value.getId()==ID) {
-						txtMaHang.setText(""+ID);
-						txtTen.setText( value.getTenSp());
-						jcbPhanLoai.addItem(value.getPhanLoai());
-						txtSoLuong.setText(""+value.getSoLuong());
-						txtNgay.setText(""+value.getNgayNhap().getNgay());
-						txtThang.setText(""+value.getNgayNhap().getThang());
-						txtNam.setText(""+value.getNgayNhap().getNam());
-						
+					try {
+						if (value.getId() == ID) {
+							rowSelected = value.getStt() - 1;
+							txtMaHang.setText("" + ID);
+							txtTen.setText(value.getTenSp());
+							jcbPhanLoai.addItem(value.getPhanLoai());
+							txtSoLuong.setText("" + value.getSoLuong());
+							txtNgay.setText("" + value.getNgayNhap().getNgay());
+							txtThang.setText("" + value.getNgayNhap().getThang());
+							txtNam.setText("" + value.getNgayNhap().getNam());
+							break;
+						}
+					} catch (Exception e2) {
+						// TODO: handle exception
+						JOptionPane.showMessageDialog(null, "ID khong ton tai");
+					}
 				}
-					
-				}
-					
-								
-							
-							
-						
-					
-		
+
 			}
 		});
+		btnXoa.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (rowSelected == -1)
+					return;
+				FrameQuanLyBanHang.dTM.removeRow(rowSelected);
+				rowSelected = -1;
+			}
+		});
+
 	}
 
 	private void hienThi() {

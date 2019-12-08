@@ -10,7 +10,9 @@ public class ArrayListSP<E> {
 	public E[] getData() {
 		return data;
 	}
-
+public E get(int index) {
+	return data[index];
+}
 	public void setData(E[] data) {
 		this.data = data;
 	}

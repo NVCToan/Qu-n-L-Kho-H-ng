@@ -212,21 +212,25 @@ public class FrameQuanLyBanHang extends JFrame {
 
 			}
 		});
+		
 	}
 	static class  duLieu {
 		// TODO Auto-generated method stub
 		public static void taoDoiTuong() {// dung trong function giaoDien
-		SanPham sp1 = new SanPham(1,10000 ,"Day la san pham loai 1",new NhomSanPham("Loại 1"), 20, new model.Date(1, 1, 2000));
-		SanPham sp2 = new SanPham(2,10001 ,"Day la san pham loai 2", new NhomSanPham("Loại 2"), 20, new model.Date(1, 1, 2000));
-//		SanPham sp2 = new SanPham(++SanPham.count,"#"+SanPham.count_Id++ ,"San Pham 2", "Loai 2", 21, new model.Date(17, 12, 2000));
-//		SanPham sp3 = new SanPham(++SanPham.count,"#"+SanPham.count_Id++ ,"San Pham 3", "Loai 2", 15, new model.Date(6, 10, 2000));
-//		SanPham sp4 = new SanPham(++SanPham.count,"#"+SanPham.count_Id++ ,"San Pham 4", "Loai 3", 10, new model.Date(9, 8, 2000));
-//		SanPham sp5 = new SanPham(++SanPham.count,"#"+SanPham.count_Id++ ,"San Pham 5", "Loai 1", 76, new model.Date(1, 5, 2000));
+		SanPham sp1 = new SanPham(1,10000 ,"San pham 1",new NhomSanPham("Loại 1"), 20, new model.Date(2, 01, 2023));
+		SanPham sp2 = new SanPham(2,10001 ,"San pham 2", new NhomSanPham("Loại 2"), 40, new model.Date(12, 5, 2010));
+		SanPham sp3 = new SanPham(3,10002 ,"San pham 3",new NhomSanPham("Loại 3"), 25, new model.Date(8, 1, 2000));
+		SanPham sp4 = new SanPham(4,10003 ,"San pham 4", new NhomSanPham("Loai 2"), 520, new model.Date(2, 5, 1990));
+		SanPham sp5 = new SanPham(5,10004 ,"San pham 5",new NhomSanPham("Loại 1"), 79, new model.Date(7, 4, 2002));
 		listSP.Add(sp1);
 		listSP.Add(sp2);
-//		list.add(sp3);
-//		list.add(sp4);
-//		list.add(sp5);
+		listSP.Add(sp3);
+		listSP.Add(sp4);
+		listSP.Add(sp5);
+		
+		
+		SanPham.count_id = FrameQuanLyBanHang.listSP.get(FrameQuanLyBanHang.listSP.getSize()-1).getId() +1;
+		SanPham.count_stt =FrameQuanLyBanHang.listSP.getSize()+1; // Tu dong set theo stt va ID hien co trong danh sach
 	}
 	
 		public static ArrayListSP<NhomSanPham> duLieuDSNhom() {
