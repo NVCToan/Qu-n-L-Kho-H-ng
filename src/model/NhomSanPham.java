@@ -3,13 +3,13 @@ package model;
 import java.util.Vector;
 
 public class NhomSanPham {
-	private String tenNhom;
+	 String tenNhom;
 	private static  Vector<String> dsSanPham;
 		public void themSanPham() {
 			
 			dsSanPham.add("a");
 		}
-	public String getTenNhom() {
+	public  String getTenNhom() {
 		return tenNhom;
 	}
 	public void setTenNhom(String tenNhom) {

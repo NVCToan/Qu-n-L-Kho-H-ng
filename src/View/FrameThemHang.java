@@ -26,6 +26,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import View.FrameQuanLyBanHang.duLieu;
 import controller.ArrayListSP;
 import model.Date;
 import model.NhomSanPham;
@@ -37,8 +38,11 @@ public class FrameThemHang extends JDialog {
 	JPanel hang1, hang1_1, hang2, hang3, hang4, hang5, hang6;
 	JRadioButton rdMacDinh, rdEdit;
 	JButton btnThem, btnlamMoi;
-	String[] listPhanLoai = { "Loai 1", "Loai 2", "Loai 3" };
-	JComboBox<String> jcbPhanLoai;
+	ArrayListSP<NhomSanPham> dsNhom;
+//	String[] listPhanLoai = { "Loai 1", "Loai 2", "Loai 3" };
+//	JComboBox<String> jcbPhanLoai;
+	JComboBox<NhomSanPham> 	jcbPhanLoai ;
+	NhomSanPham nhomSelected;
 	
 //	int sttSoSanh = Integer.parseInt(txtStt.getText());
 	public FrameThemHang() {
@@ -95,15 +99,16 @@ public class FrameThemHang extends JDialog {
 		hang3 = new JPanel();
 		lbLoaiHang = new JLabel("Loai hang");
 		lbLoaiHang.setPreferredSize(dimLb2);
-		jcbPhanLoai = new JComboBox<String>(listPhanLoai);
+//		jcbPhanLoai = new JComboBox<String>(listPhanLoai);
+		jcbPhanLoai = new JComboBox<NhomSanPham>();
 		jcbPhanLoai.setPreferredSize(dimtxt2);
-//		dsNhom = new ArrayListSP<NhomSanPham>();
-//	//	dsNhom = duLieu.duLieuDSNhom();
-//		Iterator<NhomSanPham> iter = dsNhom.iterator();
-//		while (iter.hasNext()) {
-//			NhomSanPham value = iter.next();
-//		//	jcbPhanLoai.addItem(value);
-//		}
+		dsNhom = new ArrayListSP<NhomSanPham>();
+		dsNhom = duLieu.duLieuDSNhom();
+		Iterator<NhomSanPham> iter = dsNhom.iterator();
+		while (iter.hasNext()) {
+			NhomSanPham value = iter.next();
+			jcbPhanLoai.addItem(value);
+		}
 		hang3.add(lbLoaiHang);
 		hang3.add(jcbPhanLoai);
 
@@ -191,14 +196,14 @@ public class FrameThemHang extends JDialog {
 					int thang = Integer.parseInt(txtThang.getText());
 					int nam = Integer.parseInt(txtNam.getText());;
 					FrameQuanLyBanHang.dTM.setRowCount(0);// reset all hang table
-					FrameQuanLyBanHang.list.add(new SanPham(stt, id, tenSp, jcbPhanLoai.getSelectedItem().toString(), soLuong, new Date(ngay, thang, nam)));
-					//					FrameQuanLyBanHang.list.add(new SanPham(stt, id, tenSp,jcbPhanLoai.getSelectedItem().toString(), soLuong, new Date(6, 12, 2001)));
-					for (int i = 0; i < FrameQuanLyBanHang.list.size(); i++) {
-						Object[] obj = { FrameQuanLyBanHang.list.get(i).getStt(),
-								FrameQuanLyBanHang.list.get(i).getId(), FrameQuanLyBanHang.list.get(i).getTenSp(),
-								FrameQuanLyBanHang.list.get(i).getPhanLoai(),
-								FrameQuanLyBanHang.list.get(i).getSoLuong(),
-								FrameQuanLyBanHang.list.get(i).getNgayNhap() };
+					 nhomSelected = (NhomSanPham) jcbPhanLoai.getSelectedItem();
+					FrameQuanLyBanHang.listSP.Add(new SanPham(stt, id, tenSp, new NhomSanPham("" +nhomSelected), soLuong, new Date(ngay, thang, nam)));
+					
+					Iterator<SanPham> iter = FrameQuanLyBanHang.listSP.iterator();
+					while (iter.hasNext()) {
+						SanPham value = iter.next();
+						Object[] obj = {value.getStt(),value.getId(),value.getTenSp(),value.getPhanLoai(),value.getSoLuong(),value.getNgayNhap()};
+
 						FrameQuanLyBanHang.dTM.addRow(obj);
 					}
 					JOptionPane.showMessageDialog(null, "Them thanh cong!!!");

@@ -3,6 +3,7 @@ package View;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -10,9 +11,16 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+
+import View.FrameQuanLyBanHang.duLieu;
+import controller.ArrayListSP;
+import model.NhomSanPham;
+import model.SanPham;
 
 public class FrameCongCu extends JDialog {
 	JLabel lbMaHang, lbTen, lbLoaiHang, lbhang5, lbNgay, lbThang, lbNam, lbTieuDe;
@@ -20,7 +28,9 @@ public class FrameCongCu extends JDialog {
 	JPanel hang1, hang2, hang3, hang4, hang5, hang6, hang7;
 	JRadioButton rdMacDinh, rdEdit;
 	JButton btnThem, btnTimKiem, btnXoa, btnXoaNhieu, btnChinhSua;
-	JComboBox<String> jcbPhanLoai = new JComboBox<String>();
+	JComboBox<NhomSanPham> jcbPhanLoai;
+	ArrayListSP<NhomSanPham> dsNhom;
+
 	FrameCongCu_XoaNhieu xoaNhieuUI = new FrameCongCu_XoaNhieu();
 
 	public FrameCongCu() {
@@ -63,8 +73,16 @@ public class FrameCongCu extends JDialog {
 		hang4 = new JPanel();
 		lbLoaiHang = new JLabel("Loại hàng");
 		lbLoaiHang.setPreferredSize(dimlb3);
-		jcbPhanLoai.setPreferredSize(dimtxt3);
 		hang4.add(lbLoaiHang);
+		jcbPhanLoai = new JComboBox<NhomSanPham>();
+		jcbPhanLoai.setPreferredSize(dimtxt3);
+//		dsNhom = new ArrayListSP<NhomSanPham>();
+//		dsNhom = duLieu.duLieuDSNhom();
+//		Iterator<NhomSanPham> iter = dsNhom.iterator();
+//		while (iter.hasNext()) {
+//			NhomSanPham value = iter.next();
+//			jcbPhanLoai.addItem(value);
+//		}
 		hang4.add(jcbPhanLoai);
 
 		// hàng 5
@@ -118,6 +136,37 @@ public class FrameCongCu extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				xoaNhieuUI.setVisible(true);
 				dispose();
+			}
+		});
+//	 Tim kiem
+		btnTimKiem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				duLieu.taoDoiTuong();
+				int ID= Integer.parseInt(txtTimKiem.getText());
+				Iterator<SanPham> iter = FrameQuanLyBanHang.listSP.iterator();
+				while (iter.hasNext()) {
+					SanPham value = iter.next();
+					if (value.getId()==ID) {
+						txtMaHang.setText(""+ID);
+						txtTen.setText( value.getTenSp());
+						jcbPhanLoai.addItem(value.getPhanLoai());
+						txtSoLuong.setText(""+value.getSoLuong());
+						txtNgay.setText(""+value.getNgayNhap().getNgay());
+						txtThang.setText(""+value.getNgayNhap().getThang());
+						txtNam.setText(""+value.getNgayNhap().getNam());
+						
+				}
+					
+				}
+					
+								
+							
+							
+						
+					
+		
 			}
 		});
 	}

@@ -1,4 +1,4 @@
-package View;
+package View;  
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -10,11 +10,9 @@ import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Objects;
-import java.util.Vector;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -29,6 +27,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.html.HTMLDocument.HTMLReader.SpecialAction;
 
+import View.FrameQuanLyBanHang.duLieu;
 import controller.ArrayListSP;
 import model.NhomSanPham;
 import model.SanPham;
@@ -42,33 +41,35 @@ public class FrameQuanLyBanHang extends JFrame {
 	static DefaultTableModel dTM = new DefaultTableModel();
 	static JTable table;
 	String[] tenCot = { "STT", "Ma hang", "Ten hang", "Loai hang", "So luong", "Ngay nhap" };
-	String[] listPhanLoai = {"Loai 1", "Loai 2", "Loai 3"};
-	JComboBox<String> jcbLoaiHang = new JComboBox<String>(listPhanLoai); // Sá»­a láº¡i kiá»ƒu dá»¯ liá»‡u
+	static String[] listPhanLoai = {"Loai 1", "Loai 2", "Loai 3"};
+//	JComboBox<String> jcbLoaiHang = new JComboBox<String>(listPhanLoai); // Sá»­a láº¡i kiá»ƒu dá»¯ liá»‡u
+	static JComboBox<NhomSanPham> jcbLoaiHang = new JComboBox<NhomSanPham>(); 
 	FrameThemHang themHangUI = new FrameThemHang();
 	FrameXuatHang xuatHangUI = new FrameXuatHang();
 	FrameCongCu congCu = new FrameCongCu();
-	//ArrayListSP<SanPham> listSP = new ArrayListSP<SanPham>();// suc chua mac dinh
-	public static ArrayList<SanPham> list = new ArrayList<SanPham>();
+	 static ArrayListSP<NhomSanPham> dsNhom;
+	 static	ArrayListSP<SanPham> listSP = new ArrayListSP<SanPham>();// suc chua mac dinh
+//	public static ArrayList<SanPham> list = new ArrayList<SanPham>(); // Khong dung java.util
 	
 	public FrameQuanLyBanHang() {
 		super("Quan ly kho hang");
 		giaoDien();
+		new duLieu();
 		xuLiSuKien();
 		hienThi();
 	}
-
-	private void taoDoiTuong() {// dung trong function giaoDien
-		SanPham sp1 = new SanPham(1,10000 ,"Day la san pham loai 1", "Loai 1", 20, new model.Date(1, 1, 2000));
-//		SanPham sp2 = new SanPham(++SanPham.count,"#"+SanPham.count_Id++ ,"San Pham 2", "Loai 2", 21, new model.Date(17, 12, 2000));
-//		SanPham sp3 = new SanPham(++SanPham.count,"#"+SanPham.count_Id++ ,"San Pham 3", "Loai 2", 15, new model.Date(6, 10, 2000));
-//		SanPham sp4 = new SanPham(++SanPham.count,"#"+SanPham.count_Id++ ,"San Pham 4", "Loai 3", 10, new model.Date(9, 8, 2000));
-//		SanPham sp5 = new SanPham(++SanPham.count,"#"+SanPham.count_Id++ ,"San Pham 5", "Loai 1", 76, new model.Date(1, 5, 2000));
-		list.add(sp1);
-//		list.add(sp2);
-//		list.add(sp3);
-//		list.add(sp4);
-//		list.add(sp5);
-	}
+//	private void taoDoiTuong() {// dung trong function giaoDien
+//		SanPham sp1 = new SanPham(1,10000 ,"Day la san pham loai 1", "Loai 1", 20, new model.Date(1, 1, 2000));
+////		SanPham sp2 = new SanPham(++SanPham.count,"#"+SanPham.count_Id++ ,"San Pham 2", "Loai 2", 21, new model.Date(17, 12, 2000));
+////		SanPham sp3 = new SanPham(++SanPham.count,"#"+SanPham.count_Id++ ,"San Pham 3", "Loai 2", 15, new model.Date(6, 10, 2000));
+////		SanPham sp4 = new SanPham(++SanPham.count,"#"+SanPham.count_Id++ ,"San Pham 4", "Loai 3", 10, new model.Date(9, 8, 2000));
+////		SanPham sp5 = new SanPham(++SanPham.count,"#"+SanPham.count_Id++ ,"San Pham 5", "Loai 1", 76, new model.Date(1, 5, 2000));
+//		list.add(sp1);
+////		list.add(sp2);
+////		list.add(sp3);
+////		list.add(sp4);
+////		list.add(sp5);
+//	}
 	
 	private void giaoDien() {
 
@@ -108,13 +109,19 @@ public class FrameQuanLyBanHang extends JFrame {
 			dTM.addColumn(tenCot[i]);
 			
 		}
-		//them sp
-		taoDoiTuong();
-		for (int i = 0; i < list.size(); i++) {
-			Object[] obj = {list.get(i).getStt(),list.get(i).getId(),list.get(i).getTenSp(),list.get(i).getPhanLoai(),list.get(i).getSoLuong(),list.get(i).getNgayNhap()};
+		duLieu.taoDoiTuong();
+		Iterator<SanPham> iter = listSP.iterator();
+		while (iter.hasNext()) {
+			SanPham value = iter.next();
+			Object[] obj = {value.getStt(),value.getId(),value.getTenSp(),value.getPhanLoai().getTenNhom(),value.getSoLuong(),value.getNgayNhap()};
 			dTM.addRow(obj);
-			
 		}
+//		new duLieu();
+//		for (int i = 0; i < listSP.getSize(); i++) {
+//			Object[] obj = {listSP.getData()[i].getStt(),listSP.getData()[i].getId(),listSP.getData()[i].getTenSp(),listSP.getData()[i].getPhanLoai(),listSP.getData()[i].getSoLuong(),listSP.getData()[i].getNgayNhap()};
+//			dTM.addRow(obj);
+//			
+//		}
 		table = new JTable(dTM);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS); 
 		table.getColumnModel().getColumn(0).setPreferredWidth(50); 
@@ -206,46 +213,43 @@ public class FrameQuanLyBanHang extends JFrame {
 			}
 		});
 	}
+	static class  duLieu {
+		// TODO Auto-generated method stub
+		public static void taoDoiTuong() {// dung trong function giaoDien
+		SanPham sp1 = new SanPham(1,10000 ,"Day la san pham loai 1",new NhomSanPham("Loại 1"), 20, new model.Date(1, 1, 2000));
+		SanPham sp2 = new SanPham(2,10001 ,"Day la san pham loai 2", new NhomSanPham("Loại 2"), 20, new model.Date(1, 1, 2000));
+//		SanPham sp2 = new SanPham(++SanPham.count,"#"+SanPham.count_Id++ ,"San Pham 2", "Loai 2", 21, new model.Date(17, 12, 2000));
+//		SanPham sp3 = new SanPham(++SanPham.count,"#"+SanPham.count_Id++ ,"San Pham 3", "Loai 2", 15, new model.Date(6, 10, 2000));
+//		SanPham sp4 = new SanPham(++SanPham.count,"#"+SanPham.count_Id++ ,"San Pham 4", "Loai 3", 10, new model.Date(9, 8, 2000));
+//		SanPham sp5 = new SanPham(++SanPham.count,"#"+SanPham.count_Id++ ,"San Pham 5", "Loai 1", 76, new model.Date(1, 5, 2000));
+		listSP.Add(sp1);
+		listSP.Add(sp2);
+//		list.add(sp3);
+//		list.add(sp4);
+//		list.add(sp5);
+	}
+	
+		public static ArrayListSP<NhomSanPham> duLieuDSNhom() {
+		dsNhom = new ArrayListSP<NhomSanPham>();
+		NhomSanPham nhom1 = new NhomSanPham("Loai 1");
+		NhomSanPham nhom2 = new NhomSanPham("Loai 2");
+		NhomSanPham nhom3 = new NhomSanPham("Loai 3");
+		dsNhom.Add(nhom1);
+		dsNhom.Add(nhom2);
+		dsNhom.Add(nhom3);
+		Iterator<NhomSanPham> iter = dsNhom.iterator();
+		while (iter.hasNext()) {
+			NhomSanPham value = iter.next();
+			jcbLoaiHang.addItem(value);
+		}
+		return dsNhom;
+
+	}
+//		public static ArrayListSP<NhomSanPham> mtDSNhom()
+//		{
+//			return dsNhom;
+//		}
+}
 	
 }
-//		jcbLoaiHang.addMouseListener(new MouseListener() {
-//			
-//			@Override
-//			public void mouseReleased(MouseEvent e) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//			
-//			@Override
-//			public void mousePressed(MouseEvent e) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//			
-//			@Override
-//			public void mouseExited(MouseEvent e) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//			
-//			@Override
-//			public void mouseEntered(MouseEvent e) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//			
-//			@Override
-//			public void mouseClicked(MouseEvent e) {
-//				// TODO Auto-generated method stub
-//				if(jcbLoaiHang.getSelectedIndex()==-1) return;
-//				nhomSelected = (NhomSanPham) jcbLoaiHang.getSelectedItem();
-////				for(int i =0 ; i<nhomSelected.getDsSanPham().size();i++) {
-////					dTM.addRow(nhomSelected.getDsSanPham());
-////				}
-//				dTM.addRow(nhomSelected.getDsSanPham());
-//			}
-//		});
-//
-//	}
-
 

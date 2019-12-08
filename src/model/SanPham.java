@@ -7,13 +7,13 @@ public class SanPham {
 	int stt;
 	int id;
 	public static int count_stt = 2;
-	public static int count_id = 100001;
+	public static int count_id = 10001;
 	String tenSp;
-	String phanLoai;
+	NhomSanPham phanLoai;
 	int soLuong;
-	Date ngayNhap;
+	 Date ngayNhap;
 
-	public SanPham(int stt, int id, String tenSp, String phanLoai, int soLuong, Date ngayNhap) {
+	public SanPham(int stt, int id, String tenSp, NhomSanPham phanLoai, int soLuong, Date ngayNhap) {
 		super();
 		this.stt = stt;
 		this.id = id;
@@ -43,10 +43,10 @@ public class SanPham {
 	public void setTenSp(String tenSp) {
 		this.tenSp = tenSp;
 	}
-	public String getPhanLoai() {
+	public NhomSanPham getPhanLoai() {
 		return phanLoai;
 	}
-	public void setPhanLoai(String phanLoai) {
+	public void setPhanLoai(NhomSanPham phanLoai) {
 		this.phanLoai = phanLoai;
 	}
 	public int getSoLuong() {
@@ -55,7 +55,7 @@ public class SanPham {
 	public void setSoLuong(int soLuong) {
 		this.soLuong = soLuong;
 	}
-	public Date getNgayNhap() {
+	public  Date getNgayNhap() {
 		return ngayNhap;
 	}
 	public void setNgayNhap(Date ngayNhap) {
