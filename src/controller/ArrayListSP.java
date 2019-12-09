@@ -10,9 +10,11 @@ public class ArrayListSP<E> {
 	public E[] getData() {
 		return data;
 	}
-public E get(int index) {
-	return data[index];
-}
+
+	public E get(int index) {
+		return data[index];
+	}
+
 	public void setData(E[] data) {
 		this.data = data;
 	}
@@ -47,37 +49,33 @@ public E get(int index) {
 		}
 	}
 
-	public void Add(int i, E e) throws IndexOutOfBoundsException,IllegalStateException {
-		checkIndex(i, size + 1);//kiá»ƒm tra index há»£p lá»‡ 
+	public void Add(int i, E e) throws IndexOutOfBoundsException, IllegalStateException {
+		checkIndex(i, size + 1);// kiá»ƒm tra index há»£p lá»‡
 		if (size == data.length) // danh sÃ¡ch Ä‘Ã£ Ä‘áº§y
-		throw new IllegalStateException("Array is full");
-		for (int k=size-1; k >= i; k--) //dá»�i cÃ¡c pháº§n tá»­ sang pháº£i
-		data[k+1] = data[k];
-		data[i] = e; //Ä‘áº·t pháº§n tá»­ má»›i vÃ o danh sÃ¡ch 
+			throw new IllegalStateException("Array is full");
+		for (int k = size - 1; k >= i; k--) // dá»�i cÃ¡c pháº§n tá»­ sang pháº£i
+			data[k + 1] = data[k];
+		data[i] = e; // Ä‘áº·t pháº§n tá»­ má»›i vÃ o danh sÃ¡ch
 		size++;
-		}
+	}
 
-	
-	public void Add(E e) 
-	throws IndexOutOfBoundsException, IllegalStateException 
-	{
+	public void Add(E e) throws IndexOutOfBoundsException, IllegalStateException {
 		Add(size, e);
 	}
-	
+
 	public E Remove(int i) throws IndexOutOfBoundsException {
 		checkIndex(i, size);
 		E temp = data[i];
-		for (int k=i; k < size-1; k++) //dá»�i cÃ¡c pháº§n tá»­ sang trÃ¡i
-		data[k] = data[k+1];
-		data[size-1] = null; // gÃ¡n pháº§n tá»­ cuá»‘i danh sÃ¡ch báº±ng null, phÃ²ng trÆ°á»�ng há»£p truy xuáº¥t lá»—i
+		for (int k = i; k < size - 1; k++) // dá»�i cÃ¡c pháº§n tá»­ sang trÃ¡i
+			data[k] = data[k + 1];
+		data[size - 1] = null; // gÃ¡n pháº§n tá»­ cuá»‘i danh sÃ¡ch báº±ng null, phÃ²ng trÆ°á»�ng há»£p truy
+								// xuáº¥t lá»—i
 		size--;
 		return temp;
-		}
-	
+	}
 
 	public Iterator<E> iterator() {
-		return new MyArrayIterator<E>(data,size);
-		}
-	
+		return new MyArrayIterator<E>(data, size);
+	}
 
 }

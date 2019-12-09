@@ -1,4 +1,4 @@
-package View;  
+package View;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -20,6 +20,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -35,22 +36,24 @@ import model.SanPham;
 public class FrameQuanLyBanHang extends JFrame {
 
 	public JButton btnThemHang, btnXoa, btnTimKiem, btnCongCu, btnXuatHang;
+	static JButton btnHuy;
 	JLabel lbTieuDe, lbLoaiHang, lbversion;
 	JPanel hang1, hang1_1, hang1_2, hang2, hang3;
 	JTextField txtTimKiem;
 	static DefaultTableModel dTM = new DefaultTableModel();
 	static JTable table;
+	int rowSelected;
+	NhomSanPham nhomselected = null;
 	String[] tenCot = { "STT", "Ma hang", "Ten hang", "Loai hang", "So luong", "Ngay nhap" };
 //	static String[] listPhanLoai = {"Loai 1", "Loai 2", "Loai 3"};
 //	JComboBox<String> jcbLoaiHang = new JComboBox<String>(listPhanLoai); // Sá»­a láº¡i kiá»ƒu dá»¯ liá»‡u
-	static JComboBox<NhomSanPham> jcbLoaiHang = new JComboBox<NhomSanPham>(); 
+	static JComboBox<NhomSanPham> jcbLoaiHang = new JComboBox<NhomSanPham>();
 	FrameThemHang themHangUI = new FrameThemHang();
 	FrameXuatHang xuatHangUI = new FrameXuatHang();
 	FrameCongCu congCu = new FrameCongCu();
-	 static ArrayListSP<NhomSanPham> dsNhom;
-	 static	ArrayListSP<SanPham> listSP = new ArrayListSP<SanPham>();// suc chua mac dinh
+	static ArrayListSP<SanPham> listSP = new ArrayListSP<SanPham>();// suc chua mac dinh
 //	public static ArrayList<SanPham> list = new ArrayList<SanPham>(); // Khong dung java.util
-	
+
 	public FrameQuanLyBanHang() {
 		super("Quan ly kho hang");
 		giaoDien();
@@ -70,7 +73,7 @@ public class FrameQuanLyBanHang extends JFrame {
 ////		list.add(sp4);
 ////		list.add(sp5);
 //	}
-	
+
 	private void giaoDien() {
 
 		JPanel pnMain = new JPanel();
@@ -93,6 +96,8 @@ public class FrameQuanLyBanHang extends JFrame {
 		txtTimKiem.setPreferredSize(dimTxT);
 		hang1_1.add(txtTimKiem);
 		hang1_1.add(btnTimKiem = new JButton("Tim kiem"));
+		hang1_1.add(btnHuy = new JButton("Huy"));
+		btnHuy.setEnabled(false);
 		hang1.add(hang1_1);
 		hang1_2 = new JPanel();
 		hang1_2.add(lbLoaiHang = new JLabel("Loai hang"));
@@ -101,19 +106,20 @@ public class FrameQuanLyBanHang extends JFrame {
 		hang1.add(hang1_2);
 		hang1.add(btnCongCu = new JButton("Cong cu"));
 		hang1.add(btnXuatHang = new JButton("Xuat hang"));
-		
+
 		// hang2
 		hang2 = new JPanel();
 		hang2.setLayout(new BorderLayout());
 		for (int i = 0; i < tenCot.length; i++) {
 			dTM.addColumn(tenCot[i]);
-			
+
 		}
 		duLieu.taoDoiTuong();
 		Iterator<SanPham> iter = listSP.iterator();
 		while (iter.hasNext()) {
 			SanPham value = iter.next();
-			Object[] obj = {value.getStt(),value.getId(),value.getTenSp(),value.getPhanLoai().getTenNhom(),value.getSoLuong(),value.getNgayNhap()};
+			Object[] obj = { value.getStt(), value.getId(), value.getTenSp(), value.getPhanLoai().getTenNhom(),
+					value.getSoLuong(), value.getNgayNhap() };
 			dTM.addRow(obj);
 		}
 //		new duLieu();
@@ -123,18 +129,18 @@ public class FrameQuanLyBanHang extends JFrame {
 //			
 //		}
 		table = new JTable(dTM);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS); 
-		table.getColumnModel().getColumn(0).setPreferredWidth(50); 
-		table.getColumnModel().getColumn(1).setPreferredWidth(90); 
-		table.getColumnModel().getColumn(2).setPreferredWidth(350); 
-		table.getColumnModel().getColumn(3).setPreferredWidth(90); 
-		table.getColumnModel().getColumn(4).setPreferredWidth(90); 
-		table.getColumnModel().getColumn(5).setPreferredWidth(130); 
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		table.getColumnModel().getColumn(0).setPreferredWidth(50);
+		table.getColumnModel().getColumn(1).setPreferredWidth(90);
+		table.getColumnModel().getColumn(2).setPreferredWidth(350);
+		table.getColumnModel().getColumn(3).setPreferredWidth(90);
+		table.getColumnModel().getColumn(4).setPreferredWidth(90);
+		table.getColumnModel().getColumn(5).setPreferredWidth(130);
 		table.disable();
-		
+
 		JScrollPane hehe = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		hang2.add(hehe,BorderLayout.CENTER);
+		hang2.add(hehe, BorderLayout.CENTER);
 
 		// hang 3
 		hang3 = new JPanel();
@@ -142,19 +148,17 @@ public class FrameQuanLyBanHang extends JFrame {
 		lbversion.setAlignmentX(CENTER_ALIGNMENT);
 		hang3.add(lbversion);
 
-		
 		JPanel pnEast = new JPanel();
-		pnEast.setPreferredSize(new Dimension(31,0));
+		pnEast.setPreferredSize(new Dimension(31, 0));
 		JPanel pnWest = new JPanel();
-		pnWest.setPreferredSize(new Dimension(31,0));
+		pnWest.setPreferredSize(new Dimension(31, 0));
 //		pnMain.add(lbTieuDe);
-		pnMain.add(hang1,BorderLayout.NORTH);
-		pnMain.add(hang2,BorderLayout.CENTER);
-		pnMain.add(hang3,BorderLayout.SOUTH);
-		pnMain.add(pnEast,BorderLayout.EAST);
-		pnMain.add(pnWest,BorderLayout.WEST);
-		
-		
+		pnMain.add(hang1, BorderLayout.NORTH);
+		pnMain.add(hang2, BorderLayout.CENTER);
+		pnMain.add(hang3, BorderLayout.SOUTH);
+		pnMain.add(pnEast, BorderLayout.EAST);
+		pnMain.add(pnWest, BorderLayout.WEST);
+
 	}
 
 	private void hienThi() {
@@ -163,8 +167,6 @@ public class FrameQuanLyBanHang extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 	}
-	
-
 
 	private void xuLiSuKien() {
 		// ThÃªm hÃ ng
@@ -172,9 +174,10 @@ public class FrameQuanLyBanHang extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				themHangUI.txtMaHang.setText(""+SanPham.count_id);
-				themHangUI.txtStt.setText(""+SanPham.count_stt);
-				themHangUI.setModal(true); // chá»©c nÄƒng Ä‘á»ƒ frame cÃ³ thá»ƒ á»Ÿ lá»›p trÃªn máº·t (dÃ¹ng Ä‘Æ°á»£c khi Ä‘Ã£ extends
+				themHangUI.txtMaHang.setText("" + SanPham.count_id);
+				themHangUI.txtStt.setText("" + SanPham.count_stt);
+				themHangUI.setModal(true); // chá»©c nÄƒng Ä‘á»ƒ frame cÃ³ thá»ƒ á»Ÿ lá»›p trÃªn máº·t (dÃ¹ng Ä‘Æ°á»£c
+											// khi Ä‘Ã£ extends
 											// JDialog)
 				themHangUI.setVisible(true);
 			}
@@ -185,7 +188,8 @@ public class FrameQuanLyBanHang extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				xuatHangUI.setModal(true); // chá»©c nÄƒng Ä‘á»ƒ frame cÃ³ thá»ƒ á»Ÿ lá»›p trÃªn máº·t (dÃ¹ng Ä‘Æ°á»£c khi Ä‘Ã£ extends
+				xuatHangUI.setModal(true); // chá»©c nÄƒng Ä‘á»ƒ frame cÃ³ thá»ƒ á»Ÿ lá»›p trÃªn máº·t (dÃ¹ng Ä‘Æ°á»£c
+											// khi Ä‘Ã£ extends
 											// JDialog)
 				xuatHangUI.setVisible(true);
 			}
@@ -196,7 +200,8 @@ public class FrameQuanLyBanHang extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				congCu.setModal(true); // chá»©c nÄƒng Ä‘á»ƒ frame cÃ³ thá»ƒ á»Ÿ lá»›p trÃªn máº·t (dÃ¹ng Ä‘Æ°á»£c khi Ä‘Ã£ extends JDialog)
+				congCu.setModal(true); // chá»©c nÄƒng Ä‘á»ƒ frame cÃ³ thá»ƒ á»Ÿ lá»›p trÃªn máº·t (dÃ¹ng Ä‘Æ°á»£c khi
+										// Ä‘Ã£ extends JDialog)
 				congCu.setVisible(true);
 			}
 		});
@@ -212,48 +217,130 @@ public class FrameQuanLyBanHang extends JFrame {
 
 			}
 		});
-		
+		btnTimKiem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					Iterator<SanPham> iter = FrameQuanLyBanHang.listSP.iterator();
+					while (iter.hasNext()) {
+						SanPham value = iter.next();
+
+						int ID = Integer.parseInt(txtTimKiem.getText());
+						if (value.getId() == ID) {
+							rowSelected = value.getStt() - 1;
+							Object[] obj = { value.getStt(), value.getId(), value.getTenSp(), value.getPhanLoai(),
+									value.getSoLuong(), value.getNgayNhap() };
+							dTM.setRowCount(0);
+							dTM.addRow(obj);
+
+						}
+					}
+					btnHuy.setEnabled(true);
+
+				} catch (Exception e2) {
+					txtTimKiem.setRequestFocusEnabled(true);
+					JOptionPane.showMessageDialog(null, "ID khong ton tai");
+				}
+
+			}
+		});
+		btnHuy.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Iterator<SanPham> iter = listSP.iterator();
+				dTM.setRowCount(0);
+				while (iter.hasNext()) {
+					SanPham value = iter.next();
+					Object[] obj = { value.getStt(), value.getId(), value.getTenSp(), value.getPhanLoai().getTenNhom(),
+							value.getSoLuong(), value.getNgayNhap() };
+					dTM.addRow(obj);
+
+				}
+				btnHuy.setEnabled(false);
+			}
+
+		});
+		jcbLoaiHang.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dTM.setRowCount(0);
+				nhomselected = (NhomSanPham) jcbLoaiHang.getSelectedItem();
+				if (jcbLoaiHang.getSelectedIndex() == -1)
+					return;
+				if (jcbLoaiHang.getSelectedIndex() == 0) {
+					Iterator<SanPham> iter = listSP.iterator();
+					while (iter.hasNext()) {
+						SanPham value = iter.next();
+						Object[] obj = { value.getStt(), value.getId(), value.getTenSp(),
+								value.getPhanLoai().getTenNhom(), value.getSoLuong(), value.getNgayNhap() };
+						dTM.addRow(obj);
+
+					}
+				}
+				Iterator<SanPham> iter = listSP.iterator();
+				while (iter.hasNext()) {
+
+					SanPham value = iter.next();
+					if (value.getPhanLoai().getTenNhom() == nhomselected.getTenNhom()) {
+						Object[] obj = { value.getStt(), value.getId(), value.getTenSp(),
+								value.getPhanLoai().getTenNhom(), value.getSoLuong(), value.getNgayNhap() };
+						dTM.addRow(obj);
+					}
+				}
+			}
+		});
 	}
-	static class  duLieu {
+
+	static class duLieu {
+		static ArrayListSP<NhomSanPham> dsNhom = new ArrayListSP<NhomSanPham>();
 		// TODO Auto-generated method stub
 		public static void taoDoiTuong() {// dung trong function giaoDien
-		SanPham sp1 = new SanPham(1,10000 ,"San pham 1",new NhomSanPham("Loại 1"), 20, new model.Date(2, 01, 2023));
-		SanPham sp2 = new SanPham(2,10001 ,"San pham 2", new NhomSanPham("Loại 2"), 40, new model.Date(12, 5, 2010));
-		SanPham sp3 = new SanPham(3,10002 ,"San pham 3",new NhomSanPham("Loại 3"), 25, new model.Date(8, 1, 2000));
-		SanPham sp4 = new SanPham(4,10003 ,"San pham 4", new NhomSanPham("Loai 2"), 520, new model.Date(2, 5, 1990));
-		SanPham sp5 = new SanPham(5,10004 ,"San pham 5",new NhomSanPham("Loại 1"), 79, new model.Date(7, 4, 2002));
-		listSP.Add(sp1);
-		listSP.Add(sp2);
-		listSP.Add(sp3);
-		listSP.Add(sp4);
-		listSP.Add(sp5);
-		
-		
-		SanPham.count_id = FrameQuanLyBanHang.listSP.get(FrameQuanLyBanHang.listSP.getSize()-1).getId() +1;
-		SanPham.count_stt =FrameQuanLyBanHang.listSP.getSize()+1; // Tu dong set theo stt va ID hien co trong danh sach
-	}
-	
-		public static ArrayListSP<NhomSanPham> duLieuDSNhom() {
-		dsNhom = new ArrayListSP<NhomSanPham>();
-		NhomSanPham nhom1 = new NhomSanPham("Loai 1");
-		NhomSanPham nhom2 = new NhomSanPham("Loai 2");
-		NhomSanPham nhom3 = new NhomSanPham("Loai 3");
-		dsNhom.Add(nhom1);
-		dsNhom.Add(nhom2);
-		dsNhom.Add(nhom3);
-		Iterator<NhomSanPham> iter = dsNhom.iterator();
-		while (iter.hasNext()) {
-			NhomSanPham value = iter.next();
-			jcbLoaiHang.addItem(value);
-		}
-		return dsNhom;
+			SanPham sp1 = new SanPham(1, 10000, "San pham 1", new NhomSanPham("Loai 1"), 20,
+					new model.Date(2, 01, 2023));
+			SanPham sp2 = new SanPham(2, 10001, "San pham 2", new NhomSanPham("Loai 2"), 40,
+					new model.Date(12, 5, 2010));
+			SanPham sp3 = new SanPham(3, 10002, "San pham 3", new NhomSanPham("Loai 3"), 25,
+					new model.Date(8, 1, 2000));
+			SanPham sp4 = new SanPham(4, 10003, "San pham 4", new NhomSanPham("Loai 2"), 520,
+					new model.Date(2, 5, 1990));
+			SanPham sp5 = new SanPham(5, 10004, "San pham 5", new NhomSanPham("Loai 1"), 79,
+					new model.Date(7, 4, 2002));
+			listSP.Add(sp1);
+			listSP.Add(sp2);
+			listSP.Add(sp3);
+			listSP.Add(sp4);
+			listSP.Add(sp5);
 
-	}
+			SanPham.count_id = FrameQuanLyBanHang.listSP.get(FrameQuanLyBanHang.listSP.getSize() - 1).getId() + 1;
+			SanPham.count_stt = FrameQuanLyBanHang.listSP.getSize() + 1; // Tu dong set theo stt va ID hien co trong
+																			// danh sach
+		}
+
+		public static ArrayListSP<NhomSanPham> duLieuDSNhom() {
+			
+			NhomSanPham nhom0 = new NhomSanPham("");
+			NhomSanPham nhom1 = new NhomSanPham("Loai 1");
+			NhomSanPham nhom2 = new NhomSanPham("Loai 2");
+			NhomSanPham nhom3 = new NhomSanPham("Loai 3");
+			dsNhom.Add(nhom0);
+			dsNhom.Add(nhom1);
+			dsNhom.Add(nhom2);
+			dsNhom.Add(nhom3);
+			Iterator<NhomSanPham> iter = dsNhom.iterator();
+			while (iter.hasNext()) {
+				NhomSanPham value = iter.next();
+				jcbLoaiHang.addItem(value);
+			}
+			return dsNhom;
+
+		}
 //		public static ArrayListSP<NhomSanPham> mtDSNhom()
 //		{
 //			return dsNhom;
 //		}
-}
-	
-}
+	}
 
+}

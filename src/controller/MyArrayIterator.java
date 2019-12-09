@@ -13,11 +13,16 @@ public class MyArrayIterator<E> implements Iterator<E> {
 		count = size;
 		current = 0;
 	}
+
 	public boolean hasNext() {
-		return (current < count); }
-		public E next() {
-		if (!hasNext()) throw new NoSuchElementException();
+		return (current < count);
+	}
+
+	public E next() {
+		if (!hasNext())
+			throw new NoSuchElementException();
 		current++;
-		return items[current -1]; }
+		return items[current - 1];
+	}
 // thu commit
 }

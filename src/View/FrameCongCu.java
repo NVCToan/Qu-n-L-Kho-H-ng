@@ -29,7 +29,7 @@ public class FrameCongCu extends JDialog {
 	JPanel hang1, hang2, hang3, hang4, hang5, hang6, hang7;
 	JRadioButton rdMacDinh, rdEdit;
 	JButton btnThem, btnTimKiem, btnXoa, btnXoaNhieu, btnChinhSua, btnLuu;
-	 JComboBox<NhomSanPham> jcbPhanLoai;
+	JComboBox<NhomSanPham> jcbPhanLoai;
 	ArrayListSP<NhomSanPham> dsNhom;
 	static int rowSelected;
 	FrameCongCu_XoaNhieu xoaNhieuUI = new FrameCongCu_XoaNhieu();
@@ -129,7 +129,7 @@ public class FrameCongCu extends JDialog {
 
 		// hàng 6
 		hang6 = new JPanel();
-		hang6.add(btnXoa = new JButton("XÓA NHANH"));
+		hang6.add(btnXoa = new JButton("XOA SAN PHAM"));
 		hang6.add(btnChinhSua = new JButton("CHỈNH SỬA"));
 		hang6.add(btnLuu = new JButton("LƯU"));
 		hang6.add(btnXoaNhieu = new JButton("XÓA NHIỀU"));
@@ -207,7 +207,7 @@ public class FrameCongCu extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				setEdit();
 				dsNhom = new ArrayListSP<NhomSanPham>();
-				dsNhom = FrameQuanLyBanHang.dsNhom;
+				dsNhom = duLieu.dsNhom;
 				jcbPhanLoai.removeAllItems();
 				Iterator<NhomSanPham> iter = dsNhom.iterator();
 				while (iter.hasNext()) {
