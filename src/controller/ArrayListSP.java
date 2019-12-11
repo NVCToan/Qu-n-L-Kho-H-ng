@@ -2,7 +2,7 @@ package controller;
 
 import java.util.Iterator;
 
-public class ArrayListSP<E> {
+public class ArrayListSP<E> implements MyList<E> {
 	public static final int CAPACITY = 20;
 	private E[] data;
 	private int size = 0;
@@ -39,6 +39,7 @@ public class ArrayListSP<E> {
 		this(CAPACITY);
 	}
 
+	@Override
 	public boolean isEmpty() {
 		return size == 0;
 	}
@@ -49,6 +50,7 @@ public class ArrayListSP<E> {
 		}
 	}
 
+	@Override
 	public void Add(int i, E e) throws IndexOutOfBoundsException, IllegalStateException {
 		checkIndex(i, size + 1);// kiá»ƒm tra index há»£p lá»‡
 		if (size == data.length) // danh sÃ¡ch Ä‘Ã£ Ä‘áº§y
@@ -59,11 +61,13 @@ public class ArrayListSP<E> {
 		size++;
 	}
 
+	@Override
 	public void Add(E e) throws IndexOutOfBoundsException, IllegalStateException {
 		Add(size, e);
 	}
 
-	public E Remove(int i) throws IndexOutOfBoundsException {
+	@Override
+	public E remove(int i) throws IndexOutOfBoundsException {
 		checkIndex(i, size);
 		E temp = data[i];
 		for (int k = i; k < size - 1; k++) // dá»�i cÃ¡c pháº§n tá»­ sang trÃ¡i
@@ -76,6 +80,25 @@ public class ArrayListSP<E> {
 
 	public Iterator<E> iterator() {
 		return new MyArrayIterator<E>(data, size);
+	}
+
+	@Override
+	public E[] interchangeSort(MyComparator<E> x) {
+		for (int i = 0; i < size - 1; i++)
+			for (int j = i + 1; j < size; j++)
+				if (x.compare(data[i], data[j]) > 0) {
+					E temp = data[i];
+					data[i] = data[j];
+					data[j] = temp;
+				}
+		return data;
+	}
+
+	@Override
+	public void search(MyComparator<E> x) {
+		for (int i = 0; i < size; i++)
+			if (x.compare(data[i]) == 0)
+				System.out.println(data[i]);
 	}
 
 }

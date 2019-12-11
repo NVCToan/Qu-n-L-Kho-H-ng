@@ -228,7 +228,7 @@ public class FrameThemHang extends JDialog {
 
 					SanPham spMoi = new SanPham(stt, id, tenSp, new NhomSanPham(loai), soLuong,
 							new Date(ngay, thang, nam));
-					FrameQuanLyBanHang.listSP.Add(spMoi);
+					FrameQuanLyBanHang.listSP.Add(SanPham.count_stt,spMoi);
 					duLieu.dsNhom.Add(spMoi.getPhanLoai());
 
 					SanPham value = FrameQuanLyBanHang.listSP.get(FrameQuanLyBanHang.listSP.getSize() - 1);

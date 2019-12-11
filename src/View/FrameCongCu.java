@@ -166,7 +166,7 @@ public class FrameCongCu extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					duLieu.taoDoiTuong();
+//					duLieu.taoDoiTuong();
 					Iterator<SanPham> iter = FrameQuanLyBanHang.listSP.iterator();
 					while (iter.hasNext()) {
 						SanPham value = iter.next();
@@ -198,6 +198,11 @@ public class FrameCongCu extends JDialog {
 				if (rowSelected == -1)
 					return;
 				FrameQuanLyBanHang.dTM.removeRow(rowSelected);
+				txtTen.setText(null);
+				txtSoLuong.setText(null);
+				txtNgay.setText(null);
+				txtThang.setText(null);
+				txtNam.setText(null);
 				rowSelected = -1;
 			}
 		});
