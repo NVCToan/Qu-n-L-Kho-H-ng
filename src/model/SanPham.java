@@ -2,7 +2,9 @@ package model;
 
 import javax.swing.JDialog;
 
-public class SanPham {
+import controller.MyComparator;
+
+public class SanPham implements MyComparator<SanPham>{
 
 	int stt;
 	int id;
@@ -74,10 +76,23 @@ public class SanPham {
 		this.ngayNhap = ngayNhap;
 	}
 
+	
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
 		return tenSp;
+	}
+
+	@Override
+	public int compare(SanPham e1, SanPham e2) {
+		// TODO Auto-generated method stub
+		return e1.getId().
+	}
+
+	@Override
+	public int compare(SanPham e) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

@@ -217,8 +217,6 @@ public class FrameThemHang extends JDialog {
 					int ngay = Integer.parseInt(txtNgay.getText());
 					int thang = Integer.parseInt(txtThang.getText());
 					int nam = Integer.parseInt(txtNam.getText());
-					;
-//					FrameQuanLyBanHang.dTM.setRowCount(0);// reset all hang table
 					if (rdThemLoaiHang.isSelected()) {
 						loai = txtThemLoaiHang.getText();
 					} else {
@@ -228,23 +226,22 @@ public class FrameThemHang extends JDialog {
 
 					SanPham spMoi = new SanPham(stt, id, tenSp, new NhomSanPham(loai), soLuong,
 							new Date(ngay, thang, nam));
-					FrameQuanLyBanHang.listSP.Add(SanPham.count_stt,spMoi);
-					duLieu.dsNhom.Add(spMoi.getPhanLoai());
-
-					SanPham value = FrameQuanLyBanHang.listSP.get(FrameQuanLyBanHang.listSP.getSize() - 1);
-					Object[] obj = { value.getStt(), value.getId(), value.getTenSp(), value.getPhanLoai(),
-							value.getSoLuong(), value.getNgayNhap() };
-					FrameQuanLyBanHang.dTM.setRowCount(FrameQuanLyBanHang.dTM.getRowCount());
-					FrameQuanLyBanHang.dTM.insertRow(stt - 1, obj);
-					for (int i = 1; i <= FrameQuanLyBanHang.dTM.getRowCount(); i++) {
-
-						FrameQuanLyBanHang.dTM.setValueAt(i, i - 1, 0);
+					
+					if(stt<=FrameQuanLyBanHang.listSP.getSize()) {
+						
+						FrameQuanLyBanHang.listSP.Add(stt-1, spMoi);
+					}else {
+						FrameQuanLyBanHang.listSP.Add(spMoi);
+						
 					}
-
+					duLieu.dsNhom.Add(spMoi.getPhanLoai());
+					FrameQuanLyBanHang.resetDTM();
+					FrameQuanLyBanHang.resetSTT();	
 					JOptionPane.showMessageDialog(null, "Them thanh cong!!!");
 					SanPham.count_id++;
 					SanPham.count_stt++;
 					dispose();
+					
 				} catch (Exception e2) {
 					txtTen.setRequestFocusEnabled(true);
 					JOptionPane.showMessageDialog(null, "Vui long nhap lai");

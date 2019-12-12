@@ -160,6 +160,24 @@ public class FrameQuanLyBanHang extends JFrame {
 		pnMain.add(pnWest, BorderLayout.WEST);
 
 	}
+	public static void resetSTT() {
+		for (int i = 1; i <= FrameQuanLyBanHang.listSP.getSize(); i++) {
+
+			FrameQuanLyBanHang.dTM.setValueAt(i,i-1,0);
+		}
+	}
+	public static void resetDTM() {
+		Iterator<SanPham> iter = FrameQuanLyBanHang.listSP.iterator();
+		dTM.setRowCount(0);
+		while (iter.hasNext()) {
+			SanPham value = iter.next();
+				Object[] obj = { value.getStt(), value.getId(), value.getTenSp(), value.getPhanLoai(),
+						value.getSoLuong(), value.getNgayNhap() };
+				dTM.addRow(obj);
+
+			}
+
+	}
 
 	private void hienThi() {
 		pack();
@@ -210,11 +228,13 @@ public class FrameQuanLyBanHang extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				int row = table.getSelectedRow();
-				if (row == -1)
-					return;
-				dTM.removeRow(row); // XoÃ¡ dÃ²ng Ä‘ang chá»�n
-
+				int row = rowSelected;
+				if(rowSelected ==-1) return;
+//				dTM.removeRow(row); // XoÃ¡ dÃ²ng Ä‘ang chá»�n
+				FrameQuanLyBanHang.listSP.remove(rowSelected);
+				rowSelected = -1;
+				resetDTM();
+				resetSTT();
 			}
 		});
 		btnTimKiem.addActionListener(new ActionListener() {
@@ -227,7 +247,7 @@ public class FrameQuanLyBanHang extends JFrame {
 						SanPham value = iter.next();
 
 						int ID = Integer.parseInt(txtTimKiem.getText());
-						if (value.getId() == ID) {
+						if (value.getId()==ID) {
 							rowSelected = value.getStt() - 1;
 							Object[] obj = { value.getStt(), value.getId(), value.getTenSp(), value.getPhanLoai(),
 									value.getSoLuong(), value.getNgayNhap() };
@@ -235,6 +255,7 @@ public class FrameQuanLyBanHang extends JFrame {
 							dTM.addRow(obj);
 
 						}
+						
 					}
 					btnHuy.setEnabled(true);
 
@@ -271,14 +292,8 @@ public class FrameQuanLyBanHang extends JFrame {
 				if (jcbLoaiHang.getSelectedIndex() == -1)
 					return;
 				if (jcbLoaiHang.getSelectedIndex() == 0) {
-					Iterator<SanPham> iter = listSP.iterator();
-					while (iter.hasNext()) {
-						SanPham value = iter.next();
-						Object[] obj = { value.getStt(), value.getId(), value.getTenSp(),
-								value.getPhanLoai().getTenNhom(), value.getSoLuong(), value.getNgayNhap() };
-						dTM.addRow(obj);
-
-					}
+					FrameQuanLyBanHang.resetDTM();
+					FrameQuanLyBanHang.resetSTT();
 				}
 				Iterator<SanPham> iter = listSP.iterator();
 				while (iter.hasNext()) {
@@ -292,6 +307,7 @@ public class FrameQuanLyBanHang extends JFrame {
 				}
 			}
 		});
+		
 	}
 
 	static class duLieu {
