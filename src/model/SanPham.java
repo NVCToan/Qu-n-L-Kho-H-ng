@@ -83,6 +83,7 @@ public class SanPham implements MyComparator<SanPham>{
 		return tenSp;
 	}
 
+<<<<<<< HEAD
 //	@Override
 //	public int compare(SanPham e1, SanPham e2) {
 //		// TODO Auto-generated method stub
@@ -97,6 +98,16 @@ public class SanPham implements MyComparator<SanPham>{
 
 	@Override
 	public int compare(SanPham e1, SanPham e2) {
+=======
+	@Override
+	public int compare(SanPham e1, SanPham e2) {
+		// TODO Auto-generated method stub
+		return e1.getId().
+	}
+
+	@Override
+	public int compare(SanPham e) {
+>>>>>>> ea57e3a60db8ccc646880a51b5a9b29062d0c77e
 		// TODO Auto-generated method stub
 		return 0;
 	}

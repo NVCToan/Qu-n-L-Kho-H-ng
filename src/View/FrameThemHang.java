@@ -230,10 +230,16 @@ public class FrameThemHang extends JDialog {
 					if(stt<=FrameQuanLyBanHang.listSP.getSize()) {
 						
 						FrameQuanLyBanHang.listSP.Add(stt-1, spMoi);
+<<<<<<< HEAD
 						FrameQuanLyBanHang.resetStt_SP();
 						FrameQuanLyBanHang.testConsole();
 					}else {
 						FrameQuanLyBanHang.listSP.Add(spMoi);
+=======
+					}else {
+						FrameQuanLyBanHang.listSP.Add(spMoi);
+						
+>>>>>>> ea57e3a60db8ccc646880a51b5a9b29062d0c77e
 					}
 					duLieu.dsNhom.Add(spMoi.getPhanLoai());
 					FrameQuanLyBanHang.resetDTM();
