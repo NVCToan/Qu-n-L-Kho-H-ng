@@ -162,28 +162,6 @@ public class FrameQuanLyBanHang extends JFrame {
 		pnMain.add(pnWest, BorderLayout.WEST);
 
 	}
-<<<<<<< HEAD
-=======
-	public static void resetSTT() {
-		for (int i = 1; i <= FrameQuanLyBanHang.listSP.getSize(); i++) {
-
-			FrameQuanLyBanHang.dTM.setValueAt(i,i-1,0);
-		}
-	}
-	public static void resetDTM() {
-		Iterator<SanPham> iter = FrameQuanLyBanHang.listSP.iterator();
-		dTM.setRowCount(0);
-		while (iter.hasNext()) {
-			SanPham value = iter.next();
-				Object[] obj = { value.getStt(), value.getId(), value.getTenSp(), value.getPhanLoai(),
-						value.getSoLuong(), value.getNgayNhap() };
-				dTM.addRow(obj);
-
-			}
-
-	}
-
->>>>>>> ea57e3a60db8ccc646880a51b5a9b29062d0c77e
 	private void hienThi() {
 		pack();
 		setLocationRelativeTo(null);
@@ -234,7 +212,6 @@ public class FrameQuanLyBanHang extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				int row = rowSelected;
-<<<<<<< HEAD
 				System.out.println(rowSelected);
 //				if(rowSelected ==-1) return;
 				FrameQuanLyBanHang.listSP.remove(rowSelected);
@@ -244,14 +221,6 @@ public class FrameQuanLyBanHang extends JFrame {
 				resetStt_SP();
 				testConsole();
 				btnXoa.setEnabled(false);
-=======
-				if(rowSelected ==-1) return;
-//				dTM.removeRow(row); // XoÃ¡ dÃ²ng Ä‘ang chá»�n
-				FrameQuanLyBanHang.listSP.remove(rowSelected);
-				rowSelected = -1;
-				resetDTM();
-				resetSTT();
->>>>>>> ea57e3a60db8ccc646880a51b5a9b29062d0c77e
 			}
 		});
 		btnTimKiem.addActionListener(new ActionListener() {
@@ -270,7 +239,6 @@ public class FrameQuanLyBanHang extends JFrame {
 							dTM.setRowCount(0);
 							dTM.addRow(obj);
 						}
-						
 					}
 					btnHuy.setEnabled(true);
 					btnXoa.setEnabled(true);
