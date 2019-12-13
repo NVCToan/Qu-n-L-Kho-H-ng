@@ -2,7 +2,7 @@ package controller;
 
 import java.util.Iterator;
 
-public class ArrayListSP<E> implements MyList<E> {
+public class ArrayListSP<E> implements MyList<E>{
 	public static final int CAPACITY = 20;
 	private E[] data;
 	private int size = 0;

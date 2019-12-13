@@ -42,7 +42,7 @@ public class FrameQuanLyBanHang extends JFrame {
 	JTextField txtTimKiem;
 	static DefaultTableModel dTM = new DefaultTableModel();
 	static JTable table;
-	int rowSelected;
+	int rowSelected = -1;
 	NhomSanPham nhomselected = null;
 	String[] tenCot = { "STT", "Ma hang", "Ten hang", "Loai hang", "So luong", "Ngay nhap" };
 //	static String[] listPhanLoai = {"Loai 1", "Loai 2", "Loai 3"};
@@ -59,6 +59,7 @@ public class FrameQuanLyBanHang extends JFrame {
 		giaoDien();
 		new duLieu();
 		xuLiSuKien();
+		testConsole();
 		hienThi();
 	}
 //	private void taoDoiTuong() {// dung trong function giaoDien
@@ -89,6 +90,7 @@ public class FrameQuanLyBanHang extends JFrame {
 		hang1 = new JPanel(new FlowLayout());
 		btnThemHang = new JButton("Them hang");
 		btnXoa = new JButton("Xoa");
+		btnXoa.setEnabled(false);
 		hang1.add(btnThemHang);
 		hang1.add(btnXoa);
 		hang1_1 = new JPanel();
@@ -160,7 +162,6 @@ public class FrameQuanLyBanHang extends JFrame {
 		pnMain.add(pnWest, BorderLayout.WEST);
 
 	}
-
 	private void hienThi() {
 		pack();
 		setLocationRelativeTo(null);
@@ -210,11 +211,16 @@ public class FrameQuanLyBanHang extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				int row = table.getSelectedRow();
-				if (row == -1)
-					return;
-				dTM.removeRow(row); // XoÃ¡ dÃ²ng Ä‘ang chá»�n
-
+				int row = rowSelected;
+				System.out.println(rowSelected);
+//				if(rowSelected ==-1) return;
+				FrameQuanLyBanHang.listSP.remove(rowSelected);
+//				rowSelected = -1;
+				resetDTM();
+				resetSTT();
+				resetStt_SP();
+				testConsole();
+				btnXoa.setEnabled(false);
 			}
 		});
 		btnTimKiem.addActionListener(new ActionListener() {
@@ -225,19 +231,17 @@ public class FrameQuanLyBanHang extends JFrame {
 					Iterator<SanPham> iter = FrameQuanLyBanHang.listSP.iterator();
 					while (iter.hasNext()) {
 						SanPham value = iter.next();
-
 						int ID = Integer.parseInt(txtTimKiem.getText());
-						if (value.getId() == ID) {
+						if (value.getId()==ID) {
 							rowSelected = value.getStt() - 1;
 							Object[] obj = { value.getStt(), value.getId(), value.getTenSp(), value.getPhanLoai(),
 									value.getSoLuong(), value.getNgayNhap() };
 							dTM.setRowCount(0);
 							dTM.addRow(obj);
-
 						}
 					}
 					btnHuy.setEnabled(true);
-
+					btnXoa.setEnabled(true);
 				} catch (Exception e2) {
 					txtTimKiem.setRequestFocusEnabled(true);
 					JOptionPane.showMessageDialog(null, "ID khong ton tai");
@@ -271,14 +275,8 @@ public class FrameQuanLyBanHang extends JFrame {
 				if (jcbLoaiHang.getSelectedIndex() == -1)
 					return;
 				if (jcbLoaiHang.getSelectedIndex() == 0) {
-					Iterator<SanPham> iter = listSP.iterator();
-					while (iter.hasNext()) {
-						SanPham value = iter.next();
-						Object[] obj = { value.getStt(), value.getId(), value.getTenSp(),
-								value.getPhanLoai().getTenNhom(), value.getSoLuong(), value.getNgayNhap() };
-						dTM.addRow(obj);
-
-					}
+					FrameQuanLyBanHang.resetDTM();
+					FrameQuanLyBanHang.resetSTT();
 				}
 				Iterator<SanPham> iter = listSP.iterator();
 				while (iter.hasNext()) {
@@ -292,6 +290,7 @@ public class FrameQuanLyBanHang extends JFrame {
 				}
 			}
 		});
+		
 	}
 
 	static class duLieu {
@@ -335,12 +334,41 @@ public class FrameQuanLyBanHang extends JFrame {
 				jcbLoaiHang.addItem(value);
 			}
 			return dsNhom;
-
+			
 		}
-//		public static ArrayListSP<NhomSanPham> mtDSNhom()
+//		public static ArrayListSP<NhomSanPham> mtDSNhom()b
 //		{
 //			return dsNhom;
 //		}
 	}
+	public static void testConsole() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("Stt-SP"+"\t"+"Ten-SP"+"\t\t"+"Ma-SP"+"\n");
+		for (int i = 0; i < FrameQuanLyBanHang.listSP.getSize(); i++) {
+				sb.append(FrameQuanLyBanHang.listSP.get(i).getStt()+"\t\t"+FrameQuanLyBanHang.listSP.get(i).getTenSp()+"\t"+FrameQuanLyBanHang.listSP.get(i).getId()+"\n");
+		}
+		sb.append("------------------------------------------");
+		System.out.println(sb);
+	}
+	public static void resetSTT() {
+		for (int i = 0; i < FrameQuanLyBanHang.listSP.getSize(); i++) {
+			FrameQuanLyBanHang.dTM.setValueAt(i+1,i,0);
+		}
+	}
+	public static void resetDTM() {
+		Iterator<SanPham> iter = FrameQuanLyBanHang.listSP.iterator();
+		dTM.setRowCount(0);
+		while (iter.hasNext()) {
+			SanPham value = iter.next();
+				Object[] obj = { value.getStt(), value.getId(), value.getTenSp(), value.getPhanLoai(),
+						value.getSoLuong(), value.getNgayNhap() };
+				dTM.addRow(obj);
+			}
+	}
+	public static void resetStt_SP() {
+		for (int i = 0; i < FrameQuanLyBanHang.listSP.getSize(); i++) {
+			FrameQuanLyBanHang.listSP.get(i).setStt(i+1);
+		}
+		}
 
 }
