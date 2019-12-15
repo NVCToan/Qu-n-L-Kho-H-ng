@@ -79,7 +79,7 @@ public class SanPham implements MyComparator<SanPham>{
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
+		
 		return tenSp;
 	}
 

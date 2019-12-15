@@ -28,7 +28,7 @@ public class FrameCongCu extends JDialog {
 	JTextField txtTimKiem, txtMaHang, txtTen, txtSoLuong, txtNgay, txtThang, txtNam;
 	JPanel hang1, hang2, hang3, hang4, hang5, hang6, hang7;
 	JRadioButton rdMacDinh, rdEdit;
-	JButton btnThem, btnTimKiem, btnXoa, btnXoaNhieu, btnChinhSua, btnLuu;
+	JButton btnThem, btnTimKiem,btnXoaNhieu, btnChinhSua, btnLuu;
 	JComboBox<NhomSanPham> jcbPhanLoai;
 	ArrayListSP<NhomSanPham> dsNhom;
 	static int rowSelected;
@@ -64,7 +64,7 @@ public class FrameCongCu extends JDialog {
 
 	private void giaoDien() {
 		setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
-		lbTieuDe = new JLabel("XÓA  &  CHỈNH SỬA");
+		lbTieuDe = new JLabel("XOA VA CHINH SUA");
 		lbTieuDe.setAlignmentX(CENTER_ALIGNMENT);
 
 		// hàng 1
@@ -72,13 +72,13 @@ public class FrameCongCu extends JDialog {
 		Dimension dimTimKiem = new Dimension(200, 27);
 		hang1.add(txtTimKiem = new JTextField());
 		txtTimKiem.setPreferredSize(dimTimKiem);
-		hang1.add(btnTimKiem = new JButton("Tìm kiếm"));
+		hang1.add(btnTimKiem = new JButton("Tim kiem"));
 
 		// hàng 2
 		hang2 = new JPanel();
 		Dimension dimlb3 = new Dimension(120, 20);
 		Dimension dimtxt3 = new Dimension(300, 20);
-		hang2.add(lbLoaiHang = new JLabel("Mã sản phẩm"));
+		hang2.add(lbLoaiHang = new JLabel("Ma san pham"));
 		hang2.add(txtMaHang = new JTextField());
 		lbLoaiHang.setPreferredSize(dimlb3);
 		txtMaHang.setPreferredSize(dimtxt3);
@@ -86,7 +86,7 @@ public class FrameCongCu extends JDialog {
 
 		// hàng 3
 		hang3 = new JPanel();
-		lbTen = new JLabel("Tên sản phẩm");
+		lbTen = new JLabel("Ten san pham");
 		lbTen.setPreferredSize(dimlb3);
 		txtTen = new JTextField();
 		txtTen.setEditable(false);
@@ -96,7 +96,7 @@ public class FrameCongCu extends JDialog {
 
 		// hàng 4
 		hang4 = new JPanel();
-		lbLoaiHang = new JLabel("Loại hàng");
+		lbLoaiHang = new JLabel("Loai hang");
 		lbLoaiHang.setPreferredSize(dimlb3);
 		hang4.add(lbLoaiHang);
 		jcbPhanLoai = new JComboBox<NhomSanPham>();
@@ -116,23 +116,24 @@ public class FrameCongCu extends JDialog {
 		txtNam = new JTextField();
 		txtNam.setPreferredSize(dimtxt5);
 		setNotEdit();
-		hang5.add(lbhang5 = new JLabel("Số lượng"));
+		hang5.add(lbhang5 = new JLabel("So luong"));
 		hang5.add(txtSoLuong);
-		hang5.add(lbhang5 = new JLabel("Nhập vào ngày"));
+		hang5.add(lbhang5 = new JLabel("Nhap vao ngay"));
 		hang5.add(txtNgay);
-		hang5.add(lbhang5 = new JLabel("Tháng"));
+		hang5.add(lbhang5 = new JLabel("Thang"));
 		hang5.add(txtThang);
-		hang5.add(lbhang5 = new JLabel("Năm"));
+		hang5.add(lbhang5 = new JLabel("Nam"));
 		hang5.add(txtNam);
 		lbhang5.setPreferredSize(dimlb5);
 		txtSoLuong.setPreferredSize(dimtxt5);
 
 		// hàng 6
 		hang6 = new JPanel();
-		hang6.add(btnXoa = new JButton("XOA SAN PHAM"));
-		hang6.add(btnChinhSua = new JButton("CHỈNH SỬA"));
-		hang6.add(btnLuu = new JButton("LƯU"));
-		hang6.add(btnXoaNhieu = new JButton("XÓA NHIỀU"));
+		hang6.add(btnChinhSua = new JButton("Chinh sua san pham"));
+		btnChinhSua.setEnabled(false);
+		hang6.add(btnLuu = new JButton("Luu"));
+		btnLuu.setEnabled(false);
+		hang6.add(btnXoaNhieu = new JButton("Xoa nhieu"));
 
 		// hàng 7
 		hang7 = new JPanel();
@@ -166,44 +167,25 @@ public class FrameCongCu extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-//					duLieu.taoDoiTuong();
-					Iterator<SanPham> iter = FrameQuanLyBanHang.listSP.iterator();
-					while (iter.hasNext()) {
-						SanPham value = iter.next();
-
-						int ID = Integer.parseInt(txtTimKiem.getText());
-						if (value.getId() == ID) {
-							rowSelected = value.getStt() - 1;
-							txtMaHang.setText("" + ID);
-							txtTen.setText(value.getTenSp());
-							jcbPhanLoai.addItem(value.getPhanLoai());
-							txtSoLuong.setText("" + value.getSoLuong());
-							txtNgay.setText("" + value.getNgayNhap().getNgay());
-							txtThang.setText("" + value.getNgayNhap().getThang());
-							txtNam.setText("" + value.getNgayNhap().getNam());
-						}
-
+					int ID = Integer.parseInt(txtTimKiem.getText());
+					if (FrameQuanLyBanHang.timKiemSP(ID)!=null) {
+						SanPham value = FrameQuanLyBanHang.timKiemSP(ID);
+						txtMaHang.setText("" + ID);
+						txtTen.setText(value.getTenSp());
+						jcbPhanLoai.addItem(value.getPhanLoai());
+						txtSoLuong.setText("" + value.getSoLuong());
+						txtNgay.setText("" + value.getNgayNhap().getNgay());
+						txtThang.setText("" + value.getNgayNhap().getThang());
+						txtNam.setText("" + value.getNgayNhap().getNam());
+						btnChinhSua.setEnabled(true);
+						btnLuu.setEnabled(true);
+					}else {
+						JOptionPane.showMessageDialog(null, "Khong tim thay SP !");
 					}
 				} catch (Exception e2) {
 					txtTimKiem.setRequestFocusEnabled(true);
-					JOptionPane.showMessageDialog(null, "ID khong ton tai");
+					JOptionPane.showMessageDialog(null, "ID khong hop le !");
 				}
-
-			}
-		});
-		btnXoa.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (rowSelected == -1)
-					return;
-				FrameQuanLyBanHang.dTM.removeRow(rowSelected);
-				txtTen.setText(null);
-				txtSoLuong.setText(null);
-				txtNgay.setText(null);
-				txtThang.setText(null);
-				txtNam.setText(null);
-				rowSelected = -1;
 			}
 		});
 		btnChinhSua.addActionListener(new ActionListener() {

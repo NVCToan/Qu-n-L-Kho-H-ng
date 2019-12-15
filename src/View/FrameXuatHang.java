@@ -73,8 +73,4 @@ public class FrameXuatHang extends JDialog {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
-
-	public static void main(String[] args) {
-		FrameXuatHang test = new FrameXuatHang();
-	}
 }

@@ -40,7 +40,7 @@ public class FrameCongCu_XoaNhieu extends JFrame{
 		
 		//hàng 2
 		hang2 = new JPanel();
-		JPanel hang2_1 = new JPanel(); // chuyển dấu cộng qua cuối bên phải
+		JPanel hang2_1 = new JPanel();
 		hang2_1.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		hang2.setLayout(new BoxLayout(hang2, BoxLayout.Y_AXIS));;
 		hang2.setBorder(new TitledBorder("Ket qua"));

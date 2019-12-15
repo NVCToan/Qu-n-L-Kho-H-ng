@@ -3,7 +3,7 @@ package controller;
 import java.util.Iterator;
 
 public class ArrayListSP<E> implements MyList<E>{
-	public static final int CAPACITY = 20;
+	public static final int CAPACITY = 30;
 	private E[] data;
 	private int size = 0;
 
@@ -57,7 +57,7 @@ public class ArrayListSP<E> implements MyList<E>{
 			throw new IllegalStateException("Array is full");
 		for (int k = size - 1; k >= i; k--) // dá»�i cÃ¡c pháº§n tá»­ sang pháº£i
 			data[k + 1] = data[k];
-		data[i] = e; // Ä‘áº·t pháº§n tá»­ má»›i vÃ o danh sÃ¡ch
+		data[i] = e;
 		size++;
 	}
 
