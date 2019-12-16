@@ -102,7 +102,6 @@ public class FrameThemHang extends JDialog {
 		jcbPhanLoai = new JComboBox<NhomSanPham>();
 		
 		jcbPhanLoai.setPreferredSize(dimtxt2);
-		jcbPhanLoai.getItemAt(0);
 		txtThemLoaiHang = new JTextField();
 		txtThemLoaiHang.setPreferredSize(dimtxt2);
 		txtThemLoaiHang.setVisible(false);

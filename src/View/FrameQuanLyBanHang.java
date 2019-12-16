@@ -55,12 +55,13 @@ public class FrameQuanLyBanHang extends JFrame {
 	static JTable table;
 	int rowSelected = -1;
 	NhomSanPham nhomselected = null;
-	String[] tenCot = { "STT", "Ma hang", "Ten hang", "Loai hang", "So luong", "Ngay nhap" };
+	static String[] tenCot = { "STT", "Ma hang", "Ten hang", "Loai hang", "So luong", "Ngay nhap" };
 	static JComboBox<NhomSanPham> jcbLoaiHang = new JComboBox<NhomSanPham>();
 	static JComboBox<NhomSanPham> jcbSapXep = new JComboBox<NhomSanPham>();
 	FrameThemHang themHangUI = new FrameThemHang();
 	FrameXuatHang xuatHangUI = new FrameXuatHang();
-	FrameCongCu congCu = new FrameCongCu();
+	FrameChinhSua congCu = new FrameChinhSua();
+	FrameXoaNhieu xoaNhieuUI = new FrameXoaNhieu();
 	static ArrayListSP<SanPham> listSP = new ArrayListSP<SanPham>();// suc chua mac dinh
 
 	public FrameQuanLyBanHang() {
@@ -77,8 +78,8 @@ public class FrameQuanLyBanHang extends JFrame {
 		jmnCongCu = new JMenu("Cong Cu");
 		jmnThoat = new JMenuItem("Thoat");
 		jmnThemSP = new JMenuItem("Them SP");
-		jmnXoa = new JMenuItem("Xoa SP");
-		jmnChinhSua = new JMenuItem("Chinh Sua");
+		jmnXoa = new JMenuItem("Xoa Nhieu SP");
+		jmnChinhSua = new JMenuItem("Chinh Sua SP");
 		
 		jmnCongCu.add(jmnThemSP);
 		jmnCongCu.add(jmnXoa);
@@ -208,6 +209,23 @@ public class FrameQuanLyBanHang extends JFrame {
 				themHangUI.setVisible(true);
 			}
 		});
+		jmnXoa.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				xoaNhieuUI.setModal(true); 
+				xoaNhieuUI.setVisible(true);
+			}
+		});
+
+		jmnChinhSua.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				congCu.setModal(true); 
+				congCu.setVisible(true);
+			}
+		});
 		jmnThoat.addActionListener(new ActionListener() {
 			
 			@Override
@@ -229,14 +247,6 @@ public class FrameQuanLyBanHang extends JFrame {
 			}
 		});
 
-		jmnChinhSua.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				congCu.setModal(true); 
-				congCu.setVisible(true);
-			}
-		});
 		btnXoa.addActionListener(new ActionListener() {
 
 			@Override
