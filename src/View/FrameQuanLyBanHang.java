@@ -51,9 +51,15 @@ public class FrameQuanLyBanHang extends JFrame {
 	static JLabel lbSucChua, lbThongBao;
 	JPanel hang1, hang1_1, hang1_2,hang1_3, hang2,hang2_1, hang3;
 	JTextField txtTimKiem;
-	static DefaultTableModel dTM = new DefaultTableModel();
+	static DefaultTableModel dTM = new DefaultTableModel() {
+		// double click ma khong thay doi truong du lieu
+		@Override
+	    public boolean isCellEditable(int row, int column) {
+	       //all cells false
+	       return false;
+	    }
+	};
 	static JTable table;
-	int rowSelected = -1;
 	NhomSanPham nhomselected = null;
 	static String[] tenCot = { "STT", "Ma hang", "Ten hang", "Loai hang", "So luong", "Ngay nhap" };
 	static JComboBox<NhomSanPham> jcbLoaiHang = new JComboBox<NhomSanPham>();
@@ -113,7 +119,6 @@ public class FrameQuanLyBanHang extends JFrame {
 		hang1_3.add(jcbSapXep);
 		hang1.add(hang1_3);
 		btnXoa = new JButton("Xoa");
-		btnXoa.setEnabled(false);
 		hang1_1 = new JPanel();
 		txtTimKiem = new JTextField();
 		txtTimKiem.setPreferredSize(dimTxT);
@@ -148,7 +153,6 @@ public class FrameQuanLyBanHang extends JFrame {
 		table.getColumnModel().getColumn(3).setPreferredWidth(90);
 		table.getColumnModel().getColumn(4).setPreferredWidth(90);
 		table.getColumnModel().getColumn(5).setPreferredWidth(130);
-		table.disable();
 
 		JScrollPane hehe = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -248,23 +252,27 @@ public class FrameQuanLyBanHang extends JFrame {
 		});
 
 		btnXoa.addActionListener(new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				int row = rowSelected;
-				System.out.println(rowSelected);
-				FrameQuanLyBanHang.listSP.remove(rowSelected);
-				resetSucChua();
-				resetDTM();
-				resetThongBao();
-				resetStt_DTM();
-				resetStt_SP();
-				txtTimKiem.setText(null);
-				JOptionPane.showMessageDialog(null, "Xoa thanh cong !");
-				testConsole();
-				btnXoa.setEnabled(false);
-			}
+					int id = table.getSelectedRow();
+					if (id == -1) {
+						JOptionPane.showMessageDialog(null, "Vui long chon SP can xoa !");
+					}else {
+						int n = JOptionPane.showConfirmDialog(null, "Ban co chac muon xoa '"+listSP.get(id).getTenSp()+"'  ?","XOA SP",JOptionPane.YES_NO_OPTION);
+						if (n == 0) { // 0 la yes, 1 la no
+							FrameQuanLyBanHang.listSP.remove(id);
+							resetSucChua();
+							resetDTM();
+							resetThongBao();
+							resetStt_DTM();
+							resetStt_SP();
+							JOptionPane.showMessageDialog(null, "Xoa thanh cong !");
+							testConsole();
+							txtTimKiem.setText(null);
+						}
+					}
+				} 
 		});
 		btnTimKiem.addActionListener(new ActionListener() {
 
@@ -274,13 +282,11 @@ public class FrameQuanLyBanHang extends JFrame {
 					int ID = Integer.parseInt(txtTimKiem.getText());
 					if (timKiemSP(ID)!=null) {
 						SanPham value = timKiemSP(ID);
-						rowSelected = value.getStt() - 1;
 						Object[] obj = { value.getStt(), value.getId(), value.getTenSp(), value.getPhanLoai(),
 								value.getSoLuong(), value.getNgayNhap() };
 						dTM.setRowCount(0);
 						dTM.addRow(obj);
 						resetThongBao();
-						btnXoa.setEnabled(true);
 					}else {
 						JOptionPane.showMessageDialog(null, "Khong tim thay SP !");
 						txtTimKiem.setText(null);
@@ -395,10 +401,6 @@ public class FrameQuanLyBanHang extends JFrame {
 			return dsNhom;
 			
 		}
-//		public static ArrayListSP<NhomSanPham> mtDSNhom()b
-//		{
-//			return dsNhom;
-//		}
 	}
 	public static void testConsole() {
 		StringBuffer sb = new StringBuffer();
