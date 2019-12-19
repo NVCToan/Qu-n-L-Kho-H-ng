@@ -34,7 +34,6 @@ public class FrameChinhSua extends JDialog {
 	ArrayListSP<NhomSanPham> dsNhom;
 	JRadioButton rdThemLoaiHang, rdSuaMaHang, rdSuaTenHang;
 	static int rowSelected;
-	FrameXoaNhieu xoaNhieuUI = new FrameXoaNhieu();
 	static String loai;
 
 	public FrameChinhSua() {
