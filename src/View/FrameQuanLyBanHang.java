@@ -43,7 +43,6 @@ public class FrameQuanLyBanHang extends JFrame {
 	JMenu jmnCongCu;
 	JMenuItem jmnThoat;
 	JMenuItem jmnThemSP;
-	JMenuItem jmnXoa;
 	JMenuItem jmnChinhSua;
 	public JButton btnXoa, btnTimKiem, btnXuatHang;
 	// static JButton btnHuy; tai sao btnHuy lai cho static
@@ -89,11 +88,9 @@ public class FrameQuanLyBanHang extends JFrame {
 		jmnCongCu = new JMenu("Cong Cu");
 		jmnThoat = new JMenuItem("Thoat");
 		jmnThemSP = new JMenuItem("Them SP");
-		jmnXoa = new JMenuItem("Xoa Nhieu SP");
 		jmnChinhSua = new JMenuItem("Chinh Sua SP");
 
 		jmnCongCu.add(jmnThemSP);
-		jmnCongCu.add(jmnXoa);
 		jmnCongCu.add(jmnChinhSua);
 		jmb.add(jmnCongCu);
 		jmb.add(jmnThoat);
@@ -228,14 +225,6 @@ public class FrameQuanLyBanHang extends JFrame {
 				themHangUI.setVisible(true);
 			}
 		});
-		jmnXoa.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				xoaNhieuUI.setModal(true);
-				xoaNhieuUI.setVisible(true);
-			}
-		});
 
 		jmnChinhSua.addActionListener(new ActionListener() {
 
@@ -288,7 +277,7 @@ public class FrameQuanLyBanHang extends JFrame {
 							resetDTM();
 							resetThongBao();
 							resetStt_DTM();
-							resetStt_SP();
+							resetStt_SP();	
 							JOptionPane.showMessageDialog(null, "Xoa thanh cong !");
 							testConsole();
 							txtTimKiem.setText(null);

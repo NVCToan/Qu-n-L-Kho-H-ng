@@ -168,8 +168,8 @@ public class FrameCongCu extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					int ID = Integer.parseInt(txtTimKiem.getText());
-					if (FrameQuanLyBanHang.timKiemSP(ID)!=null) {
-						SanPham value = FrameQuanLyBanHang.timKiemSP(ID);
+					if (FrameQuanLyBanHang.timKiemSPTheoMa(ID)!=null) {
+						SanPham value = FrameQuanLyBanHang.timKiemSPTheoMa(ID);
 						txtMaHang.setText("" + ID);
 						txtTen.setText(value.getTenSp());
 						jcbPhanLoai.addItem(value.getPhanLoai());
