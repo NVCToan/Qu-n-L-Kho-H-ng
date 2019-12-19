@@ -7,7 +7,8 @@ public interface MyList<E>{
 	boolean isEmpty();
 	int getSize();
 	E remove(int i);
-	E[] interchangeSort(MyComparator<E> x);
+	E[] interchangeSortAZ(MyComparator<E> x);
+	E[] interchangeSortZA(MyComparator<E> x);
 	void search(MyComparator<E> x);
 	
 

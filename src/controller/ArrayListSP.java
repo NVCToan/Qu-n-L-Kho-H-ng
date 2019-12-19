@@ -83,7 +83,7 @@ public class ArrayListSP<E> implements MyList<E>{
 	}
 
 	@Override
-	public E[] interchangeSort(MyComparator<E> x) {
+	public E[] interchangeSortAZ(MyComparator<E> x) {
 		for (int i = 0; i < size - 1; i++)
 			for (int j = i + 1; j < size; j++)
 				if (x.compare(data[i], data[j]) > 0) {
@@ -93,12 +93,24 @@ public class ArrayListSP<E> implements MyList<E>{
 				}
 		return data;
 	}
-
+	
 	@Override
 	public void search(MyComparator<E> x) {
 		for (int i = 0; i < size; i++)
 			if (x.compare(data[i]) == 0)
 				System.out.println(data[i]);
+	}
+
+	@Override
+	public E[] interchangeSortZA(MyComparator<E> x) {
+		for (int i = 0; i < size - 1; i++)
+			for (int j = i + 1; j < size; j++)
+				if (x.compare(data[j], data[i]) > 0) {
+					E temp = data[i];
+					data[i] = data[j];
+					data[j] = temp;
+				}
+		return data;
 	}
 
 }
