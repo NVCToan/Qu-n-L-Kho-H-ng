@@ -2,7 +2,7 @@ package controller;
 
 import java.util.Iterator;
 
-public class ArrayListSP<E> implements MyList<E>{
+public class ArrayListSP<E> implements MyList<E> {
 	public static final int CAPACITY = 30;
 	private E[] data;
 	private int size = 0;
@@ -92,13 +92,6 @@ public class ArrayListSP<E> implements MyList<E>{
 					data[j] = temp;
 				}
 		return data;
-	}
-	
-	@Override
-	public void search(MyComparator<E> x) {
-		for (int i = 0; i < size; i++)
-			if (x.compare(data[i]) == 0)
-				System.out.println(data[i]);
 	}
 
 	@Override

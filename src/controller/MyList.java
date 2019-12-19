@@ -9,7 +9,6 @@ public interface MyList<E>{
 	E remove(int i);
 	E[] interchangeSortAZ(MyComparator<E> x);
 	E[] interchangeSortZA(MyComparator<E> x);
-	void search(MyComparator<E> x);
 	
 
 }

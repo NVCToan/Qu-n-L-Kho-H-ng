@@ -62,7 +62,7 @@ public class FrameQuanLyBanHang extends JFrame {
 	NhomSanPham nhomselected = null;
 	static String[] tenCot = { "STT", "Ma hang", "Ten hang", "Loai hang", "So luong", "Ngay nhap" };
 	static String[] thuocTinhSapXep = { "None", "Ma hang", "Loai hang", "So luong", "Ngay nhap" };
-	static JComboBox<NhomSanPham> jcbLoaiHang = new JComboBox<NhomSanPham>();
+	static JComboBox<NhomSanPham> jcbLoaiHang;
 	static JComboBox<String> jcbSapXep = new JComboBox<String>();
 	FrameThemHang themHangUI = new FrameThemHang();
 	FrameXuatHang xuatHangUI = new FrameXuatHang();
@@ -109,7 +109,14 @@ public class FrameQuanLyBanHang extends JFrame {
 
 		hang1_2 = new JPanel();
 		hang1_2.add(lbLoaiHang = new JLabel("Loai hang"));
+		jcbLoaiHang = new JComboBox<NhomSanPham>();
 		jcbLoaiHang.setPreferredSize(dimTxT);
+		
+		Iterator<NhomSanPham> iter = duLieu.dsNhom.iterator();
+		while (iter.hasNext()) {
+			NhomSanPham value = iter.next();
+			jcbLoaiHang.addItem(value);
+		}
 		hang1_2.add(jcbLoaiHang);
 		hang1.add(hang1_2);
 
@@ -254,18 +261,20 @@ public class FrameQuanLyBanHang extends JFrame {
 		btnXoa.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				
+
 				int id = table.getSelectedRow();
 				if (id == -1) {
 					JOptionPane.showMessageDialog(null, "Vui long chon SP can xoa !");
-				}else {
+				} else {
 					int rowCount = (int) table.getSelectedRowCount();
 					if (rowCount == 1) {
-						int obj = (int)table.getValueAt(id, 1);
-						int n = JOptionPane.showConfirmDialog(null, "Ban co chac muon xoa '"+listSP.get(id).getTenSp()+"'  ?","XOA SP",JOptionPane.YES_NO_OPTION);
+						int obj = (int) table.getValueAt(id, 1);
+						int n = JOptionPane.showConfirmDialog(null,
+								"Ban co chac muon xoa '" + listSP.get(id).getTenSp() + "'  ?", "XOA SP",
+								JOptionPane.YES_NO_OPTION);
 						if (n == 0) { // 0 la yes, 1 la no
 							SanPham value = timKiemSP(obj);
-							int idCanXoa = value.getStt()-1;
+							int idCanXoa = value.getStt() - 1;
 							FrameQuanLyBanHang.listSP.remove(idCanXoa);
 							resetSucChua();
 							resetDTM();
@@ -276,14 +285,15 @@ public class FrameQuanLyBanHang extends JFrame {
 							testConsole();
 							txtTimKiem.setText(null);
 						}
-					}else {
-							int[] listRowSelected = table.getSelectedRows();
-							int a = JOptionPane.showConfirmDialog(null, "Ban co chac muon xoa "+rowCount+"  SP ?","XOA SP",JOptionPane.YES_NO_OPTION);
-							if (a == 0) {
+					} else {
+						int[] listRowSelected = table.getSelectedRows();
+						int a = JOptionPane.showConfirmDialog(null, "Ban co chac muon xoa " + rowCount + "  SP ?",
+								"XOA SP", JOptionPane.YES_NO_OPTION);
+						if (a == 0) {
 							for (int i = 0; i < listRowSelected.length; i++) {
 								int objs = (int) table.getValueAt(listRowSelected[i], 1);
 								SanPham valueNhieu = timKiemSP(objs);
-								int idCanXoaNhieu = valueNhieu.getStt()-1;
+								int idCanXoaNhieu = valueNhieu.getStt() - 1;
 								FrameQuanLyBanHang.listSP.remove(idCanXoaNhieu);
 								resetStt_SP();
 							}
@@ -295,11 +305,11 @@ public class FrameQuanLyBanHang extends JFrame {
 							JOptionPane.showMessageDialog(null, "Xoa thanh cong !");
 							testConsole();
 							txtTimKiem.setText(null);
-							}
 						}
 					}
 				}
-	});
+			}
+		});
 
 		btnTimKiem.addActionListener(new ActionListener() {
 
@@ -504,6 +514,10 @@ public class FrameQuanLyBanHang extends JFrame {
 	static class duLieu {
 		static ArrayListSP<NhomSanPham> dsNhom = new ArrayListSP<NhomSanPham>();
 
+		public static void themPhanLoai(NhomSanPham loai) {
+			dsNhom.Add(loai);
+		}
+
 		public static void taoDoiTuong() {// dung trong function giaoDien
 
 			SanPham sp1 = new SanPham(1, 10000, "San pham 1", new NhomSanPham("l"), 20, new model.Date(2, 01, 2023));
@@ -562,11 +576,11 @@ public class FrameQuanLyBanHang extends JFrame {
 			dsNhom.Add(nhom1);
 			dsNhom.Add(nhom2);
 			dsNhom.Add(nhom3);
-			Iterator<NhomSanPham> iter = dsNhom.iterator();
-			while (iter.hasNext()) {
-				NhomSanPham value = iter.next();
-				jcbLoaiHang.addItem(value);
-			}
+//			Iterator<NhomSanPham> iter = dsNhom.iterator();
+//			while (iter.hasNext()) {
+//				NhomSanPham value = iter.next();
+//				jcbLoaiHang.addItem(value);
+//			}
 			return dsNhom;
 
 		}
