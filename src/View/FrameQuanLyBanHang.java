@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Dimension2D;
@@ -61,14 +62,18 @@ public class FrameQuanLyBanHang extends JFrame {
 	static JTable table;
 	NhomSanPham nhomselected = null;
 	static String[] tenCot = { "STT", "Ma hang", "Ten hang", "Loai hang", "So luong", "Ngay nhap" };
-	static String[] thuocTinhSapXep = { "None", "Ma hang", "Loai hang", "So luong", "Ngay nhap" };
+	static String[] optionSapXep = { "None", "Ma hang", "Loai hang", "So luong", "Ngay nhap" };
+	static String[] optionTimKiem = { "Tìm kiếm....", "Mã hàng", "Tên", "Ngày" };
+
 	static JComboBox<NhomSanPham> jcbLoaiHang;
 	static JComboBox<String> jcbSapXep = new JComboBox<String>();
+	static JComboBox<String> jcbTimKiem = new JComboBox<String>();
 	FrameThemHang themHangUI = new FrameThemHang();
 	FrameXuatHang xuatHangUI = new FrameXuatHang();
 	FrameChinhSua congCu = new FrameChinhSua();
 	FrameXoaNhieu xoaNhieuUI = new FrameXoaNhieu();
 	static ArrayListSP<SanPham> listSP = new ArrayListSP<SanPham>();// suc chua mac dinh
+	static int rowSelected;
 
 	public FrameQuanLyBanHang() {
 		super("Quan ly kho hang");
@@ -111,7 +116,7 @@ public class FrameQuanLyBanHang extends JFrame {
 		hang1_2.add(lbLoaiHang = new JLabel("Loai hang"));
 		jcbLoaiHang = new JComboBox<NhomSanPham>();
 		jcbLoaiHang.setPreferredSize(dimTxT);
-		
+
 		Iterator<NhomSanPham> iter = duLieu.dsNhom.iterator();
 		while (iter.hasNext()) {
 			NhomSanPham value = iter.next();
@@ -123,8 +128,8 @@ public class FrameQuanLyBanHang extends JFrame {
 		hang1_3 = new JPanel();
 		hang1_3.add(lbSapXep = new JLabel("Sap Xep"));
 		jcbSapXep.setPreferredSize(dimTxT);
-		for (int i = 0; i < thuocTinhSapXep.length; i++) {
-			jcbSapXep.addItem(thuocTinhSapXep[i]);
+		for (int i = 0; i < optionSapXep.length; i++) {
+			jcbSapXep.addItem(optionSapXep[i]);
 		}
 		hang1_3.add(jcbSapXep);
 		hang1.add(hang1_3);
@@ -133,8 +138,11 @@ public class FrameQuanLyBanHang extends JFrame {
 		txtTimKiem = new JTextField();
 		txtTimKiem.setPreferredSize(dimTxT);
 		hang1_1.add(txtTimKiem);
-		hang1_1.add(btnTimKiem = new JButton("Tim kiem"));
-		btnTimKiem.setToolTipText("Search");
+		jcbTimKiem.setPreferredSize(dimTxT);
+		for (int i = 0; i < optionTimKiem.length; i++) {
+			jcbTimKiem.addItem(optionTimKiem[i]);
+		}
+		hang1_1.add(jcbTimKiem);
 		hang1.add(hang1_1);
 		hang1.add(btnXoa);
 
@@ -273,7 +281,7 @@ public class FrameQuanLyBanHang extends JFrame {
 								"Ban co chac muon xoa '" + listSP.get(id).getTenSp() + "'  ?", "XOA SP",
 								JOptionPane.YES_NO_OPTION);
 						if (n == 0) { // 0 la yes, 1 la no
-							SanPham value = timKiemSP(obj);
+							SanPham value = timKiemSPTheoMa(obj);
 							int idCanXoa = value.getStt() - 1;
 							FrameQuanLyBanHang.listSP.remove(idCanXoa);
 							resetSucChua();
@@ -292,7 +300,7 @@ public class FrameQuanLyBanHang extends JFrame {
 						if (a == 0) {
 							for (int i = 0; i < listRowSelected.length; i++) {
 								int objs = (int) table.getValueAt(listRowSelected[i], 1);
-								SanPham valueNhieu = timKiemSP(objs);
+								SanPham valueNhieu = timKiemSPTheoMa(objs);
 								int idCanXoaNhieu = valueNhieu.getStt() - 1;
 								FrameQuanLyBanHang.listSP.remove(idCanXoaNhieu);
 								resetStt_SP();
@@ -311,27 +319,79 @@ public class FrameQuanLyBanHang extends JFrame {
 			}
 		});
 
-		btnTimKiem.addActionListener(new ActionListener() {
+		jcbTimKiem.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					int ID = Integer.parseInt(txtTimKiem.getText());
-					if (timKiemSP(ID) != null) {
-						SanPham value = timKiemSP(ID);
-						Object[] obj = { value.getStt(), value.getId(), value.getTenSp(), value.getPhanLoai(),
-								value.getSoLuong(), value.getNgayNhap() };
+				if (jcbTimKiem.getSelectedIndex() < 0)
+					return;
+				if (jcbTimKiem.getSelectedIndex() == 1) {
+					try {
+						int ID = Integer.parseInt(txtTimKiem.getText());
+						if (timKiemSPTheoMa(ID) != null) {
+							SanPham value = timKiemSPTheoMa(ID);
+							Object[] obj = { value.getStt(), value.getId(), value.getTenSp(), value.getPhanLoai(),
+									value.getSoLuong(), value.getNgayNhap() };
+							dTM.setRowCount(0);
+							dTM.addRow(obj);
+							resetThongBao();
+						} else {
+							JOptionPane.showMessageDialog(null, "Khong tim thay SP !");
+							txtTimKiem.setText(null);
+						}
+					} catch (Exception e2) {
+						txtTimKiem.setRequestFocusEnabled(true);
+						JOptionPane.showMessageDialog(null, "ID khong hop le !");
+						txtTimKiem.setText(null);
+					}
+				}
+				if (jcbTimKiem.getSelectedIndex() == 2) {
+					String ten = txtTimKiem.getText();
+					ten = chuanHoaChuoi(ten);
+					if (timKiemSPTheoTen(ten) != null) {
 						dTM.setRowCount(0);
-						dTM.addRow(obj);
-						resetThongBao();
+						Iterator<SanPham> iter = listSP.iterator();
+						while (iter.hasNext()) {
+							SanPham value = iter.next();
+							if (value.getTenSp().compareTo(ten) == 0) {
+								Object[] obj = { value.getStt(), value.getId(), value.getTenSp(),
+										value.getPhanLoai().getTenNhom(), value.getSoLuong(), value.getNgayNhap() };
+								dTM.addRow(obj);
+							}
+						}
+
 					} else {
 						JOptionPane.showMessageDialog(null, "Khong tim thay SP !");
 						txtTimKiem.setText(null);
 					}
-				} catch (Exception e2) {
-					txtTimKiem.setRequestFocusEnabled(true);
-					JOptionPane.showMessageDialog(null, "ID khong hop le !");
-					txtTimKiem.setText(null);
+
+				}
+
+				if (jcbTimKiem.getSelectedIndex() == 3) {
+					try {
+						int ngay = Integer.parseInt(txtTimKiem.getText());
+						if (timKiemSPTheoNgay(ngay) != null) {
+							dTM.setRowCount(0);
+							Iterator<SanPham> iter = FrameQuanLyBanHang.listSP.iterator();
+							while (iter.hasNext()) {
+								SanPham value = iter.next();
+								if (value.getNgayNhap().getNgay() == ngay) {
+									Object[] obj = { value.getStt(), value.getId(), value.getTenSp(),
+											value.getPhanLoai(), value.getSoLuong(), value.getNgayNhap() };
+									dTM.addRow(obj);
+//									resetThongBao();
+
+								}
+							}
+						} else {
+							JOptionPane.showMessageDialog(null, "Khong tim thay SP !");
+							txtTimKiem.setText(null);
+						}
+					} catch (Exception e2) {
+						txtTimKiem.setRequestFocusEnabled(true);
+						JOptionPane.showMessageDialog(null, "ID khong hop le !");
+						txtTimKiem.setText(null);
+					}
 				}
 
 			}
@@ -508,6 +568,28 @@ public class FrameQuanLyBanHang extends JFrame {
 
 			}
 		});
+		// xuat hang
+				table.addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent me) {
+						if (me.getClickCount() == 2) { // to detect doble click events
+							int id = table.getSelectedRow();
+							int obj = (int) table.getValueAt(id, 1);
+							SanPham value = timKiemSPTheoMa(obj);
+							int idCanXoa = value.getStt() - 1;
+							Object[] objs = {value.getStt(),
+									value.getId(),
+									value.getTenSp(),
+									value.getPhanLoai(),
+									value.getSoLuong(),
+									};
+							xuatHangUI.dtmXuatHang.addRow(objs);
+							System.out.println(value.getStt());
+							xuatHangUI.resetSttDTM_XuatHang();
+							xuatHangUI.setVisible(true);
+							
+						}
+					}
+				});
 
 	}
 
@@ -520,7 +602,7 @@ public class FrameQuanLyBanHang extends JFrame {
 
 		public static void taoDoiTuong() {// dung trong function giaoDien
 
-			SanPham sp1 = new SanPham(1, 10000, "San pham 1", new NhomSanPham("l"), 20, new model.Date(2, 01, 2023));
+			SanPham sp1 = new SanPham(1, 10000, "a", new NhomSanPham("l"), 20, new model.Date(2, 01, 2023));
 			SanPham sp2 = new SanPham(2, 10001, "San pham 2", new NhomSanPham("a"), 40, new model.Date(12, 5, 2010));
 			SanPham sp3 = new SanPham(3, 10005, "San pham 3", new NhomSanPham("c"), 25, new model.Date(8, 1, 2000));
 			SanPham sp4 = new SanPham(4, 10008, "San pham 4", new NhomSanPham("k"), 520, new model.Date(2, 5, 1990));
@@ -545,6 +627,7 @@ public class FrameQuanLyBanHang extends JFrame {
 					new model.Date(2, 5, 1990));
 			SanPham sp15 = new SanPham(5, 10014, "San pham 5", new NhomSanPham("Loai 1"), 79,
 					new model.Date(7, 4, 2002));
+			
 			listSP.Add(sp1);
 			listSP.Add(sp2);
 			listSP.Add(sp3);
@@ -584,6 +667,7 @@ public class FrameQuanLyBanHang extends JFrame {
 			return dsNhom;
 
 		}
+
 	}
 
 	public static void testConsole() {
@@ -631,7 +715,7 @@ public class FrameQuanLyBanHang extends JFrame {
 		FrameQuanLyBanHang.lbThongBao.setText("Da tim thay " + FrameQuanLyBanHang.dTM.getRowCount() + " san pham");
 	}
 
-	public static SanPham timKiemSP(int id) {
+	public static SanPham timKiemSPTheoMa(int id) {
 		Iterator<SanPham> iter = FrameQuanLyBanHang.listSP.iterator();
 		while (iter.hasNext()) {
 			SanPham value = iter.next();
@@ -641,4 +725,33 @@ public class FrameQuanLyBanHang extends JFrame {
 		}
 		return null;
 	}
+
+	public static SanPham timKiemSPTheoTen(String ten) {
+		Iterator<SanPham> iter = FrameQuanLyBanHang.listSP.iterator();
+		while (iter.hasNext()) {
+			SanPham value = iter.next();
+			if (value.getTenSp().compareTo(ten) == 0) {
+				return value;
+			}
+		}
+		return null;
+	}
+
+	public static SanPham timKiemSPTheoNgay(int ngay) {
+		Iterator<SanPham> iter = FrameQuanLyBanHang.listSP.iterator();
+		while (iter.hasNext()) {
+			SanPham value = iter.next();
+			if (value.getNgayNhap().getNgay() == ngay) {
+				return value;
+			}
+		}
+		return null;
+	}
+
+	public static String chuanHoaChuoi(String str) {
+		str = str.trim();
+		str = str.replaceAll("\\s+", " ");
+		return str;
+	}
+
 }

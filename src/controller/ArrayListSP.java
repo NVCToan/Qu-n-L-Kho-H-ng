@@ -2,6 +2,10 @@ package controller;
 
 import java.util.Iterator;
 
+import View.FrameQuanLyBanHang;
+import model.NhomSanPham;
+import model.SanPham;
+
 public class ArrayListSP<E> implements MyList<E> {
 	public static final int CAPACITY = 30;
 	private E[] data;
@@ -105,5 +109,22 @@ public class ArrayListSP<E> implements MyList<E> {
 				}
 		return data;
 	}
+
+//	@Override
+//	public ArrayListSP<SanPham> search(MyComparator<SanPham> x) {
+//		ArrayListSP<SanPham> tmp = new ArrayListSP<SanPham>();
+//		for (int i = 0; i < size; i++) {
+//			if (x.compare(data[i])==0) {
+//				SanPham sp = (SanPham)data[i];
+//				tmp.Add(sp);
+//			}
+//			
+//		}return tmp;
+//	}
+//	public void search(MyComparator<E> x) {
+//		for (int i = 0; i < size; i++)
+//			if (x.compare(data[i])==0) 
+//				System.out.println(data[i]);
+//	}
 
 }
