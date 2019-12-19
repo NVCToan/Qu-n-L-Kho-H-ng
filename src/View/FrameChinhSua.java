@@ -26,15 +26,16 @@ import model.SanPham;
 
 public class FrameChinhSua extends JDialog {
 	JLabel lbMaHang, lbTen, lbLoaiHang, lbhang5, lbNgay, lbThang, lbNam, lbTieuDe;
-	JTextField txtTimKiem, txtMaHang, txtTen, txtSoLuong, txtNgay, txtThang, txtNam,txtThemLoaiHang;
-	JPanel hang1, hang2, hang3, hang4, hang5, hang6,hang6_1,hang6_2, hang7;
+	JTextField txtTimKiem, txtMaHang, txtTen, txtSoLuong, txtNgay, txtThang, txtNam, txtThemLoaiHang;
+	JPanel hang1, hang2, hang3, hang4, hang5, hang6, hang6_1, hang6_2, hang7;
 	JRadioButton rdMacDinh, rdEdit;
-	JButton btnThem, btnTimKiem, btnChinhSua, btnLuu,btnHuy;
+	JButton btnThem, btnTimKiem, btnChinhSua, btnLuu, btnHuy;
 	JComboBox<NhomSanPham> jcbPhanLoai;
 	ArrayListSP<NhomSanPham> dsNhom;
-	 JRadioButton rdThemLoaiHang,rdSuaMaHang,rdSuaTenHang;
+	JRadioButton rdThemLoaiHang, rdSuaMaHang, rdSuaTenHang;
 	static int rowSelected;
 	FrameXoaNhieu xoaNhieuUI = new FrameXoaNhieu();
+	static String loai;
 
 	public FrameChinhSua() {
 		giaoDien();
@@ -51,7 +52,6 @@ public class FrameChinhSua extends JDialog {
 		txtThang.setEditable(true);
 		txtNam.setEditable(true);
 		jcbPhanLoai.setEditable(true);
-		btnLuu.setEnabled(true);
 		btnHuy.setEnabled(true);
 	}
 
@@ -83,24 +83,30 @@ public class FrameChinhSua extends JDialog {
 		// hàng 2
 		hang2 = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		lbTen = new JLabel("Ten san pham");
+
 		Dimension dimlb = lbTen.getPreferredSize();
 		Dimension dimtxt = new Dimension(300, 20);
-		
+
 		lbMaHang = new JLabel("Ma san pham");
 		txtMaHang = new JTextField();
+		rdSuaMaHang = new JRadioButton("Sua ma hang");
+
 		lbMaHang.setPreferredSize(dimlb);
 		txtMaHang.setPreferredSize(dimtxt);
 		txtMaHang.setEditable(false);
 		hang2.add(lbMaHang);
 		hang2.add(txtMaHang);
+		hang2.add(rdSuaMaHang);
 
 		// hàng 3
 		hang3 = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		txtTen = new JTextField();
 		txtTen.setEditable(false);
+		rdSuaTenHang = new JRadioButton("Sua ten hang");
 		txtTen.setPreferredSize(dimtxt);
 		hang3.add(lbTen);
 		hang3.add(txtTen);
+		hang3.add(rdSuaTenHang);
 
 		// hàng 4
 		hang4 = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -116,7 +122,6 @@ public class FrameChinhSua extends JDialog {
 		hang4.add(jcbPhanLoai);
 		hang4.add(txtThemLoaiHang);
 		hang4.add(rdThemLoaiHang);
-
 
 		// hàng 5
 		Dimension dimlb5 = new Dimension(30, 20);
@@ -144,7 +149,7 @@ public class FrameChinhSua extends JDialog {
 		// hàng 6
 		hang6 = new JPanel();
 		hang6_1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		
+
 		hang6_1.add(btnChinhSua = new JButton("Chinh sua tat ca"));
 		btnChinhSua.setEnabled(false);
 		hang6_2 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -182,18 +187,23 @@ public class FrameChinhSua extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					int ID = Integer.parseInt(txtTimKiem.getText());
-					if (FrameQuanLyBanHang.timKiemSP(ID)!=null) {
-						SanPham value = FrameQuanLyBanHang.timKiemSP(ID);
+					if (FrameQuanLyBanHang.timKiemSPTheoMa(ID) != null) {
+						SanPham value = FrameQuanLyBanHang.timKiemSPTheoMa(ID);
+						rowSelected = value.getStt() - 1;
 						txtMaHang.setText("" + ID);
 						txtTen.setText(value.getTenSp());
+						jcbPhanLoai.removeAllItems();
+
 						jcbPhanLoai.addItem(value.getPhanLoai());
 						txtSoLuong.setText("" + value.getSoLuong());
 						txtNgay.setText("" + value.getNgayNhap().getNgay());
 						txtThang.setText("" + value.getNgayNhap().getThang());
 						txtNam.setText("" + value.getNgayNhap().getNam());
 						btnChinhSua.setEnabled(true);
+						btnLuu.setEnabled(true);
+						btnHuy.setEnabled(true);
 
-					}else {
+					} else {
 						JOptionPane.showMessageDialog(null, "Khong tim thay SP !");
 					}
 				} catch (Exception e2) {
@@ -224,45 +234,56 @@ public class FrameChinhSua extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SanPham sp = FrameQuanLyBanHang.listSP.get(rowSelected);
-				sp.setId(Integer.parseInt(txtMaHang.getText()));
-				sp.setTenSp(txtTen.getText());
-				sp.setSoLuong(Integer.parseInt(txtSoLuong.getText()));
-				sp.setPhanLoai(new NhomSanPham("" + jcbPhanLoai.getSelectedItem()));
-				sp.setNgayNhap(new Date(Integer.parseInt(txtNgay.getText()), Integer.parseInt(txtThang.getText()),
-						Integer.parseInt(txtNam.getText())));
-				// Xoa dong chinh sua
-				FrameQuanLyBanHang.dTM.removeRow(rowSelected);
-				// Tao va chen lai dong
-				Object[] obj = { sp.getStt(), sp.getId(), sp.getTenSp(), sp.getPhanLoai(), sp.getSoLuong(),
-						sp.getNgayNhap() };
-				FrameQuanLyBanHang.dTM.insertRow(rowSelected, obj);
-				setNotEdit();
+				try {
+					if (rdThemLoaiHang.isSelected()) {
+						loai = txtThemLoaiHang.getText();
+						duLieu.themPhanLoai(new NhomSanPham(loai));
+
+						FrameQuanLyBanHang.jcbLoaiHang.addItem(new NhomSanPham(loai));
+						jcbPhanLoai.addItem(new NhomSanPham(loai));
+					} else {
+						NhomSanPham nhomSelected = (NhomSanPham) jcbPhanLoai.getSelectedItem();
+						loai = nhomSelected.getTenNhom();
+					}
+					SanPham sp = FrameQuanLyBanHang.listSP.get(rowSelected);
+					sp.setId(Integer.parseInt(txtMaHang.getText()));
+					sp.setTenSp(txtTen.getText());
+					sp.setSoLuong(Integer.parseInt(txtSoLuong.getText()));
+					sp.setPhanLoai(new NhomSanPham(loai));
+					sp.setNgayNhap(new Date(Integer.parseInt(txtNgay.getText()), Integer.parseInt(txtThang.getText()),
+							Integer.parseInt(txtNam.getText())));
+					FrameQuanLyBanHang.resetStt_SP();
+					FrameQuanLyBanHang.resetDTM();
+					FrameQuanLyBanHang.resetStt_DTM();
+
+					setNotEdit();
+				} catch (Exception e2) {
+					txtMaHang.setRequestFocusEnabled(true);
+					JOptionPane.showMessageDialog(null, "Mã hàng, Số lượng, Ngày, tháng, năm phải là kiểu số nguyên !!");
+				}
+				
+
 			}
 		});
 		btnHuy.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					int ID = Integer.parseInt(txtTimKiem.getText());
-					if (FrameQuanLyBanHang.timKiemSP(ID)!=null) {
-						SanPham value = FrameQuanLyBanHang.timKiemSP(ID);
-						txtMaHang.setText("" + ID);
-						txtTen.setText(value.getTenSp());
-						jcbPhanLoai.addItem(value.getPhanLoai());
-						txtSoLuong.setText("" + value.getSoLuong());
-						txtNgay.setText("" + value.getNgayNhap().getNgay());
-						txtThang.setText("" + value.getNgayNhap().getThang());
-						txtNam.setText("" + value.getNgayNhap().getNam());
-						btnChinhSua.setEnabled(true);
-						btnLuu.setEnabled(true);
-					}else {
-						JOptionPane.showMessageDialog(null, "Khong tim thay SP !");
-					}
-				} catch (Exception e2) {
-					txtTimKiem.setRequestFocusEnabled(true);
-					JOptionPane.showMessageDialog(null, "ID khong hop le !");
+				int ID = Integer.parseInt(txtTimKiem.getText());
+				txtThemLoaiHang.setText(null);
+				rdThemLoaiHang.setSelected(false);
+				txtThemLoaiHang.setVisible(false);
+				jcbPhanLoai.setVisible(true);
+				if (FrameQuanLyBanHang.timKiemSPTheoMa(ID) != null) {
+					SanPham value = FrameQuanLyBanHang.timKiemSPTheoMa(ID);
+					txtMaHang.setText("" + ID);
+					txtTen.setText(value.getTenSp());
+					jcbPhanLoai.removeAllItems();
+					jcbPhanLoai.addItem(value.getPhanLoai());
+					txtSoLuong.setText("" + value.getSoLuong());
+					txtNgay.setText("" + value.getNgayNhap().getNgay());
+					txtThang.setText("" + value.getNgayNhap().getThang());
+					txtNam.setText("" + value.getNgayNhap().getNam());
 				}
 			}
 		});
@@ -277,6 +298,28 @@ public class FrameChinhSua extends JDialog {
 					jcbPhanLoai.setVisible(true);
 					txtThemLoaiHang.setVisible(false);
 				}
+			}
+		});
+		rdSuaMaHang.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (rdSuaMaHang.isSelected()) {
+
+					txtMaHang.setEditable(true);
+				} else
+					txtMaHang.setEditable(false);
+			}
+		});
+		rdSuaTenHang.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (rdSuaTenHang.isSelected()) {
+
+					txtTen.setEditable(true);
+				} else
+					txtTen.setEditable(false);
 			}
 		});
 

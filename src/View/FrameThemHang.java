@@ -216,13 +216,6 @@ public class FrameThemHang extends JDialog {
 							}
 							FrameQuanLyBanHang.jcbLoaiHang.addItem(new NhomSanPham(loai));
 							jcbPhanLoai.addItem(new NhomSanPham(loai));
-//						Iterator<NhomSanPham> iter = FrameQuanLyBanHang.dsNhom.iterator();
-//						
-//						while (iter.hasNext()) {
-//							NhomSanPham value = iter.next();
-//							FrameQuanLyBanHang.jcbLoaiHang.addItem(value);
-//						}
-//						
 					} else {
 						NhomSanPham nhomSelected = (NhomSanPham) jcbPhanLoai.getSelectedItem();
 						loai = nhomSelected.getTenNhom();

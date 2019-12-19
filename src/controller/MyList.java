@@ -1,5 +1,6 @@
 package controller;
 
+import model.SanPham;
 
 public interface MyList<E>{
 	void Add(E e);
@@ -9,6 +10,6 @@ public interface MyList<E>{
 	E remove(int i);
 	E[] interchangeSortAZ(MyComparator<E> x);
 	E[] interchangeSortZA(MyComparator<E> x);
-	
+//	ArrayListSP<SanPham> search(MyComparator<SanPham> x);
 
 }
