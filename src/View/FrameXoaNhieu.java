@@ -192,8 +192,8 @@ public class FrameXoaNhieu extends JDialog{
 			public void actionPerformed(ActionEvent e) {
 				try {
 					int ID = Integer.parseInt(txtTimKiem.getText());
-					if (FrameQuanLyBanHang.timKiemSP(ID)!=null) {
-						SanPham value = FrameQuanLyBanHang.timKiemSP(ID);
+					if (FrameQuanLyBanHang.timKiemSPTheoMa(ID)!=null) {
+						SanPham value = FrameQuanLyBanHang.timKiemSPTheoMa(ID);
 //						rowSelected = value.getStt() - 1;
 						Object[] obj = { value.getStt(), value.getId(), value.getTenSp(), value.getPhanLoai(),
 								value.getSoLuong(), value.getNgayNhap() };

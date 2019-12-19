@@ -12,28 +12,27 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import model.SanPham;
 
 public class FrameXuatHang extends JDialog {
-	JTextField txtTimKiem;
+	JTextField txtTimKiem, txtSoLuong;
 	static JTextField txtSLxuat;
-	JButton btnTimKiem, btnHuy, btnXuat;
-	String[] tenCot = { "STT","Ma hang", "Ten hang", "Loai hang", "So luong hien co","So luong xuat" };
+	JButton btnTimKiem, btnHuy, btnXuat, btnSoLuong;
+	String[] tenCot = { "STT", "Ma hang", "Ten hang", "Loai hang", "So luong hien co", "So luong xuat" };
 	JTable table;
 	JPanel hang1, hang2, hang3, hang4;
 	static DefaultTableModel dtmXuatHang = new DefaultTableModel() {
 		// double click ma khong thay doi truong du lieu
 		@Override
 		public boolean isCellEditable(int row, int column) {
-			 if(column == 5)
-			        return true;
-			    else
-			        return false;
+				return false;
 		}
 	};
 
@@ -61,6 +60,7 @@ public class FrameXuatHang extends JDialog {
 
 		// hàng2
 		hang2 = new JPanel();
+		hang2.setLayout(new BoxLayout(hang2, BoxLayout.Y_AXIS));
 		for (int i = 0; i < tenCot.length; i++) {
 			dtmXuatHang.addColumn(tenCot[i]);
 		}
@@ -77,6 +77,12 @@ public class FrameXuatHang extends JDialog {
 		Dimension dimTable = new Dimension(400, 270);
 		jsc.setPreferredSize(dimTable);
 		hang2.add(jsc);
+		JPanel hang2_1 = new JPanel();
+		Dimension dimSL = new Dimension(40, 25);
+		hang2_1.add(txtSLxuat = new JTextField());
+		txtSLxuat.setPreferredSize(dimSL);
+		hang2_1.add(btnSoLuong = new JButton("So luong"));
+		hang2.add(hang2_1);
 
 		// hàng 3
 		hang3 = new JPanel();
@@ -102,8 +108,8 @@ public class FrameXuatHang extends JDialog {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
-	
-	private void xuLiSuKien () {
+
+	private void xuLiSuKien() {
 		table.isCellEditable(0, 5);
 		this.addWindowListener((WindowListener) new WindowAdapter() {
 			@Override
@@ -111,24 +117,89 @@ public class FrameXuatHang extends JDialog {
 				dtmXuatHang.setRowCount(0);
 			}
 		});
-		btnXuat.addActionListener(new ActionListener() {
-			
+		btnSoLuong.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					
- 				} catch (Exception e2) {
+				int indexRowSelected = table.getSelectedRow();
+				if (indexRowSelected == -1) {
+					JOptionPane.showMessageDialog(null, "Vui long chon dong can xuat hang !");
+				} else {
+					try {
+						int soLuongXuat = Integer.parseInt(txtSLxuat.getText());
+						int SLhienCo = (int) table.getValueAt(indexRowSelected, 4);
+						if (soLuongXuat > SLhienCo) {
+							JOptionPane.showMessageDialog(null, "So luong xuat lon hon so luong hien co !");
+							txtSLxuat.setText(null);
+						} else {
+							table.setValueAt(soLuongXuat, indexRowSelected, 5);
+						}
+						txtSLxuat.setText(null);
+					} catch (Exception e2) {
+						JOptionPane.showMessageDialog(null, "So luong nhap khong hop le !");
+					}
 				}
 			}
 		});
-	
+
+		btnXuat.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int rowCount = table.getRowCount();
+				if (rowCount < 1) {
+					JOptionPane.showMessageDialog(null, "Khong tim thay SP xuat !");
+				} else {
+					for (int i = 0; i < dtmXuatHang.getRowCount(); i++) {
+						int SLxuat = (int) table.getValueAt(i, 5);
+						int SLhienCo = (int) table.getValueAt(i, 4);
+						int idSP = (int) table.getValueAt(i, 1);
+						SanPham value = FrameQuanLyBanHang.timKiemSPTheoMa(idSP);
+						value.setSoLuong(SLhienCo - SLxuat);
+						table.setValueAt(FrameQuanLyBanHang.listSP.get(value.getStt() - 1).getSoLuong(), i, 4);
+						table.setValueAt(null, i, 5);
+					}
+					JOptionPane.showMessageDialog(null, "Thanh cong !");
+					FrameQuanLyBanHang.resetDTM();
+					FrameQuanLyBanHang.resetStt_DTM();
+				}
+			}
+		});
+		btnHuy.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		btnTimKiem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int idTim = Integer.parseInt(txtTimKiem.getText());
+					if (FrameQuanLyBanHang.timKiemSPTheoMa(idTim) != null) {
+						SanPham SP = FrameQuanLyBanHang.timKiemSPTheoMa(idTim);
+						Object[] obj = { SP.getStt(), SP.getId(), SP.getTenSp(), SP.getPhanLoai(), SP.getSoLuong() };
+						dtmXuatHang.addRow(obj);
+						resetSttDTM_XuatHang();
+						txtTimKiem.setText(null);
+					} else {
+						JOptionPane.showMessageDialog(null, "Khong tim thay SP !");
+					}
+
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(null, "ID khong hop le !");
+				}
+			}
+		});
 	}
-	
+
 	public static void resetSttDTM_XuatHang() {
-		
+
 		int rowCount = dtmXuatHang.getRowCount();
 		for (int i = 0; i < rowCount; i++) {
-			dtmXuatHang.setValueAt(i+1, i, 0);
+			dtmXuatHang.setValueAt(i + 1, i, 0);
 		}
 	}
 

@@ -7,12 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.security.acl.Group;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Vector;
 
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -207,15 +203,15 @@ public class FrameThemHang extends JDialog {
 					if (rdThemLoaiHang.isSelected()) {
 						loai = txtThemLoaiHang.getText();
 						duLieu.themPhanLoai(new NhomSanPham(loai));
-						
+
 						Iterator<NhomSanPham> iter = duLieu.dsNhom.iterator();
 
-							while (iter.hasNext()) {
-								NhomSanPham value = iter.next();
-								System.out.println(value.getTenNhom());
-							}
-							FrameQuanLyBanHang.jcbLoaiHang.addItem(new NhomSanPham(loai));
-							jcbPhanLoai.addItem(new NhomSanPham(loai));
+						while (iter.hasNext()) {
+							NhomSanPham value = iter.next();
+							System.out.println(value.getTenNhom());
+						}
+						FrameQuanLyBanHang.jcbLoaiHang.addItem(new NhomSanPham(loai));
+						jcbPhanLoai.addItem(new NhomSanPham(loai));
 					} else {
 						NhomSanPham nhomSelected = (NhomSanPham) jcbPhanLoai.getSelectedItem();
 						loai = nhomSelected.getTenNhom();
@@ -237,7 +233,7 @@ public class FrameThemHang extends JDialog {
 					FrameQuanLyBanHang.resetThongBao();
 					FrameQuanLyBanHang.resetSucChua();
 					FrameQuanLyBanHang.resetStt_DTM();
-					
+
 					SanPham.count_stt = stt;
 					SanPham.count_id = id;
 					SanPham.count_id++;
@@ -245,7 +241,7 @@ public class FrameThemHang extends JDialog {
 					txtMaHang.setText("" + SanPham.count_id);
 					txtStt.setText("" + SanPham.count_stt);
 					JOptionPane.showMessageDialog(null, "Them thanh cong!!!");
-					
+
 //					lamMoi();
 
 				} catch (Exception e2) {

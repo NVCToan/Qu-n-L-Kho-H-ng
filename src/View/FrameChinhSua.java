@@ -2,11 +2,14 @@ package View;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
 
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -27,14 +30,12 @@ import model.SanPham;
 public class FrameChinhSua extends JDialog {
 	JLabel lbMaHang, lbTen, lbLoaiHang, lbhang5, lbNgay, lbThang, lbNam, lbTieuDe;
 	JTextField txtTimKiem, txtMaHang, txtTen, txtSoLuong, txtNgay, txtThang, txtNam, txtThemLoaiHang;
-	JPanel hang1, hang2, hang3, hang4, hang5, hang6, hang6_1, hang6_2, hang7;
-	JRadioButton rdMacDinh, rdEdit;
+	JPanel hang1, hang2, hang3, hang4, hang4_1, hang5, hang6, hang6_1, hang6_2, hang7;
 	JButton btnThem, btnTimKiem, btnChinhSua, btnLuu, btnHuy;
 	JComboBox<NhomSanPham> jcbPhanLoai;
 	ArrayListSP<NhomSanPham> dsNhom;
-	JRadioButton rdThemLoaiHang, rdSuaMaHang, rdSuaTenHang;
+	JRadioButton rdThemPhanLoai, rdSuaMaHang, rdSuaTenHang, rdDoiPhanLoai, rdSuaSoLuongVaNgayNhap;
 	static int rowSelected;
-	FrameXoaNhieu xoaNhieuUI = new FrameXoaNhieu();
 	static String loai;
 
 	public FrameChinhSua() {
@@ -94,6 +95,7 @@ public class FrameChinhSua extends JDialog {
 		lbMaHang.setPreferredSize(dimlb);
 		txtMaHang.setPreferredSize(dimtxt);
 		txtMaHang.setEditable(false);
+
 		hang2.add(lbMaHang);
 		hang2.add(txtMaHang);
 		hang2.add(rdSuaMaHang);
@@ -110,18 +112,26 @@ public class FrameChinhSua extends JDialog {
 
 		// hàng 4
 		hang4 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		hang4_1 = new JPanel(new GridLayout(0, 1));
 		lbLoaiHang = new JLabel("Loai hang");
 		lbLoaiHang.setPreferredSize(dimlb);
 		txtThemLoaiHang = new JTextField();
 		txtThemLoaiHang.setPreferredSize(dimtxt);
 		txtThemLoaiHang.setVisible(false);
-		rdThemLoaiHang = new JRadioButton("Phan loai moi");
+
+		rdThemPhanLoai = new JRadioButton("Phan loai moi");
+		rdDoiPhanLoai = new JRadioButton("Thay doi phan loai");
+		ButtonGroup gr = new ButtonGroup();
+		gr.add(rdDoiPhanLoai);
+		gr.add(rdThemPhanLoai);
+		hang4_1.add(rdDoiPhanLoai);
+		hang4_1.add(rdThemPhanLoai);
 		jcbPhanLoai = new JComboBox<NhomSanPham>();
 		jcbPhanLoai.setPreferredSize(dimtxt);
 		hang4.add(lbLoaiHang);
 		hang4.add(jcbPhanLoai);
 		hang4.add(txtThemLoaiHang);
-		hang4.add(rdThemLoaiHang);
+		hang4.add(hang4_1);
 
 		// hàng 5
 		Dimension dimlb5 = new Dimension(30, 20);
@@ -142,7 +152,9 @@ public class FrameChinhSua extends JDialog {
 		hang5.add(lbhang5 = new JLabel("Thang"));
 		hang5.add(txtThang);
 		hang5.add(lbhang5 = new JLabel("Nam"));
+		rdSuaSoLuongVaNgayNhap = new JRadioButton();
 		hang5.add(txtNam);
+		hang5.add(rdSuaSoLuongVaNgayNhap);
 		lbhang5.setPreferredSize(dimlb5);
 		txtSoLuong.setPreferredSize(dimtxt5);
 
@@ -154,7 +166,7 @@ public class FrameChinhSua extends JDialog {
 		btnChinhSua.setEnabled(false);
 		hang6_2 = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		btnLuu = new JButton("Luu");
-		btnHuy = new JButton("Huy");
+		btnHuy = new JButton("Phuc hoi");
 		hang6_2.add(btnLuu);
 		hang6_2.add(btnHuy);
 		btnLuu.setEnabled(false);
@@ -235,7 +247,7 @@ public class FrameChinhSua extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if (rdThemLoaiHang.isSelected()) {
+					if (rdThemPhanLoai.isSelected()) {
 						loai = txtThemLoaiHang.getText();
 						duLieu.themPhanLoai(new NhomSanPham(loai));
 
@@ -259,9 +271,9 @@ public class FrameChinhSua extends JDialog {
 					setNotEdit();
 				} catch (Exception e2) {
 					txtMaHang.setRequestFocusEnabled(true);
-					JOptionPane.showMessageDialog(null, "Mã hàng, Số lượng, Ngày, tháng, năm phải là kiểu số nguyên !!");
+					JOptionPane.showMessageDialog(null,
+							"Mã hàng, Số lượng, Ngày, tháng, năm phải là kiểu số nguyên !!");
 				}
-				
 
 			}
 		});
@@ -271,7 +283,7 @@ public class FrameChinhSua extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				int ID = Integer.parseInt(txtTimKiem.getText());
 				txtThemLoaiHang.setText(null);
-				rdThemLoaiHang.setSelected(false);
+				rdThemPhanLoai.setSelected(false);
 				txtThemLoaiHang.setVisible(false);
 				jcbPhanLoai.setVisible(true);
 				if (FrameQuanLyBanHang.timKiemSPTheoMa(ID) != null) {
@@ -285,18 +297,37 @@ public class FrameChinhSua extends JDialog {
 					txtThang.setText("" + value.getNgayNhap().getThang());
 					txtNam.setText("" + value.getNgayNhap().getNam());
 				}
+				setNotEdit();
 			}
 		});
-		rdThemLoaiHang.addActionListener(new ActionListener() {
+		rdThemPhanLoai.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				if (rdThemLoaiHang.isSelected()) {
+				if (rdThemPhanLoai.isSelected()) {
 					jcbPhanLoai.setVisible(false);
 					txtThemLoaiHang.setVisible(true);
 				} else {
 					jcbPhanLoai.setVisible(true);
 					txtThemLoaiHang.setVisible(false);
+				}
+			}
+		});
+		rdDoiPhanLoai.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (rdDoiPhanLoai.isSelected()) {
+					txtThemLoaiHang.setVisible(false);
+					jcbPhanLoai.setVisible(true);
+					dsNhom = new ArrayListSP<NhomSanPham>();
+					dsNhom = duLieu.dsNhom;
+					jcbPhanLoai.removeAllItems();
+					Iterator<NhomSanPham> iter = dsNhom.iterator();
+					while (iter.hasNext()) {
+						NhomSanPham value = iter.next();
+						jcbPhanLoai.addItem(value);
+					}
 				}
 			}
 		});
@@ -322,13 +353,30 @@ public class FrameChinhSua extends JDialog {
 					txtTen.setEditable(false);
 			}
 		});
+		rdSuaSoLuongVaNgayNhap.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (rdSuaSoLuongVaNgayNhap.isSelected()) {
+					txtSoLuong.setEditable(true);
+					txtNgay.setEditable(true);
+					txtThang.setEditable(true);
+					txtNam.setEditable(true);
+				} else {
+					txtSoLuong.setEditable(false);
+					txtNgay.setEditable(false);
+					txtThang.setEditable(false);
+					txtNam.setEditable(false);
+				}
+
+			}
+		});
 
 	}
 
 	private void hienThi() {
 		setTitle("Công cụ");
 		pack();
-//		setAlwaysOnTop(true);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}

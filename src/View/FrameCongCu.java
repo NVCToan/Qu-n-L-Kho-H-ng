@@ -28,7 +28,7 @@ public class FrameCongCu extends JDialog {
 	JTextField txtTimKiem, txtMaHang, txtTen, txtSoLuong, txtNgay, txtThang, txtNam;
 	JPanel hang1, hang2, hang3, hang4, hang5, hang6, hang7;
 	JRadioButton rdMacDinh, rdEdit;
-	JButton btnThem, btnTimKiem,btnXoaNhieu, btnChinhSua, btnLuu;
+	JButton btnThem, btnTimKiem, btnXoaNhieu, btnChinhSua, btnLuu;
 	JComboBox<NhomSanPham> jcbPhanLoai;
 	ArrayListSP<NhomSanPham> dsNhom;
 	static int rowSelected;
@@ -168,8 +168,8 @@ public class FrameCongCu extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					int ID = Integer.parseInt(txtTimKiem.getText());
-					if (FrameQuanLyBanHang.timKiemSP(ID)!=null) {
-						SanPham value = FrameQuanLyBanHang.timKiemSP(ID);
+					if (FrameQuanLyBanHang.timKiemSPTheoMa(ID) != null) {
+						SanPham value = FrameQuanLyBanHang.timKiemSPTheoMa(ID);
 						txtMaHang.setText("" + ID);
 						txtTen.setText(value.getTenSp());
 						jcbPhanLoai.addItem(value.getPhanLoai());
@@ -179,7 +179,7 @@ public class FrameCongCu extends JDialog {
 						txtNam.setText("" + value.getNgayNhap().getNam());
 						btnChinhSua.setEnabled(true);
 						btnLuu.setEnabled(true);
-					}else {
+					} else {
 						JOptionPane.showMessageDialog(null, "Khong tim thay SP !");
 					}
 				} catch (Exception e2) {

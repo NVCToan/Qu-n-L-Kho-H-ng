@@ -43,7 +43,6 @@ public class FrameQuanLyBanHang extends JFrame {
 	JMenu jmnCongCu;
 	JMenuItem jmnThoat;
 	JMenuItem jmnThemSP;
-	JMenuItem jmnXoa;
 	JMenuItem jmnChinhSua;
 	public JButton btnXoa, btnTimKiem, btnXuatHang;
 	// static JButton btnHuy; tai sao btnHuy lai cho static
@@ -62,7 +61,7 @@ public class FrameQuanLyBanHang extends JFrame {
 	static JTable table;
 	NhomSanPham nhomselected = null;
 	static String[] tenCot = { "STT", "Ma hang", "Ten hang", "Loai hang", "So luong", "Ngay nhap" };
-	static String[] optionSapXep = { "None", "Ma hang", "Loai hang", "So luong", "Ngay nhap" };
+	static String[] optionSapXep = { "None", "Ma hang", "Ten hang", "Loai hang", "So luong", "Ngay nhap" };
 	static String[] optionTimKiem = { "Tìm kiếm....", "Mã hàng", "Tên", "Ngày" };
 
 	static JComboBox<NhomSanPham> jcbLoaiHang;
@@ -71,7 +70,6 @@ public class FrameQuanLyBanHang extends JFrame {
 	FrameThemHang themHangUI = new FrameThemHang();
 	FrameXuatHang xuatHangUI = new FrameXuatHang();
 	FrameChinhSua congCu = new FrameChinhSua();
-	FrameXoaNhieu xoaNhieuUI = new FrameXoaNhieu();
 	static ArrayListSP<SanPham> listSP = new ArrayListSP<SanPham>();// suc chua mac dinh
 	static int rowSelected;
 
@@ -89,11 +87,9 @@ public class FrameQuanLyBanHang extends JFrame {
 		jmnCongCu = new JMenu("Cong Cu");
 		jmnThoat = new JMenuItem("Thoat");
 		jmnThemSP = new JMenuItem("Them SP");
-		jmnXoa = new JMenuItem("Xoa Nhieu SP");
 		jmnChinhSua = new JMenuItem("Chinh Sua SP");
 
 		jmnCongCu.add(jmnThemSP);
-		jmnCongCu.add(jmnXoa);
 		jmnCongCu.add(jmnChinhSua);
 		jmb.add(jmnCongCu);
 		jmb.add(jmnThoat);
@@ -228,14 +224,6 @@ public class FrameQuanLyBanHang extends JFrame {
 				themHangUI.setVisible(true);
 			}
 		});
-		jmnXoa.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				xoaNhieuUI.setModal(true);
-				xoaNhieuUI.setVisible(true);
-			}
-		});
 
 		jmnChinhSua.addActionListener(new ActionListener() {
 
@@ -261,6 +249,15 @@ public class FrameQuanLyBanHang extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				int[] listRowSelected = table.getSelectedRows();
+				for (int i = 0; i < listRowSelected.length; i++) {
+					int objs = (int) table.getValueAt(listRowSelected[i], 1);
+					SanPham valueNhieu = timKiemSPTheoMa(objs);
+					Object[] SPthem = { valueNhieu.getStt(), valueNhieu.getId(), valueNhieu.getTenSp(),
+							valueNhieu.getPhanLoai(), valueNhieu.getSoLuong() };
+					FrameXuatHang.dtmXuatHang.addRow(SPthem);
+				}
+				FrameXuatHang.resetSttDTM_XuatHang();
 				xuatHangUI.setModal(true);
 				xuatHangUI.setVisible(true);
 			}
@@ -341,7 +338,7 @@ public class FrameQuanLyBanHang extends JFrame {
 						}
 					} catch (Exception e2) {
 						txtTimKiem.setRequestFocusEnabled(true);
-						JOptionPane.showMessageDialog(null, "ID khong hop le !");
+						JOptionPane.showMessageDialog(null, "Khong tim thay SP !");
 						txtTimKiem.setText(null);
 					}
 				}
@@ -359,6 +356,7 @@ public class FrameQuanLyBanHang extends JFrame {
 								dTM.addRow(obj);
 							}
 						}
+						resetThongBao();
 
 					} else {
 						JOptionPane.showMessageDialog(null, "Khong tim thay SP !");
@@ -379,7 +377,7 @@ public class FrameQuanLyBanHang extends JFrame {
 									Object[] obj = { value.getStt(), value.getId(), value.getTenSp(),
 											value.getPhanLoai(), value.getSoLuong(), value.getNgayNhap() };
 									dTM.addRow(obj);
-//									resetThongBao();
+									resetThongBao();
 
 								}
 							}
@@ -389,7 +387,7 @@ public class FrameQuanLyBanHang extends JFrame {
 						}
 					} catch (Exception e2) {
 						txtTimKiem.setRequestFocusEnabled(true);
-						JOptionPane.showMessageDialog(null, "ID khong hop le !");
+						JOptionPane.showMessageDialog(null, "Khong tim thay SP !");
 						txtTimKiem.setText(null);
 					}
 				}
@@ -493,6 +491,26 @@ public class FrameQuanLyBanHang extends JFrame {
 						@Override
 						public int compare(SanPham sp1, SanPham sp2) {
 
+							return sp1.getTenSp().compareTo(sp2.getTenSp());
+
+						}
+
+						@Override
+						public int compare(SanPham e) {
+							// TODO Auto-generated method stub
+							return 0;
+						}
+					};
+					listSP.interchangeSortAZ(x);
+					resetStt_SP();
+					resetDTM();
+				}
+
+				if (selected == 3) {
+					MyComparator<SanPham> x = new MyComparator<SanPham>() {
+						@Override
+						public int compare(SanPham sp1, SanPham sp2) {
+
 							return sp1.getPhanLoai().getTenNhom().compareTo(sp2.getPhanLoai().getTenNhom());
 
 						}
@@ -507,7 +525,7 @@ public class FrameQuanLyBanHang extends JFrame {
 					resetStt_SP();
 					resetDTM();
 				}
-				if (selected == 3) {
+				if (selected == 4) {
 					MyComparator<SanPham> x = new MyComparator<SanPham>() {
 						@Override
 						public int compare(SanPham sp1, SanPham sp2) {
@@ -530,7 +548,7 @@ public class FrameQuanLyBanHang extends JFrame {
 					resetStt_SP();
 					resetDTM();
 				}
-				if (selected == 4) {
+				if (selected == 5) {
 					MyComparator<SanPham> x = new MyComparator<SanPham>() {
 						@Override
 						public int compare(SanPham sp1, SanPham sp2) {
@@ -569,27 +587,23 @@ public class FrameQuanLyBanHang extends JFrame {
 			}
 		});
 		// xuat hang
-				table.addMouseListener(new MouseAdapter() {
-					public void mouseClicked(MouseEvent me) {
-						if (me.getClickCount() == 2) { // to detect doble click events
-							int id = table.getSelectedRow();
-							int obj = (int) table.getValueAt(id, 1);
-							SanPham value = timKiemSPTheoMa(obj);
-							int idCanXoa = value.getStt() - 1;
-							Object[] objs = {value.getStt(),
-									value.getId(),
-									value.getTenSp(),
-									value.getPhanLoai(),
-									value.getSoLuong(),
-									};
-							xuatHangUI.dtmXuatHang.addRow(objs);
-							System.out.println(value.getStt());
-							xuatHangUI.resetSttDTM_XuatHang();
-							xuatHangUI.setVisible(true);
-							
-						}
-					}
-				});
+		table.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent me) {
+				if (me.getClickCount() == 2) { // to detect doble click events
+					int id = table.getSelectedRow();
+					int obj = (int) table.getValueAt(id, 1);
+					SanPham value = timKiemSPTheoMa(obj);
+					int idCanXoa = value.getStt() - 1;
+					Object[] objs = { value.getStt(), value.getId(), value.getTenSp(), value.getPhanLoai(),
+							value.getSoLuong(), };
+					xuatHangUI.dtmXuatHang.addRow(objs);
+					System.out.println(value.getStt());
+					xuatHangUI.resetSttDTM_XuatHang();
+					xuatHangUI.setVisible(true);
+
+				}
+			}
+		});
 
 	}
 
@@ -627,7 +641,7 @@ public class FrameQuanLyBanHang extends JFrame {
 					new model.Date(2, 5, 1990));
 			SanPham sp15 = new SanPham(5, 10014, "San pham 5", new NhomSanPham("Loai 1"), 79,
 					new model.Date(7, 4, 2002));
-			
+
 			listSP.Add(sp1);
 			listSP.Add(sp2);
 			listSP.Add(sp3);
