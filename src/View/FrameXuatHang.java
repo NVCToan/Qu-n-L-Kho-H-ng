@@ -18,22 +18,21 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-
 public class FrameXuatHang extends JDialog {
 	JTextField txtTimKiem;
 	static JTextField txtSLxuat;
 	JButton btnTimKiem, btnHuy, btnXuat;
-	String[] tenCot = { "STT","Ma hang", "Ten hang", "Loai hang", "So luong hien co","So luong xuat" };
+	String[] tenCot = { "STT", "Ma hang", "Ten hang", "Loai hang", "So luong hien co", "So luong xuat" };
 	JTable table;
 	JPanel hang1, hang2, hang3, hang4;
 	static DefaultTableModel dtmXuatHang = new DefaultTableModel() {
 		// double click ma khong thay doi truong du lieu
 		@Override
 		public boolean isCellEditable(int row, int column) {
-			 if(column == 5)
-			        return true;
-			    else
-			        return false;
+			if (column == 5)
+				return true;
+			else
+				return false;
 		}
 	};
 
@@ -102,8 +101,8 @@ public class FrameXuatHang extends JDialog {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
-	
-	private void xuLiSuKien () {
+
+	private void xuLiSuKien() {
 		table.isCellEditable(0, 5);
 		this.addWindowListener((WindowListener) new WindowAdapter() {
 			@Override
@@ -112,23 +111,23 @@ public class FrameXuatHang extends JDialog {
 			}
 		});
 		btnXuat.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					
- 				} catch (Exception e2) {
+
+				} catch (Exception e2) {
 				}
 			}
 		});
-	
+
 	}
-	
+
 	public static void resetSttDTM_XuatHang() {
-		
+
 		int rowCount = dtmXuatHang.getRowCount();
 		for (int i = 0; i < rowCount; i++) {
-			dtmXuatHang.setValueAt(i+1, i, 0);
+			dtmXuatHang.setValueAt(i + 1, i, 0);
 		}
 	}
 

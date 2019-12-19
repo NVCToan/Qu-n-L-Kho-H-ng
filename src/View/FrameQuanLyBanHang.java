@@ -329,7 +329,7 @@ public class FrameQuanLyBanHang extends JFrame {
 						}
 					} catch (Exception e2) {
 						txtTimKiem.setRequestFocusEnabled(true);
-						JOptionPane.showMessageDialog(null, "ID khong hop le !");
+						JOptionPane.showMessageDialog(null, "Khong tim thay SP !");
 						txtTimKiem.setText(null);
 					}
 				}
@@ -367,7 +367,7 @@ public class FrameQuanLyBanHang extends JFrame {
 									Object[] obj = { value.getStt(), value.getId(), value.getTenSp(),
 											value.getPhanLoai(), value.getSoLuong(), value.getNgayNhap() };
 									dTM.addRow(obj);
-//									resetThongBao();
+									resetThongBao();
 
 								}
 							}
@@ -377,7 +377,7 @@ public class FrameQuanLyBanHang extends JFrame {
 						}
 					} catch (Exception e2) {
 						txtTimKiem.setRequestFocusEnabled(true);
-						JOptionPane.showMessageDialog(null, "ID khong hop le !");
+						JOptionPane.showMessageDialog(null,"Khong tim thay SP !");
 						txtTimKiem.setText(null);
 					}
 				}

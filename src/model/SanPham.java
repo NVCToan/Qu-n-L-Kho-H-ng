@@ -4,7 +4,7 @@ import javax.swing.JDialog;
 
 import controller.MyComparator;
 
-public class SanPham implements MyComparator<SanPham>{
+public class SanPham implements MyComparator<SanPham> {
 
 	int stt;
 	int id;
@@ -76,18 +76,11 @@ public class SanPham implements MyComparator<SanPham>{
 		this.ngayNhap = ngayNhap;
 	}
 
-	
 	@Override
 	public String toString() {
-		
+
 		return tenSp;
 	}
-
-//	@Override
-//	public int compare(SanPham e1, SanPham e2) {
-//		// TODO Auto-generated method stub
-//		return e1.getId().
-//	}
 
 	@Override
 	public int compare(SanPham e) {
