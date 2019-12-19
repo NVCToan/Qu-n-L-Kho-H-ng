@@ -253,29 +253,53 @@ public class FrameQuanLyBanHang extends JFrame {
 
 		btnXoa.addActionListener(new ActionListener() {
 
-			@Override
 			public void actionPerformed(ActionEvent e) {
+				
 				int id = table.getSelectedRow();
 				if (id == -1) {
 					JOptionPane.showMessageDialog(null, "Vui long chon SP can xoa !");
-				} else {
-					int n = JOptionPane.showConfirmDialog(null,
-							"Ban co chac muon xoa '" + listSP.get(id).getTenSp() + "'  ?", "XOA SP",
-							JOptionPane.YES_NO_OPTION);
-					if (n == 0) { // 0 la yes, 1 la no
-						FrameQuanLyBanHang.listSP.remove(id);
-						resetSucChua();
-						resetDTM();
-						resetThongBao();
-						resetStt_DTM();
-						resetStt_SP();
-						JOptionPane.showMessageDialog(null, "Xoa thanh cong !");
-						testConsole();
-						txtTimKiem.setText(null);
+				}else {
+					int rowCount = (int) table.getSelectedRowCount();
+					if (rowCount == 1) {
+						int obj = (int)table.getValueAt(id, 1);
+						int n = JOptionPane.showConfirmDialog(null, "Ban co chac muon xoa '"+listSP.get(id).getTenSp()+"'  ?","XOA SP",JOptionPane.YES_NO_OPTION);
+						if (n == 0) { // 0 la yes, 1 la no
+							SanPham value = timKiemSP(obj);
+							int idCanXoa = value.getStt()-1;
+							FrameQuanLyBanHang.listSP.remove(idCanXoa);
+							resetSucChua();
+							resetDTM();
+							resetThongBao();
+							resetStt_DTM();
+							resetStt_SP();
+							JOptionPane.showMessageDialog(null, "Xoa thanh cong !");
+							testConsole();
+							txtTimKiem.setText(null);
+						}
+					}else {
+							int[] listRowSelected = table.getSelectedRows();
+							int a = JOptionPane.showConfirmDialog(null, "Ban co chac muon xoa "+rowCount+"  SP ?","XOA SP",JOptionPane.YES_NO_OPTION);
+							if (a == 0) {
+							for (int i = 0; i < listRowSelected.length; i++) {
+								int objs = (int) table.getValueAt(listRowSelected[i], 1);
+								SanPham valueNhieu = timKiemSP(objs);
+								int idCanXoaNhieu = valueNhieu.getStt()-1;
+								FrameQuanLyBanHang.listSP.remove(idCanXoaNhieu);
+								resetStt_SP();
+							}
+							resetSucChua();
+							resetDTM();
+							resetThongBao();
+							resetStt_DTM();
+							resetStt_SP();
+							JOptionPane.showMessageDialog(null, "Xoa thanh cong !");
+							testConsole();
+							txtTimKiem.setText(null);
+							}
+						}
 					}
 				}
-			}
-		});
+	});
 
 		btnTimKiem.addActionListener(new ActionListener() {
 
