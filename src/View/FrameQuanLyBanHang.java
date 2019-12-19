@@ -604,6 +604,7 @@ public class FrameQuanLyBanHang extends JFrame {
 					new model.Date(2, 5, 1990));
 			SanPham sp15 = new SanPham(5, 10014, "San pham 5", new NhomSanPham("Loai 1"), 79,
 					new model.Date(7, 4, 2002));
+			
 			listSP.Add(sp1);
 			listSP.Add(sp2);
 			listSP.Add(sp3);
