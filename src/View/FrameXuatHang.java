@@ -24,10 +24,11 @@ import model.SanPham;
 public class FrameXuatHang extends JDialog {
 	JTextField txtTimKiem, txtSoLuong;
 	static JTextField txtSLxuat;
-	JButton btnTimKiem, btnHuy, btnXuat, btnSoLuong;
+	JButton btnTimKiem, btnHuy, btnXuat, btnOK;
 	String[] tenCot = { "STT", "Ma hang", "Ten hang", "Loai hang", "So luong hien co", "So luong xuat" };
 	JTable table;
 	JPanel hang1, hang2, hang3, hang4;
+	JLabel lbSoLuong;
 	static DefaultTableModel dtmXuatHang = new DefaultTableModel() {
 		// double click ma khong thay doi truong du lieu
 		@Override
@@ -66,22 +67,25 @@ public class FrameXuatHang extends JDialog {
 		}
 		//
 		table = new JTable(dtmXuatHang);
-		table.getColumnModel().getColumn(0).setPreferredWidth(50);
-		table.getColumnModel().getColumn(1).setPreferredWidth(90);
-		table.getColumnModel().getColumn(2).setPreferredWidth(100);
+//		table.setSize(600,300);
+		table.getColumnModel().getColumn(0).setPreferredWidth(30);
+		table.getColumnModel().getColumn(1).setPreferredWidth(100);
+		table.getColumnModel().getColumn(2).setPreferredWidth(180);
 		table.getColumnModel().getColumn(3).setPreferredWidth(90);
 		table.getColumnModel().getColumn(4).setPreferredWidth(90);
 		table.getColumnModel().getColumn(4).setPreferredWidth(90);
 		//
 		JScrollPane jsc = new JScrollPane(table);
-		Dimension dimTable = new Dimension(400, 270);
+		Dimension dimTable = new Dimension(604, 300);
 		jsc.setPreferredSize(dimTable);
 		hang2.add(jsc);
 		JPanel hang2_1 = new JPanel();
+		lbSoLuong = new JLabel("So luong");
 		Dimension dimSL = new Dimension(40, 25);
+		hang2_1.add(lbSoLuong);
 		hang2_1.add(txtSLxuat = new JTextField());
 		txtSLxuat.setPreferredSize(dimSL);
-		hang2_1.add(btnSoLuong = new JButton("So luong"));
+		hang2_1.add(btnOK = new JButton("OK"));
 		hang2.add(hang2_1);
 
 		// hàng 3
@@ -105,6 +109,8 @@ public class FrameXuatHang extends JDialog {
 	private void hienThi() {
 		setTitle("Xuat hang");
 		pack();
+		System.out.println(table.getWidth());
+
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
@@ -117,7 +123,7 @@ public class FrameXuatHang extends JDialog {
 				dtmXuatHang.setRowCount(0);
 			}
 		});
-		btnSoLuong.addActionListener(new ActionListener() {
+		btnOK.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
